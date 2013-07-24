@@ -1,4 +1,7 @@
+package au.org.paperminer.util;
+
 /**
+
  * @author kutty
  * Purpose: To extract the geocodes from the output of Senna with the entities.
  * Filter the entities to identify only the locations in the given newspaper article.

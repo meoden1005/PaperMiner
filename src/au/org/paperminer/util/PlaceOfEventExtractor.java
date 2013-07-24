@@ -1,3 +1,5 @@
+package au.org.paperminer.util;
+
 import java.io.*;
 import java.util.*;
 
