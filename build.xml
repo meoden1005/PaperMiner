@@ -48,7 +48,7 @@
   <property name="mysql.connector" value="${mysql-connector.lib.dir}/mysql-connector-java-5.1.22-bin.jar" />
 
   
-  <property name="tomcat-lib-dir" value="${tomcat-lib-dir}" />
+  <property name="tomcat-lib-dir" value="C:/xampp/tomcat/lib" />
   <property name="deploy.target" value="${catalina-home-dir}/webapps" />
 
   <property name="ppk" value="/Users/Ron/.ssh/id_dsa" />
@@ -164,6 +164,7 @@
         <include name="commons-dbcp-1.4.jar"/>
         <include name="json_simple-1.1.jar"/>
         <include name="mysql-connector-java-5.1.22-bin.jar"/>
+        <include name="jtar-1.0.4.jar"/>
       </fileset>
     </copy>
   
