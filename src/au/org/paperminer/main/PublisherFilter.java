@@ -1,5 +1,5 @@
 package au.org.paperminer.main;
-
+// TODO: this one cause problem
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -52,6 +52,7 @@ public class PublisherFilter implements Filter
 		            resp.setContentType("text/json");
 		            PrintWriter pm = resp.getWriter();
 		            pm.write(res);
+		            pm.flush();
 		            pm.close();
 		        }
 	        }
@@ -59,9 +60,9 @@ public class PublisherFilter implements Filter
         catch (PaperMinerException ex) {
             req.setAttribute(PaperMinerConstants.ERROR_PAGE, "e201");
         }
-        
+        //TODO: amazing error here why why response committed?
         filterChain.doFilter(req, resp);
-        return;
+        //return;
 	}
 
 	@Override

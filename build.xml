@@ -64,7 +64,7 @@
 
   <path id="build.classes">
     <pathelement location="classes" />
-    <fileset dir="lib">
+    <fileset dir="WebContent/WEB-INF/lib">
       <!-- apache libraries -->
       <include name="mail.jar"/>
       <include name="log4j-1.2.17.jar"/>
@@ -225,11 +225,11 @@
     <!-- XML CONF FILES -->
     <copy file="conf/web.xml.in" tofile="${war.image}/WEB-INF/web.xml" />
     <replace file="${war.image}/WEB-INF/web.xml"
-      token="@DB_URL@" value="jdbc:mysql://localhost/paperminer" />
+      token="@DB_URL@" value="jdbc:mysql://atcsolutions.net.au:3306/atcsolut_paperminer" />
     <replace file="${war.image}/WEB-INF/web.xml"
-      token="@DB_USER@" value="pmpool" />
+      token="@DB_USER@" value="atcsolut_qut" />
     <replace file="${war.image}/WEB-INF/web.xml"
-      token="@DB_PASSWD@" value="SecretSanta7" />
+      token="@DB_PASSWD@" value="paperminer" />
     <replace file="${war.image}/WEB-INF/web.xml"
       token="@DB_DRIVER@" value="com.mysql.jdbc.Driver" />
     <replace file="${war.image}/WEB-INF/web.xml"
@@ -237,7 +237,7 @@
     <replace file="${war.image}/WEB-INF/web.xml"
       token="@DEBUG@" value="true" />
     <replace file="${war.image}/WEB-INF/web.xml"
-      token="@SERVER_NAME@" value="${server-name}" />
+      token="@SERVER_NAME@" value="localhost" />
     
     <copy todir="${war.image}/META-INF">
       <fileset dir="${web.dir}/META-INF">
@@ -312,7 +312,7 @@
           tofile="${war.image}/WEB-INF/classes/poolconf.jocl"
           overwrite="true" />
     <replace file="${war.image}/WEB-INF/classes/poolconf.jocl"
-      token="@DB_URL@" value="jdbc:mysql://localhost/paperminer" />
+      token="@DB_URL@" value="jdbc:mysql://atcsolutions.net.au:3306/atcsolut_paperminer" />
 
     <jar
       destfile="build/${war.file}"
