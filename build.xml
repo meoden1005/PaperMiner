@@ -48,7 +48,7 @@
   <property name="mysql.connector" value="${mysql-connector.lib.dir}/mysql-connector-java-5.1.22-bin.jar" />
 
   
-  <property name="tomcat-lib-dir" value="C:/xampp/tomcat/lib" />
+  <property name="tomcat-lib-dir" value="${env.CATALINA_HOME}/lib" />
   <property name="deploy.target" value="${catalina-home-dir}/webapps" />
 
   <property name="ppk" value="/Users/Ron/.ssh/id_dsa" />
@@ -132,9 +132,9 @@
         <arg line="c type" />
         <arg line="version.txt" />
     </exec>
-    <exec executable="cmd" output="/tmp/svninfo.xml" failonerror="true">
-         <arg line="c svn info --xml" />
-    </exec>
+    <!--<exec executable="cmd" output="/tmp/svninfo.xml" failonerror="true">
+         <arg line="c svn info -xml" />
+    </exec>-->
     
     <!-- <xmlproperty file="/tmp/svninfo.xml" collapseattributes="true" />
     <echo message="Build: ${pm.version} ${info.entry.commit.revision}" />
@@ -157,7 +157,7 @@
   <target name="copy.static" depends="mkdirs">
  
     <copy todir="${war.image}/WEB-INF/lib">
-      <fileset dir="lib">
+      <fileset dir="WebContent/WEB-INF/lib">
         <include name="mail.jar"/>
         <include name="log4j-1.2.17.jar"/>
         <include name="commons-pool-1.6.jar"/>
