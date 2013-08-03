@@ -95,7 +95,7 @@ public class LocationFilter implements Filter
         m_logger.debug("LocationFilter chaining... ?");
         filterChain.doFilter(req, resp);
         m_logger.debug("LocationFilter chaining complete");
-        return;
+        //return;
 	}
 
 	@Override
@@ -115,6 +115,7 @@ public class LocationFilter implements Filter
 	 */
 	private void getReferences (HttpServletRequest req, HttpServletResponse resp)
 	{
+		//TODO: check here for problem
 		HashMap<String, ArrayList<ArrayList<String>>> map = new HashMap<String, ArrayList<ArrayList<String>>>();
         try {
             String arg = req.getParameter("lst");

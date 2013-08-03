@@ -225,9 +225,9 @@
     <!-- XML CONF FILES -->
     <copy file="conf/web.xml.in" tofile="${war.image}/WEB-INF/web.xml" />
     <replace file="${war.image}/WEB-INF/web.xml"
-      token="@DB_URL@" value="jdbc:mysql://atcsolutions.net.au:3306/atcsolut_paperminer" />
+      token="@DB_URL@" value="jdbc:mysql://hpn40l:3306/paperminer" />
     <replace file="${war.image}/WEB-INF/web.xml"
-      token="@DB_USER@" value="atcsolut_qut" />
+      token="@DB_USER@" value="qutstudent" />
     <replace file="${war.image}/WEB-INF/web.xml"
       token="@DB_PASSWD@" value="paperminer" />
     <replace file="${war.image}/WEB-INF/web.xml"
