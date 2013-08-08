@@ -225,11 +225,11 @@
     <!-- XML CONF FILES -->
     <copy file="conf/web.xml.in" tofile="${war.image}/WEB-INF/web.xml" />
     <replace file="${war.image}/WEB-INF/web.xml"
-      token="@DB_URL@" value="jdbc:mysql://hpn40l:3306/paperminer" />
+      token="@DB_URL@" value="jdbc:mysql://119.252.20.96:3306/paperminer" />
     <replace file="${war.image}/WEB-INF/web.xml"
-      token="@DB_USER@" value="qutstudent" />
+      token="@DB_USER@" value=" paperminer" />
     <replace file="${war.image}/WEB-INF/web.xml"
-      token="@DB_PASSWD@" value="paperminer" />
+      token="@DB_PASSWD@" value="qut" />
     <replace file="${war.image}/WEB-INF/web.xml"
       token="@DB_DRIVER@" value="com.mysql.jdbc.Driver" />
     <replace file="${war.image}/WEB-INF/web.xml"
