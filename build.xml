@@ -128,11 +128,11 @@
       <format property="touch.time" pattern="yyyy-MM-dd HH:mm" />
     </tstamp>
     
-    <exec executable="cmd" outputproperty="pm.version">
+  	<!--<exec executable="cmd" outputproperty="pm.version">
         <arg line="c type" />
         <arg line="version.txt" />
     </exec>
-    <!--<exec executable="cmd" output="/tmp/svninfo.xml" failonerror="true">
+    <exec executable="cmd" output="/tmp/svninfo.xml" failonerror="true">
          <arg line="c svn info -xml" />
     </exec>-->
     
