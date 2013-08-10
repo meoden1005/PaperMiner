@@ -83,13 +83,13 @@
   <available file="/var/lib/tomcat7" type="dir" property="ubuntu" />
 
 
-  <target name="init">
+  <target name="init" depends="clean">
     <available file="build" type="dir"
                property="build.dir.exists" />
    
   </target>
 
-  <target name="clean" depends="init"
+  <target name="clean" depends=""
           description="Removes all traces of builds">
     <delete dir="${war.image}" />
     <delete dir="classes" />
@@ -312,7 +312,7 @@
           tofile="${war.image}/WEB-INF/classes/poolconf.jocl"
           overwrite="true" />
     <replace file="${war.image}/WEB-INF/classes/poolconf.jocl"
-      token="@DB_URL@" value="jdbc:mysql://atcsolutions.net.au:3306/atcsolut_paperminer" />
+      token="@DB_URL@" value="jdbc:mysql://119.252.20.96:3306/paperminer" />
 
     <jar
       destfile="build/${war.file}"
