@@ -244,7 +244,7 @@
     <replace file="${war.image}/WEB-INF/web.xml"
       token="@DB_URL@" value="jdbc:mysql://119.252.20.96:3306/paperminer" />
     <replace file="${war.image}/WEB-INF/web.xml"
-      token="@DB_USER@" value=" paperminer" />
+      token="@DB_USER@" value="paperminer" />
     <replace file="${war.image}/WEB-INF/web.xml"
       token="@DB_PASSWD@" value="qut" />
     <replace file="${war.image}/WEB-INF/web.xml"
@@ -328,6 +328,9 @@
     <copy file="conf/poolconf.jocl.in" 
           tofile="${war.image}/WEB-INF/classes/poolconf.jocl"
           overwrite="true" />
+  	<copy file="conf/hibernate.cfg.xml" 
+  	          tofile="${war.image}/WEB-INF/classes/hibernate.cfg.xml"
+  	          overwrite="true" />
     <replace file="${war.image}/WEB-INF/classes/poolconf.jocl"
       token="@DB_URL@" value="jdbc:mysql://119.252.20.96:3306/paperminer" />
 
