@@ -16,6 +16,21 @@
   <listener>
     <listener-class>au.org.paperminer.main.PaperMinerListener</listener-class>
   </listener>
+  <listener>
+    <listener-class>
+     org.springframework.web.util.Log4jConfigListener
+    </listener-class>
+  </listener>
+  <listener>
+	<listener-class>
+     org.springframework.web.context.ContextLoaderListener
+	</listener-class>
+  </listener>
+  <listener>
+	<listener-class>
+	 org.springframework.web.context.request.RequestContextListener
+	</listener-class>
+  </listener>
 
   <!--START: DEFINE ALL FILTERS-->
   <filter>
@@ -136,11 +151,50 @@
     <servlet-name>PaperMiner</servlet-name>
     <url-pattern>/pm/*</url-pattern>
   </servlet-mapping>
+  
+  <servlet>
+	<servlet-name>Faces Servlet</servlet-name>
+	<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+	<load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.xhtml</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.jsf</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>*.faces</url-pattern>
+  </servlet-mapping>
+  
+  <context-param>
+	<param-name>javax.faces.CONFIG_FILES</param-name>
+	<param-value>/WEB-INF/faces-config.xml</param-value>
+  </context-param>
+  <context-param>
+	<param-name>primefaces.THEME</param-name>
+	<param-value>dark-hive</param-value>
+  </context-param>
+  <context-param>
+	<param-name>javax.faces.PROJECT_STAGE</param-name>
+	<param-value>Development</param-value>
+  </context-param>
+  <context-param>
+	<param-name>javax.faces.DEFAULT_SUFFIX</param-name>
+	<param-value>.xhtml</param-value>
+  </context-param>
+  <context-param>
+    <param-name>log4jConfigLocation</param-name>
+    <param-value>/WEB-INF/log4j.properties</param-value>
+  </context-param>
 
 
   <welcome-file-list>
     <welcome-file>
-      index.html
+      index.jsp
     </welcome-file>
   </welcome-file-list>
 

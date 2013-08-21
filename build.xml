@@ -39,6 +39,7 @@
   <property name="javadocs" value="docs/api" />
   <property name="war.image" value="build/war" />
   <property name="app.name" value="PaperMiner" />
+  <property name="templates.dir" value="${web.dir}/WEB-INF/templates" />
   <property name="war.file" value="PaperMiner.war" />
   <property name="war.props" value="${war.image}/WEB-INF/classes/conf/preferences.xml" />
 
@@ -66,13 +67,14 @@
     <pathelement location="classes" />
     <fileset dir="WebContent/WEB-INF/lib">
       <!-- apache libraries -->
-      <include name="mail.jar"/>
+      <!--<include name="mail.jar"/>
       <include name="log4j-1.2.17.jar"/>
       <include name="commons-pool-1.6.jar"/>
       <include name="commons-dbcp-1.4.jar"/>
-      <include name="json_simple-1.1.jar"/>
+      <include name="json_simple-1.1.jar"/>-->
       <!-- junit libraries  -->
-      <include name="junit.jar" />
+      <!--<include name="junit.jar" />-->
+    	<include name="**/*.jar"/>
     </fileset>
   </path>
 
@@ -83,13 +85,13 @@
   <available file="/var/lib/tomcat7" type="dir" property="ubuntu" />
 
 
-  <target name="init">
+  <target name="init" depends="clean">
     <available file="build" type="dir"
                property="build.dir.exists" />
    
   </target>
 
-  <target name="clean" depends="init"
+  <target name="clean" depends=""
           description="Removes all traces of builds">
     <delete dir="${war.image}" />
     <delete dir="classes" />
@@ -119,6 +121,7 @@
     <mkdir dir="${war.image}/WEB-INF" />
     <mkdir dir="${war.image}/WEB-INF/dat" />
     <mkdir dir="${war.image}/WEB-INF/lib" />
+  	<mkdir dir="${war.image}/WEB-INF/templates" />
     <mkdir dir="${war.image}/WEB-INF/classes" />
     <mkdir dir="${war.image}/WEB-INF/classes/conf" />
   </target>
@@ -158,20 +161,22 @@
  
     <copy todir="${war.image}/WEB-INF/lib">
       <fileset dir="WebContent/WEB-INF/lib">
-        <include name="mail.jar"/>
+        <!--<include name="mail.jar"/>
         <include name="log4j-1.2.17.jar"/>
         <include name="commons-pool-1.6.jar"/>
         <include name="commons-dbcp-1.4.jar"/>
         <include name="json_simple-1.1.jar"/>
         <include name="mysql-connector-java-5.1.22-bin.jar"/>
-        <include name="jtar-1.0.4.jar"/>
+        <include name="jtar-1.0.4.jar"/>-->
+      	<include name="**/*.jar"/>
       </fileset>
     </copy>
   
     <!-- INDEX HTML PAGES AND HTML FRAGMENTS (txt) -->
     <copy todir="${war.image}">
       <fileset dir="${web.dir}">
-        <include name="index.html" />
+        <include name="index.xhtml" />
+      	<include name="index.jsp" />
         <include name="favicon.ico" />
       </fileset>
     </copy>
@@ -181,8 +186,20 @@
         <exclude name="help-about.txt" />
       </fileset>
     </copy>
+  	<copy todir="${war.image}/WEB-INF/templates">
+  	   <fileset dir="${templates.dir}">
+  	     <include name="**/*.xhtml" />
+  	   </fileset>
+  	</copy>
+  	<copy todir="${war.image}/WEB-INF/">
+  	   <fileset dir="${web.dir}/WEB-INF">
+  	  	 <!--<include name="faces-config.xml" />-->
+  	  	 <include name="log4j.properties" />
+  	     <include name="**/*.xml" />
+  	   </fileset>
+  	</copy>
     
-    <replace file="${war.image}/index.html"
+    <replace file="${war.image}/WEB-INF/templates/default.xhtml"
       token="@PM_BASE@" value="/PaperMiner/" />
     
 
@@ -225,11 +242,11 @@
     <!-- XML CONF FILES -->
     <copy file="conf/web.xml.in" tofile="${war.image}/WEB-INF/web.xml" />
     <replace file="${war.image}/WEB-INF/web.xml"
-      token="@DB_URL@" value="jdbc:mysql://hpn40l:3306/paperminer" />
+      token="@DB_URL@" value="jdbc:mysql://119.252.20.96:3306/paperminer" />
     <replace file="${war.image}/WEB-INF/web.xml"
-      token="@DB_USER@" value="qutstudent" />
+      token="@DB_USER@" value="paperminer" />
     <replace file="${war.image}/WEB-INF/web.xml"
-      token="@DB_PASSWD@" value="paperminer" />
+      token="@DB_PASSWD@" value="qut" />
     <replace file="${war.image}/WEB-INF/web.xml"
       token="@DB_DRIVER@" value="com.mysql.jdbc.Driver" />
     <replace file="${war.image}/WEB-INF/web.xml"
@@ -311,8 +328,14 @@
     <copy file="conf/poolconf.jocl.in" 
           tofile="${war.image}/WEB-INF/classes/poolconf.jocl"
           overwrite="true" />
+  	<copy file="conf/hibernate.cfg.xml" 
+  	          tofile="${war.image}/WEB-INF/classes/hibernate.cfg.xml"
+  	          overwrite="true" />
+  	<copy file="conf/target-mysql.properties" 
+  	  	          tofile="${war.image}/WEB-INF/classes/target-mysql.properties"
+  	  	          overwrite="true" />
     <replace file="${war.image}/WEB-INF/classes/poolconf.jocl"
-      token="@DB_URL@" value="jdbc:mysql://atcsolutions.net.au:3306/atcsolut_paperminer" />
+      token="@DB_URL@" value="jdbc:mysql://119.252.20.96:3306/paperminer" />
 
     <jar
       destfile="build/${war.file}"
