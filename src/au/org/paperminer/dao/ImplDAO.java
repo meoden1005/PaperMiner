@@ -18,7 +18,7 @@ public class ImplDAO implements InterfaceDAO {
 
 	static final Logger log = Logger.getLogger(ImplDAO.class);
 	
-	@Autowired(required=true)
+	//@Autowired(required=true)
 	private HibernateUtil hibernateUtil;
 
 	@Override

@@ -193,9 +193,9 @@
   	</copy>
   	<copy todir="${war.image}/WEB-INF/">
   	   <fileset dir="${web.dir}/WEB-INF">
-  	  	 <include name="faces-config.xml" />
+  	  	 <!--<include name="faces-config.xml" />-->
   	  	 <include name="log4j.properties" />
-  	     <include name="applicationContext.xml" />
+  	     <include name="**/*.xml" />
   	   </fileset>
   	</copy>
     
@@ -331,6 +331,9 @@
   	<copy file="conf/hibernate.cfg.xml" 
   	          tofile="${war.image}/WEB-INF/classes/hibernate.cfg.xml"
   	          overwrite="true" />
+  	<copy file="conf/target-mysql.properties" 
+  	  	          tofile="${war.image}/WEB-INF/classes/target-mysql.properties"
+  	  	          overwrite="true" />
     <replace file="${war.image}/WEB-INF/classes/poolconf.jocl"
       token="@DB_URL@" value="jdbc:mysql://119.252.20.96:3306/paperminer" />
 

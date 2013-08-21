@@ -3,10 +3,7 @@ package au.org.paperminer.model;
 // Generated Aug 21, 2013 12:00:35 AM by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

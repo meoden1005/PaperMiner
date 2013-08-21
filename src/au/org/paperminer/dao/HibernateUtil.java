@@ -5,8 +5,8 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-@Component
-@Scope("singleton")
+//@Component
+//@Scope("singleton")
 public class HibernateUtil {
  
     private static final SessionFactory sessionFactory = buildSessionFactory();
