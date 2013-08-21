@@ -17,7 +17,7 @@ import au.org.paperminer.model.PmUsers;
 @Service
 @Transactional
 @Scope("session")
-@Component("queriesService")
+@Component
 public class QueriesService {
 	
 	static final Logger log = Logger.getLogger(QueriesService.class);
