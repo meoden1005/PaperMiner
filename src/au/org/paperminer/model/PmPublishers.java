@@ -14,6 +14,10 @@ import javax.persistence.Table;
 @Table(name = "pm_publishers", catalog = "paperminer")
 public class PmPublishers implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8290906915042564803L;
 	private int id;
 	private String title;
 	private String published;

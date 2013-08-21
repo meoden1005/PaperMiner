@@ -11,14 +11,18 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class PmTmpLocId implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1631346516135005148L;
 	private String name;
-	private byte stateCode;
-	private short countryCode;
+	private Integer stateCode;
+	private Integer countryCode;
 
 	public PmTmpLocId() {
 	}
 
-	public PmTmpLocId(String name, byte stateCode, short countryCode) {
+	public PmTmpLocId(String name, Integer stateCode, Integer countryCode) {
 		this.name = name;
 		this.stateCode = stateCode;
 		this.countryCode = countryCode;
@@ -34,20 +38,20 @@ public class PmTmpLocId implements java.io.Serializable {
 	}
 
 	@Column(name = "state_code", nullable = false)
-	public byte getStateCode() {
+	public Integer getStateCode() {
 		return this.stateCode;
 	}
 
-	public void setStateCode(byte stateCode) {
+	public void setStateCode(Integer stateCode) {
 		this.stateCode = stateCode;
 	}
 
 	@Column(name = "country_code", nullable = false)
-	public short getCountryCode() {
+	public Integer getCountryCode() {
 		return this.countryCode;
 	}
 
-	public void setCountryCode(short countryCode) {
+	public void setCountryCode(Integer countryCode) {
 		this.countryCode = countryCode;
 	}
 

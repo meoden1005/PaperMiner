@@ -5,12 +5,16 @@ package au.org.paperminer.model;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -26,9 +30,13 @@ import javax.persistence.UniqueConstraint;
 		"name", "state_code", "country_code" }))
 public class PmLocations implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8967984583399576544L;
 	private Integer id;
 	private String name;
-	private Byte stateCode;
+	private byte stateCode;
 	private short countryCode;
 	private BigDecimal latitude;
 	private BigDecimal longitude;
@@ -37,7 +45,7 @@ public class PmLocations implements java.io.Serializable {
 	private BigDecimal boxSeLat;
 	private BigDecimal boxSeLng;
 	private Date dateCreated;
-	private Set pmGsRefses = new HashSet(0);
+	private List<PmGsRefs> pmGsRefses;
 
 	public PmLocations() {
 	}
@@ -51,10 +59,10 @@ public class PmLocations implements java.io.Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-	public PmLocations(String name, Byte stateCode, short countryCode,
+	public PmLocations(String name, byte stateCode, short countryCode,
 			BigDecimal latitude, BigDecimal longitude, BigDecimal boxNwLat,
 			BigDecimal boxNwLng, BigDecimal boxSeLat, BigDecimal boxSeLng,
-			Date dateCreated, Set pmGsRefses) {
+			Date dateCreated, List<PmGsRefs> pmGsRefses) {
 		this.name = name;
 		this.stateCode = stateCode;
 		this.countryCode = countryCode;
@@ -89,11 +97,11 @@ public class PmLocations implements java.io.Serializable {
 	}
 
 	@Column(name = "state_code")
-	public Byte getStateCode() {
+	public byte getStateCode() {
 		return this.stateCode;
 	}
 
-	public void setStateCode(Byte stateCode) {
+	public void setStateCode(byte stateCode) {
 		this.stateCode = stateCode;
 	}
 
@@ -171,11 +179,11 @@ public class PmLocations implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pmLocations")
-	public Set getPmGsRefses() {
+	public List<PmGsRefs> getPmGsRefses() {
 		return this.pmGsRefses;
 	}
 
-	public void setPmGsRefses(Set pmGsRefses) {
+	public void setPmGsRefses(List<PmGsRefs> pmGsRefses) {
 		this.pmGsRefses = pmGsRefses;
 	}
 

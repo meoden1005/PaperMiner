@@ -12,6 +12,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class PmAuditId implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -735514175952360379L;
 	private int userId;
 	private Date dateCreated;
 

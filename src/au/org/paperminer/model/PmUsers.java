@@ -4,12 +4,16 @@ package au.org.paperminer.model;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+
 import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -24,22 +28,26 @@ import javax.persistence.TemporalType;
 @Table(name = "pm_users", catalog = "paperminer")
 public class PmUsers implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7295026445975579880L;
 	private Integer id;
 	private String email;
 	private String troveKey;
-	private byte status;
-	private byte maxQueries;
-	private byte maxScheduled;
-	private short ttlDays;
+	private Integer status;
+	private Integer maxQueries;
+	private Integer maxScheduled;
+	private Integer ttlDays;
 	private Date dateCreated;
 	private PmAdmins pmAdmins;
-	private Set pmQuerieses = new HashSet(0);
+	private List<PmQueries> pmQuerieses;
 
 	public PmUsers() {
 	}
 
-	public PmUsers(String email, String troveKey, byte status, byte maxQueries,
-			byte maxScheduled, short ttlDays, Date dateCreated) {
+	public PmUsers(String email, String troveKey, Integer status, Integer maxQueries,
+			Integer maxScheduled, Integer ttlDays, Date dateCreated) {
 		this.email = email;
 		this.troveKey = troveKey;
 		this.status = status;
@@ -49,9 +57,9 @@ public class PmUsers implements java.io.Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-	public PmUsers(String email, String troveKey, byte status, byte maxQueries,
-			byte maxScheduled, short ttlDays, Date dateCreated,
-			PmAdmins pmAdmins, Set pmQuerieses) {
+	public PmUsers(String email, String troveKey, Integer status, Integer maxQueries,
+			Integer maxScheduled, Integer ttlDays, Date dateCreated,
+			PmAdmins pmAdmins, List<PmQueries> pmQuerieses) {
 		this.email = email;
 		this.troveKey = troveKey;
 		this.status = status;
@@ -93,38 +101,38 @@ public class PmUsers implements java.io.Serializable {
 	}
 
 	@Column(name = "status", nullable = false)
-	public byte getStatus() {
+	public Integer getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(byte status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 
 	@Column(name = "max_queries", nullable = false)
-	public byte getMaxQueries() {
+	public Integer getMaxQueries() {
 		return this.maxQueries;
 	}
 
-	public void setMaxQueries(byte maxQueries) {
+	public void setMaxQueries(Integer maxQueries) {
 		this.maxQueries = maxQueries;
 	}
 
 	@Column(name = "max_scheduled", nullable = false)
-	public byte getMaxScheduled() {
+	public Integer getMaxScheduled() {
 		return this.maxScheduled;
 	}
 
-	public void setMaxScheduled(byte maxScheduled) {
+	public void setMaxScheduled(Integer maxScheduled) {
 		this.maxScheduled = maxScheduled;
 	}
 
 	@Column(name = "ttl_days", nullable = false)
-	public short getTtlDays() {
+	public Integer getTtlDays() {
 		return this.ttlDays;
 	}
 
-	public void setTtlDays(short ttlDays) {
+	public void setTtlDays(Integer ttlDays) {
 		this.ttlDays = ttlDays;
 	}
 
@@ -148,11 +156,11 @@ public class PmUsers implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pmUsers")
-	public Set getPmQuerieses() {
+	public List<PmQueries> getPmQuerieses() {
 		return this.pmQuerieses;
 	}
 
-	public void setPmQuerieses(Set pmQuerieses) {
+	public void setPmQuerieses(List<PmQueries> pmQuerieses) {
 		this.pmQuerieses = pmQuerieses;
 	}
 

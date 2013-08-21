@@ -16,13 +16,17 @@ import javax.persistence.Table;
 @Table(name = "pm_tmp", catalog = "paperminer")
 public class PmTmp implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3176662094185105228L;
 	private PmTmpId id;
-	private short frequency;
+	private Integer frequency;
 
 	public PmTmp() {
 	}
 
-	public PmTmp(PmTmpId id, short frequency) {
+	public PmTmp(PmTmpId id, Integer frequency) {
 		this.id = id;
 		this.frequency = frequency;
 	}
@@ -42,11 +46,11 @@ public class PmTmp implements java.io.Serializable {
 	}
 
 	@Column(name = "frequency", nullable = false)
-	public short getFrequency() {
+	public Integer getFrequency() {
 		return this.frequency;
 	}
 
-	public void setFrequency(short frequency) {
+	public void setFrequency(Integer frequency) {
 		this.frequency = frequency;
 	}
 

@@ -22,12 +22,16 @@ import javax.persistence.TemporalType;
 @Table(name = "pm_queries", catalog = "paperminer")
 public class PmQueries implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2579020120012467027L;
 	private Integer id;
 	private PmUsers pmUsers;
 	private String query;
 	private String descr;
-	private char queryType;
-	private int totalLastRun;
+	private String queryType;
+	private Integer totalLastRun;
 	private Date dateLastRun;
 	private Date dateCreated;
 
@@ -35,7 +39,7 @@ public class PmQueries implements java.io.Serializable {
 	}
 
 	public PmQueries(PmUsers pmUsers, String query, String descr,
-			char queryType, int totalLastRun, Date dateCreated) {
+			String queryType, Integer totalLastRun, Date dateCreated) {
 		this.pmUsers = pmUsers;
 		this.query = query;
 		this.descr = descr;
@@ -45,7 +49,7 @@ public class PmQueries implements java.io.Serializable {
 	}
 
 	public PmQueries(PmUsers pmUsers, String query, String descr,
-			char queryType, int totalLastRun, Date dateLastRun, Date dateCreated) {
+			String queryType, Integer totalLastRun, Date dateLastRun, Date dateCreated) {
 		this.pmUsers = pmUsers;
 		this.query = query;
 		this.descr = descr;
@@ -95,11 +99,11 @@ public class PmQueries implements java.io.Serializable {
 	}
 
 	@Column(name = "query_type", nullable = false, length = 1)
-	public char getQueryType() {
+	public String getQueryType() {
 		return this.queryType;
 	}
 
-	public void setQueryType(char queryType) {
+	public void setQueryType(String queryType) {
 		this.queryType = queryType;
 	}
 

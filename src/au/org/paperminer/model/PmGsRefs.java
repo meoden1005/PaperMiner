@@ -22,6 +22,10 @@ import javax.persistence.TemporalType;
 @Table(name = "pm_gs_refs", catalog = "paperminer")
 public class PmGsRefs implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4774878365324448766L;
 	private PmGsRefsId id;
 	private PmLocations pmLocations;
 	private byte strikeout;

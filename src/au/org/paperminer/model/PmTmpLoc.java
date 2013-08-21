@@ -17,6 +17,10 @@ import javax.persistence.Table;
 @Table(name = "pm_tmp_loc", catalog = "paperminer")
 public class PmTmpLoc implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5559587967947149921L;
 	private PmTmpLocId id;
 	private BigDecimal latitude;
 	private BigDecimal longitude;

@@ -16,21 +16,25 @@ import javax.persistence.Table;
 @Table(name = "pm_audit", catalog = "paperminer")
 public class PmAudit implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6579841960481702972L;
 	private PmAuditId id;
 	private Integer troveId;
 	private Integer locationId;
-	private char action;
+	private String action;
 
 	public PmAudit() {
 	}
 
-	public PmAudit(PmAuditId id, char action) {
+	public PmAudit(PmAuditId id, String action) {
 		this.id = id;
 		this.action = action;
 	}
 
 	public PmAudit(PmAuditId id, Integer troveId, Integer locationId,
-			char action) {
+			String action) {
 		this.id = id;
 		this.troveId = troveId;
 		this.locationId = locationId;
@@ -68,11 +72,11 @@ public class PmAudit implements java.io.Serializable {
 	}
 
 	@Column(name = "action", nullable = false, length = 1)
-	public char getAction() {
+	public String getAction() {
 		return this.action;
 	}
 
-	public void setAction(char action) {
+	public void setAction(String action) {
 		this.action = action;
 	}
 

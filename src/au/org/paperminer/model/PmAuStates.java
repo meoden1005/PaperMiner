@@ -2,8 +2,11 @@ package au.org.paperminer.model;
 
 // Generated Aug 21, 2013 12:00:35 AM by Hibernate Tools 3.4.0.CR1
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -14,31 +17,36 @@ import javax.persistence.Table;
 @Table(name = "pm_au_states", catalog = "paperminer")
 public class PmAuStates implements java.io.Serializable {
 
-	private byte id;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8386150995532940953L;
+	private int id;
 	private String shortName;
 	private String longName;
 
 	public PmAuStates() {
 	}
 
-	public PmAuStates(byte id, String longName) {
+	public PmAuStates(int id, String longName) {
 		this.id = id;
 		this.longName = longName;
 	}
 
-	public PmAuStates(byte id, String shortName, String longName) {
+	public PmAuStates(int id, String shortName, String longName) {
 		this.id = id;
 		this.shortName = shortName;
 		this.longName = longName;
 	}
 
 	@Id
+	@GeneratedValue(strategy = IDENTITY)
 	@Column(name = "id", unique = true, nullable = false)
-	public byte getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(byte id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

@@ -23,6 +23,10 @@ import org.hibernate.annotations.Parameter;
 @Table(name = "pm_admins", catalog = "paperminer")
 public class PmAdmins implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6818787878943736618L;
 	private int userId;
 	private PmUsers pmUsers;
 	private byte isPrimary;
