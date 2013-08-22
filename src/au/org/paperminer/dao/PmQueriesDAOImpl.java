@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 
 import au.org.paperminer.model.PmQueries;
 
-//@Repository
+@Repository
 public class PmQueriesDAOImpl extends GenericDAO<PmQueries, Integer> implements PmQueriesDAO {
 
 }

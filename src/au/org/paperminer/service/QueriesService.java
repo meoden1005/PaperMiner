@@ -32,6 +32,7 @@ public class QueriesService {
 	@Autowired(required=true)
 	private SessionFactory sessionFactory;
 	
+	@Transactional
 	public void save()
 	{
 		PmQueries query = new PmQueries();

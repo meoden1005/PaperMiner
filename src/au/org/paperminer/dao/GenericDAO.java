@@ -147,7 +147,7 @@ public class GenericDAO<T, ID extends Serializable> implements
 	 * 
 	 * @param entityManager
 	 */
-	@PersistenceContext
+	//@PersistenceContext
 	public void setEntityManager(final EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
@@ -232,8 +232,10 @@ public class GenericDAO<T, ID extends Serializable> implements
 		} else {
 			session = getSession();
 		}
-
+		Transaction tx = session.beginTransaction();
 		final T savedEntity = (T) session.merge(entity);
+		tx.commit();
+		session.flush();
 		return savedEntity;
 	}
 
