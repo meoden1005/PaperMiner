@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.org.paperminer.dao.ImplDAO;
 import au.org.paperminer.dao.PmQueriesDAO;
+import au.org.paperminer.dao.PmQueriesDAOImpl;
 import au.org.paperminer.model.PmQueries;
 import au.org.paperminer.model.PmUsers;
 
@@ -28,8 +29,8 @@ public class QueriesService {
 	//@Autowired
 	//PmQueriesDAO dao;
 	
-	@Autowired
-	private static SessionFactory sessionFactory;
+	@Autowired(required=true)
+	private SessionFactory sessionFactory;
 	
 	public void save()
 	{
@@ -39,20 +40,24 @@ public class QueriesService {
 		query.setPmUsers(user);
 		query.setDateCreated(new Date());
 		query.setDateLastRun(new Date());
-		query.setDescr("test");
-		query.setQuery("test");
+		query.setDescr("test1");
+		query.setQuery("test1");
 		query.setQueryType("s");
 		query.setTotalLastRun(11111);
-		//dao.save(query);
-		Session session = sessionFactory.openSession();
-		Transaction tx = session.beginTransaction();
-		//session.merge(user);
-		session.saveOrUpdate(query);
-		log.info("test");
-		tx.commit();
+		PmQueriesDAOImpl pmQueriesDAO = new PmQueriesDAOImpl();
+		pmQueriesDAO.setSession(sessionFactory.openSession());
+		pmQueriesDAO.save(query);
 		
-		session.flush();
-		session.close();
+		//dao.save(query);
+		//Session session = sessionFactory.openSession();
+		//Transaction tx = session.beginTransaction();
+		//session.merge(user);
+		//session.saveOrUpdate(query);
+		log.info("test");
+		//tx.commit();
+		
+		//session.flush();
+		//session.close();
 		System.out.println("save successfull");
 		
 		//dao.flush();
