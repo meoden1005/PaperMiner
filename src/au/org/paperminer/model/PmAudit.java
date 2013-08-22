@@ -20,9 +20,16 @@ public class PmAudit implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -6579841960481702972L;
+	@EmbeddedId
+	@AttributeOverrides({
+			@AttributeOverride(name = "userId", column = @Column(name = "user_id", nullable = false)),
+			@AttributeOverride(name = "dateCreated", column = @Column(name = "date_created", nullable = false, length = 19)) })
 	private PmAuditId id;
+	@Column(name = "trove_id")
 	private Integer troveId;
+	@Column(name = "location_id")
 	private Integer locationId;
+	@Column(name = "action", nullable = false, length = 1)
 	private String action;
 
 	public PmAudit() {
@@ -41,10 +48,7 @@ public class PmAudit implements java.io.Serializable {
 		this.action = action;
 	}
 
-	@EmbeddedId
-	@AttributeOverrides({
-			@AttributeOverride(name = "userId", column = @Column(name = "user_id", nullable = false)),
-			@AttributeOverride(name = "dateCreated", column = @Column(name = "date_created", nullable = false, length = 19)) })
+	
 	public PmAuditId getId() {
 		return this.id;
 	}
@@ -53,7 +57,7 @@ public class PmAudit implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "trove_id")
+	
 	public Integer getTroveId() {
 		return this.troveId;
 	}
@@ -62,7 +66,7 @@ public class PmAudit implements java.io.Serializable {
 		this.troveId = troveId;
 	}
 
-	@Column(name = "location_id")
+	
 	public Integer getLocationId() {
 		return this.locationId;
 	}
@@ -71,7 +75,7 @@ public class PmAudit implements java.io.Serializable {
 		this.locationId = locationId;
 	}
 
-	@Column(name = "action", nullable = false, length = 1)
+	
 	public String getAction() {
 		return this.action;
 	}

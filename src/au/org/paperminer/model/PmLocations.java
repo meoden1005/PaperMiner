@@ -34,17 +34,32 @@ public class PmLocations implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 8967984583399576544L;
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+	@Column(name = "name", nullable = false, length = 64)
 	private String name;
+	@Column(name = "state_code")
 	private byte stateCode;
+	@Column(name = "country_code", nullable = false)
 	private short countryCode;
+	@Column(name = "latitude", nullable = false, precision = 12, scale = 9)
 	private BigDecimal latitude;
+	@Column(name = "longitude", nullable = false, precision = 12, scale = 9)
 	private BigDecimal longitude;
+	@Column(name = "box_nw_lat", precision = 12, scale = 9)
 	private BigDecimal boxNwLat;
+	@Column(name = "box_nw_lng", precision = 12, scale = 9)
 	private BigDecimal boxNwLng;
+	@Column(name = "box_se_lat", precision = 12, scale = 9)
 	private BigDecimal boxSeLat;
+	@Column(name = "box_se_lng", precision = 12, scale = 9)
 	private BigDecimal boxSeLng;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date_created", nullable = false, length = 19)
 	private Date dateCreated;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pmLocations")
 	private List<PmGsRefs> pmGsRefses;
 
 	public PmLocations() {
@@ -76,9 +91,7 @@ public class PmLocations implements java.io.Serializable {
 		this.pmGsRefses = pmGsRefses;
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+	
 	public Integer getId() {
 		return this.id;
 	}
@@ -87,7 +100,7 @@ public class PmLocations implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "name", nullable = false, length = 64)
+	
 	public String getName() {
 		return this.name;
 	}
@@ -96,7 +109,7 @@ public class PmLocations implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "state_code")
+	
 	public byte getStateCode() {
 		return this.stateCode;
 	}
@@ -105,7 +118,7 @@ public class PmLocations implements java.io.Serializable {
 		this.stateCode = stateCode;
 	}
 
-	@Column(name = "country_code", nullable = false)
+	
 	public short getCountryCode() {
 		return this.countryCode;
 	}
@@ -114,7 +127,7 @@ public class PmLocations implements java.io.Serializable {
 		this.countryCode = countryCode;
 	}
 
-	@Column(name = "latitude", nullable = false, precision = 12, scale = 9)
+	
 	public BigDecimal getLatitude() {
 		return this.latitude;
 	}
@@ -123,7 +136,7 @@ public class PmLocations implements java.io.Serializable {
 		this.latitude = latitude;
 	}
 
-	@Column(name = "longitude", nullable = false, precision = 12, scale = 9)
+	
 	public BigDecimal getLongitude() {
 		return this.longitude;
 	}
@@ -132,7 +145,7 @@ public class PmLocations implements java.io.Serializable {
 		this.longitude = longitude;
 	}
 
-	@Column(name = "box_nw_lat", precision = 12, scale = 9)
+	
 	public BigDecimal getBoxNwLat() {
 		return this.boxNwLat;
 	}
@@ -141,7 +154,7 @@ public class PmLocations implements java.io.Serializable {
 		this.boxNwLat = boxNwLat;
 	}
 
-	@Column(name = "box_nw_lng", precision = 12, scale = 9)
+	
 	public BigDecimal getBoxNwLng() {
 		return this.boxNwLng;
 	}
@@ -150,7 +163,7 @@ public class PmLocations implements java.io.Serializable {
 		this.boxNwLng = boxNwLng;
 	}
 
-	@Column(name = "box_se_lat", precision = 12, scale = 9)
+	
 	public BigDecimal getBoxSeLat() {
 		return this.boxSeLat;
 	}
@@ -159,7 +172,7 @@ public class PmLocations implements java.io.Serializable {
 		this.boxSeLat = boxSeLat;
 	}
 
-	@Column(name = "box_se_lng", precision = 12, scale = 9)
+	
 	public BigDecimal getBoxSeLng() {
 		return this.boxSeLng;
 	}
@@ -168,8 +181,7 @@ public class PmLocations implements java.io.Serializable {
 		this.boxSeLng = boxSeLng;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_created", nullable = false, length = 19)
+	
 	public Date getDateCreated() {
 		return this.dateCreated;
 	}
@@ -178,7 +190,7 @@ public class PmLocations implements java.io.Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pmLocations")
+	
 	public List<PmGsRefs> getPmGsRefses() {
 		return this.pmGsRefses;
 	}

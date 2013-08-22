@@ -21,12 +21,23 @@ public class PmTmpLoc implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -5559587967947149921L;
+	@EmbeddedId
+	@AttributeOverrides({
+			@AttributeOverride(name = "name", column = @Column(name = "name", nullable = false, length = 64)),
+			@AttributeOverride(name = "stateCode", column = @Column(name = "state_code", nullable = false)),
+			@AttributeOverride(name = "countryCode", column = @Column(name = "country_code", nullable = false)) })
 	private PmTmpLocId id;
+	@Column(name = "latitude", nullable = false, precision = 12, scale = 9)
 	private BigDecimal latitude;
+	@Column(name = "longitude", nullable = false, precision = 12, scale = 9)
 	private BigDecimal longitude;
+	@Column(name = "box_nw_lat", precision = 12, scale = 9)
 	private BigDecimal boxNwLat;
+	@Column(name = "box_nw_lng", precision = 12, scale = 9)
 	private BigDecimal boxNwLng;
+	@Column(name = "box_se_lat", precision = 12, scale = 9)
 	private BigDecimal boxSeLat;
+	@Column(name = "box_se_lng", precision = 12, scale = 9)
 	private BigDecimal boxSeLng;
 
 	public PmTmpLoc() {
@@ -50,11 +61,7 @@ public class PmTmpLoc implements java.io.Serializable {
 		this.boxSeLng = boxSeLng;
 	}
 
-	@EmbeddedId
-	@AttributeOverrides({
-			@AttributeOverride(name = "name", column = @Column(name = "name", nullable = false, length = 64)),
-			@AttributeOverride(name = "stateCode", column = @Column(name = "state_code", nullable = false)),
-			@AttributeOverride(name = "countryCode", column = @Column(name = "country_code", nullable = false)) })
+	
 	public PmTmpLocId getId() {
 		return this.id;
 	}
@@ -63,7 +70,7 @@ public class PmTmpLoc implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "latitude", nullable = false, precision = 12, scale = 9)
+	
 	public BigDecimal getLatitude() {
 		return this.latitude;
 	}
@@ -72,7 +79,7 @@ public class PmTmpLoc implements java.io.Serializable {
 		this.latitude = latitude;
 	}
 
-	@Column(name = "longitude", nullable = false, precision = 12, scale = 9)
+	
 	public BigDecimal getLongitude() {
 		return this.longitude;
 	}
@@ -81,7 +88,7 @@ public class PmTmpLoc implements java.io.Serializable {
 		this.longitude = longitude;
 	}
 
-	@Column(name = "box_nw_lat", precision = 12, scale = 9)
+	
 	public BigDecimal getBoxNwLat() {
 		return this.boxNwLat;
 	}
@@ -90,7 +97,7 @@ public class PmTmpLoc implements java.io.Serializable {
 		this.boxNwLat = boxNwLat;
 	}
 
-	@Column(name = "box_nw_lng", precision = 12, scale = 9)
+	
 	public BigDecimal getBoxNwLng() {
 		return this.boxNwLng;
 	}
@@ -99,7 +106,7 @@ public class PmTmpLoc implements java.io.Serializable {
 		this.boxNwLng = boxNwLng;
 	}
 
-	@Column(name = "box_se_lat", precision = 12, scale = 9)
+	
 	public BigDecimal getBoxSeLat() {
 		return this.boxSeLat;
 	}
@@ -108,7 +115,7 @@ public class PmTmpLoc implements java.io.Serializable {
 		this.boxSeLat = boxSeLat;
 	}
 
-	@Column(name = "box_se_lng", precision = 12, scale = 9)
+	
 	public BigDecimal getBoxSeLng() {
 		return this.boxSeLng;
 	}

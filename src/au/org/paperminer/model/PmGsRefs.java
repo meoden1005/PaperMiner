@@ -26,10 +26,20 @@ public class PmGsRefs implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4774878365324448766L;
+	@EmbeddedId
+	@AttributeOverrides({
+			@AttributeOverride(name = "troveId", column = @Column(name = "trove_id", nullable = false)),
+			@AttributeOverride(name = "locationId", column = @Column(name = "location_id", nullable = false)) })
 	private PmGsRefsId id;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "location_id", nullable = false, insertable = false, updatable = false)
 	private PmLocations pmLocations;
+	@Column(name = "strikeout", nullable = false)
 	private byte strikeout;
+	@Column(name = "frequency", nullable = false)
 	private short frequency;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "date_created", nullable = false, length = 19)
 	private Date dateCreated;
 
 	public PmGsRefs() {
@@ -44,10 +54,7 @@ public class PmGsRefs implements java.io.Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-	@EmbeddedId
-	@AttributeOverrides({
-			@AttributeOverride(name = "troveId", column = @Column(name = "trove_id", nullable = false)),
-			@AttributeOverride(name = "locationId", column = @Column(name = "location_id", nullable = false)) })
+	
 	public PmGsRefsId getId() {
 		return this.id;
 	}
@@ -56,8 +63,7 @@ public class PmGsRefs implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "location_id", nullable = false, insertable = false, updatable = false)
+	
 	public PmLocations getPmLocations() {
 		return this.pmLocations;
 	}
@@ -66,7 +72,7 @@ public class PmGsRefs implements java.io.Serializable {
 		this.pmLocations = pmLocations;
 	}
 
-	@Column(name = "strikeout", nullable = false)
+	
 	public byte getStrikeout() {
 		return this.strikeout;
 	}
@@ -75,7 +81,7 @@ public class PmGsRefs implements java.io.Serializable {
 		this.strikeout = strikeout;
 	}
 
-	@Column(name = "frequency", nullable = false)
+	
 	public short getFrequency() {
 		return this.frequency;
 	}
@@ -84,8 +90,7 @@ public class PmGsRefs implements java.io.Serializable {
 		this.frequency = frequency;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_created", nullable = false, length = 19)
+	
 	public Date getDateCreated() {
 		return this.dateCreated;
 	}

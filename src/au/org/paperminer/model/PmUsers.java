@@ -29,15 +29,28 @@ public class PmUsers implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7295026445975579880L;
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
+	@Column(name = "email", nullable = false, length = 60)
 	private String email;
+	@Column(name = "trove_key", nullable = false, length = 20)
 	private String troveKey;
+	@Column(name = "status", nullable = false)
 	private Integer status;
+	@Column(name = "max_queries", nullable = false)
 	private Integer maxQueries;
+	@Column(name = "max_scheduled", nullable = false)
 	private Integer maxScheduled;
+	@Column(name = "ttl_days", nullable = false)
 	private Integer ttlDays;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date_created", nullable = false, length = 10)
 	private Date dateCreated;
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "pmUsers")
 	private PmAdmins pmAdmins;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pmUsers")
 	private List<PmQueries> pmQuerieses;
 
 	public PmUsers() {
@@ -68,9 +81,7 @@ public class PmUsers implements java.io.Serializable {
 		this.pmQuerieses = pmQuerieses;
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+	
 	public Integer getId() {
 		return this.id;
 	}
@@ -79,7 +90,7 @@ public class PmUsers implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "email", nullable = false, length = 60)
+	
 	public String getEmail() {
 		return this.email;
 	}
@@ -88,7 +99,7 @@ public class PmUsers implements java.io.Serializable {
 		this.email = email;
 	}
 
-	@Column(name = "trove_key", nullable = false, length = 20)
+	
 	public String getTroveKey() {
 		return this.troveKey;
 	}
@@ -97,7 +108,7 @@ public class PmUsers implements java.io.Serializable {
 		this.troveKey = troveKey;
 	}
 
-	@Column(name = "status", nullable = false)
+	
 	public Integer getStatus() {
 		return this.status;
 	}
@@ -106,7 +117,7 @@ public class PmUsers implements java.io.Serializable {
 		this.status = status;
 	}
 
-	@Column(name = "max_queries", nullable = false)
+	
 	public Integer getMaxQueries() {
 		return this.maxQueries;
 	}
@@ -115,7 +126,7 @@ public class PmUsers implements java.io.Serializable {
 		this.maxQueries = maxQueries;
 	}
 
-	@Column(name = "max_scheduled", nullable = false)
+	
 	public Integer getMaxScheduled() {
 		return this.maxScheduled;
 	}
@@ -124,7 +135,7 @@ public class PmUsers implements java.io.Serializable {
 		this.maxScheduled = maxScheduled;
 	}
 
-	@Column(name = "ttl_days", nullable = false)
+	
 	public Integer getTtlDays() {
 		return this.ttlDays;
 	}
@@ -133,8 +144,7 @@ public class PmUsers implements java.io.Serializable {
 		this.ttlDays = ttlDays;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "date_created", nullable = false, length = 10)
+	
 	public Date getDateCreated() {
 		return this.dateCreated;
 	}
@@ -143,7 +153,7 @@ public class PmUsers implements java.io.Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "pmUsers")
+	
 	public PmAdmins getPmAdmins() {
 		return this.pmAdmins;
 	}
@@ -152,7 +162,7 @@ public class PmUsers implements java.io.Serializable {
 		this.pmAdmins = pmAdmins;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pmUsers")
+	
 	public List<PmQueries> getPmQuerieses() {
 		return this.pmQuerieses;
 	}

@@ -18,11 +18,18 @@ public class PmPublishers implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 8290906915042564803L;
+	@Id
+	@Column(name = "id", unique = true, nullable = false)
 	private int id;
+	@Column(name = "title", nullable = false, length = 164)
 	private String title;
+	@Column(name = "published", nullable = false, length = 12)
 	private String published;
+	@Column(name = "latitude", nullable = false, length = 16)
 	private String latitude;
+	@Column(name = "longitude", nullable = false, length = 16)
 	private String longitude;
+	@Column(name = "location", nullable = false, length = 32)
 	private String location;
 
 	public PmPublishers() {
@@ -38,8 +45,7 @@ public class PmPublishers implements java.io.Serializable {
 		this.location = location;
 	}
 
-	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	
 	public int getId() {
 		return this.id;
 	}
@@ -48,7 +54,7 @@ public class PmPublishers implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "title", nullable = false, length = 164)
+	
 	public String getTitle() {
 		return this.title;
 	}
@@ -57,7 +63,7 @@ public class PmPublishers implements java.io.Serializable {
 		this.title = title;
 	}
 
-	@Column(name = "published", nullable = false, length = 12)
+	
 	public String getPublished() {
 		return this.published;
 	}
@@ -66,7 +72,7 @@ public class PmPublishers implements java.io.Serializable {
 		this.published = published;
 	}
 
-	@Column(name = "latitude", nullable = false, length = 16)
+	
 	public String getLatitude() {
 		return this.latitude;
 	}
@@ -75,7 +81,7 @@ public class PmPublishers implements java.io.Serializable {
 		this.latitude = latitude;
 	}
 
-	@Column(name = "longitude", nullable = false, length = 16)
+	
 	public String getLongitude() {
 		return this.longitude;
 	}
@@ -84,7 +90,7 @@ public class PmPublishers implements java.io.Serializable {
 		this.longitude = longitude;
 	}
 
-	@Column(name = "location", nullable = false, length = 32)
+	
 	public String getLocation() {
 		return this.location;
 	}

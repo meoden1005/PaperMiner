@@ -16,7 +16,9 @@ public class PmAuditId implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -735514175952360379L;
+	@Column(name = "user_id", nullable = false)
 	private int userId;
+	@Column(name = "date_created", nullable = false, length = 19)
 	private Date dateCreated;
 
 	public PmAuditId() {
@@ -27,7 +29,7 @@ public class PmAuditId implements java.io.Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-	@Column(name = "user_id", nullable = false)
+	
 	public int getUserId() {
 		return this.userId;
 	}
@@ -36,7 +38,7 @@ public class PmAuditId implements java.io.Serializable {
 		this.userId = userId;
 	}
 
-	@Column(name = "date_created", nullable = false, length = 19)
+	
 	public Date getDateCreated() {
 		return this.dateCreated;
 	}

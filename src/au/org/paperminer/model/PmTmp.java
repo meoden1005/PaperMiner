@@ -20,7 +20,14 @@ public class PmTmp implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3176662094185105228L;
+	@EmbeddedId
+	@AttributeOverrides({
+			@AttributeOverride(name = "troveId", column = @Column(name = "trove_id", nullable = false)),
+			@AttributeOverride(name = "name", column = @Column(name = "name", nullable = false, length = 64)),
+			@AttributeOverride(name = "stateCode", column = @Column(name = "state_code", nullable = false)),
+			@AttributeOverride(name = "countryCode", column = @Column(name = "country_code", nullable = false)) })
 	private PmTmpId id;
+	@Column(name = "frequency", nullable = false)
 	private Integer frequency;
 
 	public PmTmp() {
@@ -31,12 +38,7 @@ public class PmTmp implements java.io.Serializable {
 		this.frequency = frequency;
 	}
 
-	@EmbeddedId
-	@AttributeOverrides({
-			@AttributeOverride(name = "troveId", column = @Column(name = "trove_id", nullable = false)),
-			@AttributeOverride(name = "name", column = @Column(name = "name", nullable = false, length = 64)),
-			@AttributeOverride(name = "stateCode", column = @Column(name = "state_code", nullable = false)),
-			@AttributeOverride(name = "countryCode", column = @Column(name = "country_code", nullable = false)) })
+	
 	public PmTmpId getId() {
 		return this.id;
 	}
@@ -45,7 +47,7 @@ public class PmTmp implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "frequency", nullable = false)
+	
 	public Integer getFrequency() {
 		return this.frequency;
 	}

@@ -21,8 +21,13 @@ public class PmAuStates implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 8386150995532940953L;
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private int id;
+	@Column(name = "short_name", length = 3)
 	private String shortName;
+	@Column(name = "long_name", nullable = false, length = 30)
 	private String longName;
 
 	public PmAuStates() {
@@ -39,9 +44,7 @@ public class PmAuStates implements java.io.Serializable {
 		this.longName = longName;
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+	
 	public int getId() {
 		return this.id;
 	}
@@ -50,7 +53,7 @@ public class PmAuStates implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "short_name", length = 3)
+	
 	public String getShortName() {
 		return this.shortName;
 	}
@@ -59,7 +62,7 @@ public class PmAuStates implements java.io.Serializable {
 		this.shortName = shortName;
 	}
 
-	@Column(name = "long_name", nullable = false, length = 30)
+	
 	public String getLongName() {
 		return this.longName;
 	}

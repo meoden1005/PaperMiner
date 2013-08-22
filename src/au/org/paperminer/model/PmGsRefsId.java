@@ -15,7 +15,9 @@ public class PmGsRefsId implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1892438153478044571L;
+	@Column(name = "trove_id", nullable = false)
 	private int troveId;
+	@Column(name = "location_id", nullable = false)
 	private int locationId;
 
 	public PmGsRefsId() {
@@ -26,7 +28,7 @@ public class PmGsRefsId implements java.io.Serializable {
 		this.locationId = locationId;
 	}
 
-	@Column(name = "trove_id", nullable = false)
+	
 	public int getTroveId() {
 		return this.troveId;
 	}
@@ -35,7 +37,7 @@ public class PmGsRefsId implements java.io.Serializable {
 		this.troveId = troveId;
 	}
 
-	@Column(name = "location_id", nullable = false)
+	
 	public int getLocationId() {
 		return this.locationId;
 	}

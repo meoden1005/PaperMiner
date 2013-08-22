@@ -15,9 +15,13 @@ public class PmTmpId implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 6481143464142092584L;
+	@Column(name = "trove_id", nullable = false)
 	private int troveId;
+	@Column(name = "name", nullable = false, length = 64)
 	private String name;
+	@Column(name = "state_code", nullable = false)
 	private Integer stateCode;
+	@Column(name = "country_code", nullable = false)
 	private Integer countryCode;
 
 	public PmTmpId() {
@@ -30,7 +34,7 @@ public class PmTmpId implements java.io.Serializable {
 		this.countryCode = countryCode;
 	}
 
-	@Column(name = "trove_id", nullable = false)
+	
 	public int getTroveId() {
 		return this.troveId;
 	}
@@ -39,7 +43,7 @@ public class PmTmpId implements java.io.Serializable {
 		this.troveId = troveId;
 	}
 
-	@Column(name = "name", nullable = false, length = 64)
+	
 	public String getName() {
 		return this.name;
 	}
@@ -48,7 +52,7 @@ public class PmTmpId implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@Column(name = "state_code", nullable = false)
+	
 	public Integer getStateCode() {
 		return this.stateCode;
 	}
@@ -57,7 +61,7 @@ public class PmTmpId implements java.io.Serializable {
 		this.stateCode = stateCode;
 	}
 
-	@Column(name = "country_code", nullable = false)
+	
 	public Integer getCountryCode() {
 		return this.countryCode;
 	}

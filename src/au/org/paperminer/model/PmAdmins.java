@@ -27,9 +27,18 @@ public class PmAdmins implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -6818787878943736618L;
+	@GenericGenerator(name = "generator", strategy = "foreign", parameters = @Parameter(name = "property", value = "pmUsers"))
+	@Id
+	@GeneratedValue(generator = "generator")
+	@Column(name = "user_id", unique = true, nullable = false)
 	private int userId;
+	@OneToOne(fetch = FetchType.LAZY)
+	@PrimaryKeyJoinColumn
 	private PmUsers pmUsers;
+	@Column(name = "is_primary", nullable = false)
 	private byte isPrimary;
+	@Temporal(TemporalType.DATE)
+	@Column(name = "date_created", nullable = false, length = 10)
 	private Date dateCreated;
 
 	public PmAdmins() {
@@ -41,10 +50,7 @@ public class PmAdmins implements java.io.Serializable {
 		this.dateCreated = dateCreated;
 	}
 
-	@GenericGenerator(name = "generator", strategy = "foreign", parameters = @Parameter(name = "property", value = "pmUsers"))
-	@Id
-	@GeneratedValue(generator = "generator")
-	@Column(name = "user_id", unique = true, nullable = false)
+	
 	public int getUserId() {
 		return this.userId;
 	}
@@ -53,8 +59,7 @@ public class PmAdmins implements java.io.Serializable {
 		this.userId = userId;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@PrimaryKeyJoinColumn
+
 	public PmUsers getPmUsers() {
 		return this.pmUsers;
 	}
@@ -63,7 +68,7 @@ public class PmAdmins implements java.io.Serializable {
 		this.pmUsers = pmUsers;
 	}
 
-	@Column(name = "is_primary", nullable = false)
+	
 	public byte getIsPrimary() {
 		return this.isPrimary;
 	}
@@ -72,8 +77,7 @@ public class PmAdmins implements java.io.Serializable {
 		this.isPrimary = isPrimary;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@Column(name = "date_created", nullable = false, length = 10)
+
 	public Date getDateCreated() {
 		return this.dateCreated;
 	}

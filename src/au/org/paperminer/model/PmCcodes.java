@@ -21,8 +21,13 @@ public class PmCcodes implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4686001443106436626L;
+	@Id
+	@GeneratedValue(strategy = IDENTITY)
+	@Column(name = "id", unique = true, nullable = false)
 	private int id;
+	@Column(name = "short_name", length = 2)
 	private String shortName;
+	@Column(name = "long_name", nullable = false, length = 64)
 	private String longName;
 
 	public PmCcodes() {
@@ -39,9 +44,7 @@ public class PmCcodes implements java.io.Serializable {
 		this.longName = longName;
 	}
 
-	@Id
-	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "id", unique = true, nullable = false)
+	
 	public int getId() {
 		return this.id;
 	}
@@ -50,7 +53,7 @@ public class PmCcodes implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "short_name", length = 2)
+	
 	public String getShortName() {
 		return this.shortName;
 	}
@@ -59,7 +62,7 @@ public class PmCcodes implements java.io.Serializable {
 		this.shortName = shortName;
 	}
 
-	@Column(name = "long_name", nullable = false, length = 64)
+	
 	public String getLongName() {
 		return this.longName;
 	}
