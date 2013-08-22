@@ -41,10 +41,10 @@ public class QueriesService {
 		query.setPmUsers(user);
 		query.setDateCreated(new Date());
 		query.setDateLastRun(new Date());
-		query.setDescr("test1");
-		query.setQuery("test1");
+		query.setDescr("test12");
+		query.setQuery("test12");
 		query.setQueryType("s");
-		query.setTotalLastRun(11111);
+		query.setTotalLastRun(111111);
 		PmQueriesDAOImpl pmQueriesDAO = new PmQueriesDAOImpl();
 		pmQueriesDAO.setSession(sessionFactory.openSession());
 		pmQueriesDAO.save(query);

@@ -232,10 +232,8 @@ public class GenericDAO<T, ID extends Serializable> implements
 		} else {
 			session = getSession();
 		}
-		Transaction tx = session.beginTransaction();
+		
 		final T savedEntity = (T) session.merge(entity);
-		tx.commit();
-		session.flush();
 		return savedEntity;
 	}
 
