@@ -2,8 +2,6 @@ package au.org.paperminer.dao;
  
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 //@Component
 //@Scope("singleton")

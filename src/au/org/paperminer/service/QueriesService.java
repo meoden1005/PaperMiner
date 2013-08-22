@@ -3,17 +3,12 @@ package au.org.paperminer.service;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import au.org.paperminer.dao.ImplDAO;
-import au.org.paperminer.dao.PmQueriesDAO;
 import au.org.paperminer.dao.PmQueriesDAOImpl;
 import au.org.paperminer.model.PmQueries;
 import au.org.paperminer.model.PmUsers;

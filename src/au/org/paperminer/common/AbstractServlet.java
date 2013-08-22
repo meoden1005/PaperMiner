@@ -50,7 +50,8 @@ public abstract class AbstractServlet
      * before request servicing can proceed.
      * @exception javax.servlet.UnavailableException Do not start application
      */
-    public void init () throws ServletException
+    @Override
+	public void init () throws ServletException
     {
         m_logger = Logger.getLogger(LOGGER);
         if (! testConnectionPool()) {

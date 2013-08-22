@@ -46,6 +46,7 @@ public class PmGsRefsId implements java.io.Serializable {
 		this.locationId = locationId;
 	}
 
+	@Override
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -59,6 +60,7 @@ public class PmGsRefsId implements java.io.Serializable {
 				&& (this.getLocationId() == castOther.getLocationId());
 	}
 
+	@Override
 	public int hashCode() {
 		int result = 17;
 

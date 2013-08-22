@@ -12,7 +12,7 @@
     <param-value>WEB-INF/classes/log4j.lcf</param-value>
   </context-param>
   
-   <servlet>
+  <servlet>
 	<servlet-name>Faces Servlet</servlet-name>
 	<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 	<load-on-startup>1</load-on-startup>
@@ -28,6 +28,25 @@
     <servlet-mapping>
     <servlet-name>Faces Servlet</servlet-name>
     <url-pattern>*.faces</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+	<servlet-name>appServlet</servlet-name>
+	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+	<init-param>
+      <param-name>contextClass</param-name>
+      <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+    </init-param>
+	<init-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/applicationContext.xml</param-value>
+	</init-param>
+	<load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+	<servlet-name>appServlet</servlet-name>
+	<url-pattern>/ws/*</url-pattern>
   </servlet-mapping>
   
   <context-param>

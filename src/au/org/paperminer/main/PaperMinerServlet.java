@@ -59,7 +59,8 @@ public class PaperMinerServlet extends AbstractServlet
         super();
     }
 
-    public void init () throws ServletException
+    @Override
+	public void init () throws ServletException
     {
         super.init();
         m_pmHomePath = System.getProperty(PM_HOME);
@@ -71,7 +72,8 @@ public class PaperMinerServlet extends AbstractServlet
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    @Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
         m_logger.info("PaperMinerServlet doGet");
         
@@ -79,7 +81,7 @@ public class PaperMinerServlet extends AbstractServlet
             response.setContentType("text/html");
             PrintWriter pw = response.getWriter();
 
-            String page = (String) request.getParameter(REQ_PAGE);
+            String page = request.getParameter(REQ_PAGE);
             String epage = (String) request.getAttribute(ERROR_PAGE);
             m_logger.debug("page=" + page + "; epage=" + epage);
             
@@ -109,7 +111,8 @@ public class PaperMinerServlet extends AbstractServlet
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+    @Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
         m_logger.info("doPost");
     }

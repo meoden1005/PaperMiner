@@ -47,6 +47,7 @@ public class PmAuditId implements java.io.Serializable {
 		this.dateCreated = dateCreated;
 	}
 
+	@Override
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -63,6 +64,7 @@ public class PmAuditId implements java.io.Serializable {
 						.getDateCreated().equals(castOther.getDateCreated())));
 	}
 
+	@Override
 	public int hashCode() {
 		int result = 17;
 

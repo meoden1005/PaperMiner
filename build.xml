@@ -175,7 +175,7 @@
     <!-- INDEX HTML PAGES AND HTML FRAGMENTS (txt) -->
     <copy todir="${war.image}">
       <fileset dir="${web.dir}">
-        <include name="index.xhtml" />
+        <include name="*.xhtml" />
       	<include name="index.jsp" />
         <include name="favicon.ico" />
       </fileset>

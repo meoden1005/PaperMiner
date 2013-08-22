@@ -42,14 +42,17 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import au.org.paperminer.bean.HistoryFacade;
 import au.org.paperminer.common.CookieHelper;
 import au.org.paperminer.common.PaperMinerConstants;
 import au.org.paperminer.common.PaperMinerException;
 import au.org.paperminer.common.TroveHelper;
 import au.org.paperminer.db.UserHelper;
+import au.org.paperminer.model.PmUsers;
 
 import org.apache.log4j.Logger;
 import org.json.simple.JSONValue;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Does registration of new users and "authentication" of existing ones.
@@ -57,6 +60,9 @@ import org.json.simple.JSONValue;
  */
 public class UserFilter implements Filter
 {
+	@Autowired
+	private HistoryFacade historyFacade;
+	
     private Logger m_logger;
     private String m_serverName;
     
@@ -145,6 +151,14 @@ public class UserFilter implements Filter
             if ((verify != null) && verify.equals("y")) {
                 sendVerificationEmail(userHelper.get(UserHelper.ID), userHelper.get(UserHelper.EMAIL), req);
             }
+            
+            PmUsers users = new PmUsers();
+            users.setId(Integer.valueOf(userHelper.get(UserHelper.ID)));
+            users.setEmail(userHelper.get(UserHelper.EMAIL));
+            users.setStatus(Integer.valueOf(userHelper.get(UserHelper.STATUS)));
+            users.setTroveKey(userHelper.get(UserHelper.TROVE_KEY));
+            //historyFacade.setUsers(users);
+            
             m_logger.info("user " + email + " exists with id " + userHelper.get(UserHelper.ID));
         }
     }

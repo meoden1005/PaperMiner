@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
-import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.EntityTransaction;
 
@@ -118,7 +117,7 @@ public class GenericDAO<T, ID extends Serializable> implements
 			query.setParameter(i + 1, params[i]);
 		}
 
-		final List<T> result = (List<T>) query.getResultList();
+		final List<T> result = query.getResultList();
 		return result;
 	}
 
@@ -133,7 +132,7 @@ public class GenericDAO<T, ID extends Serializable> implements
 			query.setParameter(param.getKey(), param.getValue());
 		}
 
-		final List<T> result = (List<T>) query.getResultList();
+		final List<T> result = query.getResultList();
 		return result;
 	}
 
@@ -237,6 +236,7 @@ public class GenericDAO<T, ID extends Serializable> implements
 		return savedEntity;
 	}
 
+	@Override
 	public void beginTransaction() {
 		if (entityManager != null) {
 			EntityManager em = getEntityManager();
@@ -250,6 +250,7 @@ public class GenericDAO<T, ID extends Serializable> implements
 		}
 	}
 
+	@Override
 	public void commit() {
 		if (entityManager != null) {
 			EntityManager em = getEntityManager();
@@ -265,6 +266,7 @@ public class GenericDAO<T, ID extends Serializable> implements
 		}
 	}
 
+	@Override
 	public void rollback() {
 		if (entityManager != null) {
 			EntityManager em = getEntityManager();
@@ -280,6 +282,7 @@ public class GenericDAO<T, ID extends Serializable> implements
 		}
 	}
 
+	@Override
 	public int executeHQLUpdate(String hql) {
 		Session session;
 		if (getSession() == null) {
@@ -297,6 +300,7 @@ public class GenericDAO<T, ID extends Serializable> implements
 		}
 	}
 
+	@Override
 	public int executeSQLUpdate(String sql) {
 		Session session;
 		if (getSession() == null) {
@@ -314,6 +318,7 @@ public class GenericDAO<T, ID extends Serializable> implements
 		}
 	}
 
+	@Override
 	public int executeSQLUpdateWithParam(String sql, List<String> parameterLst) {
 		Session session;
 		if (getSession() == null) {
@@ -354,6 +359,7 @@ public class GenericDAO<T, ID extends Serializable> implements
 		}
 	}
 
+	@Override
 	public Object findUniqueByCriteria(
 			Criteria criteria)
 			throws NonUniqueResultException, NoResultException {

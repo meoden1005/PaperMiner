@@ -80,7 +80,7 @@ public class PublisherHelper
     private HashMap<String, String> getRecord (String id) throws PaperMinerException
     {
     	if (m_data.containsKey(id)) {
-    		return (HashMap<String, String>)m_data.get(id);
+    		return m_data.get(id);
     	}
 
     	Connection con = null;

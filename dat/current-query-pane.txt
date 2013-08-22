@@ -29,7 +29,8 @@
     <div class="pm-button-bar">
      <button id="cc-pb11" type="button" onClick="_processData(null, -2)">Pause query</button>
      <button id="cc-pb13" type="button" onClick="newQuery(true)">Revise query</button>
-     <button id="cc-pb12" type="button" onClick="saveQuery(true, 'save-query-pane')">Save query</button>
+     <!--<button id="cc-pb12" type="button" onClick="saveQuery(true, 'save-query-pane')">Save query</button>-->
+     <button id="cc-pb12" type="button" onclick="window.open('history.xhtml', '1376959182017','width=700,height=500,toolbar=0,menubar=0,location=0,status=0,scrollbars=0,resizable=0,left=0,top=0')">Save query</button>
     </div>
    </td>
   </tr>

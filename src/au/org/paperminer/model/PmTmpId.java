@@ -70,6 +70,7 @@ public class PmTmpId implements java.io.Serializable {
 		this.countryCode = countryCode;
 	}
 
+	@Override
 	public boolean equals(Object other) {
 		if ((this == other))
 			return true;
@@ -87,6 +88,7 @@ public class PmTmpId implements java.io.Serializable {
 				&& (this.getCountryCode() == castOther.getCountryCode());
 	}
 
+	@Override
 	public int hashCode() {
 		int result = 17;
 

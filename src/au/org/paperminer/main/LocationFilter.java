@@ -34,7 +34,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONValue;
 
-import au.org.paperminer.common.CookieHelper;
 import au.org.paperminer.common.PaperMinerConstants;
 import au.org.paperminer.common.PaperMinerException;
 import au.org.paperminer.db.LocationHelper;

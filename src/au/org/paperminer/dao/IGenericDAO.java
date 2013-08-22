@@ -119,6 +119,7 @@ public interface IGenericDAO<T, ID extends Serializable> {
 	/**
 	 * Retrieve name of the persistent class
 	 */
+	@Override
 	String toString();
 
 	/**
