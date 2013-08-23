@@ -63,7 +63,7 @@ public class GenericDAO<T, ID extends Serializable> implements
 	}
 
 	@Override
-	public int countAll() {
+	public Long countAll() {
 		return countByCriteria();
 	}
 
@@ -200,7 +200,7 @@ public class GenericDAO<T, ID extends Serializable> implements
 		return result;
 	}
 
-	protected int countByCriteria(Criterion... criterion) {
+	protected Long countByCriteria(Criterion... criterion) {
 		Session session;
 		if (getSession() == null) {
 			session = (Session) getEntityManager().getDelegate();
@@ -214,7 +214,7 @@ public class GenericDAO<T, ID extends Serializable> implements
 			crit.add(c);
 		}
 
-		return (Integer) crit.list().get(0);
+		return (Long) crit.list().get(0);
 	}
 
 	@Override
