@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,6 +40,15 @@ public class WebController {
 	@Transactional(readOnly = true)
 	@RequestMapping(value="test1", produces = "application/json")
 	public @ResponseBody List<PmQueries> test1() {
+		PmQueriesDAOImpl pmQueriesDAO = new PmQueriesDAOImpl();
+		pmQueriesDAO.setSession(sessionFactory.openSession());
+		
+		return pmQueriesDAO.findAll();		
+	}
+	//http://localhost:8080/PaperMiner/ws/api/test2/213213,123123
+	@Transactional(readOnly = true)
+	@RequestMapping(value="test2/{data}", produces = "application/json")
+	public @ResponseBody List<PmQueries> test2(@PathVariable("data") List<String> data) {
 		PmQueriesDAOImpl pmQueriesDAO = new PmQueriesDAOImpl();
 		pmQueriesDAO.setSession(sessionFactory.openSession());
 		
