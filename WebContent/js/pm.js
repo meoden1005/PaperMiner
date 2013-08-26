@@ -2253,7 +2253,12 @@ function locnDel ()
   }
 }
 
-
+//store to temp database
+function storeHistory()
+{
+	var today = new Date();
+	jQuery.jStorage.set(today.toString(), jQuery("#q1").val(), {TTL: 86400});
+}
 
 // EOF
 

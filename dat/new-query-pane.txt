@@ -23,7 +23,7 @@
    <td>
     <div class="pm-button-bar">
      <button id="nq-pb11" onClick="resetQueryPane()">Clear form</button>
-     <button id="nq-pb12" onClick="_doQuery(0)">Execute query</button>
+     <button id="nq-pb12" onClick="storeHistory();_doQuery(0)">Execute query</button>
     </div>
    </td>
   </tr>
