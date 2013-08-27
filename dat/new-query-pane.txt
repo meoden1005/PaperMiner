@@ -23,7 +23,7 @@
    <td>
     <div class="pm-button-bar">
      <button id="nq-pb11" onClick="resetQueryPane()">Clear form</button>
-     <button id="nq-pb12" onClick="storeHistory();_doQuery(0)">Execute query</button>
+     <button id="nq-pb12" onClick="_doQuery(0)">Execute query</button>
     </div>
    </td>
   </tr>
@@ -31,21 +31,152 @@
 </div>
 
 <div id="q-advanced" class="hidden">
- <table class="query-form">
-  <tr><td colspan="2"><em>Advanced search not yet implemented</em>
-  <tr class="hidden">
-   <td class="td-name">Zone:</td>
+ <table id="query-form">
+  <tr>
+  	<td>
+  		<span class="sub-header">Advanced Query</span>
+  	</td>
+  </tr>
+  <tr>
+  	<td class="td-name">Search Term:</td>
+  	<td><input id="term" type="text"/></td>
+  </tr>
+  <tr>
+  	<td class="td-name">Category:</td>
+  	<td><select id="category" onChange="changeViewForm();">
+  			<option value = "newspaper">Newspaper</option>
+      		<option  value = "book">Books</option>
+      		<option  value = "article">Journal, articles</option>
+    	</select>
+    </td>
+   </tr>
+  <tr>
+  	<td class="td-name">
+	  	<div id="author" style="display:none;">
+	  		Author:
+	  	<div>
+  	</td>
+  	<td>
+  		<div id="authorInput" style="display:none;">
+  			<input id="author" type="text"/>
+  		<div>
+  	</td>
+  </tr>
+  <tr>
+  	<td class="td-name">Title:</td>
+  	<td>
+  		<div id="titleSelect" style="display:block;">
+  			<select id="titleS">
+	  			<option value = "">Select a value</option>
+	  			<option value = "35">The Sydney Morning Herald</option>
+	      		<option  value = "13">The Argus</option>
+	      		<option  value = "9">Northern Territory Times and Gazette</option>
+	      		<option  value = "16">Brisbane Courier</option>
+	      		<option  value = "112">The Australian Women's Weekly</option>
+    		</select>
+  		</div>
+  		<div id="titleInput" style="display:none;">
+  			<input id="title" type="text"/>
+  		</div>
+  	</td>
+  </tr>
+   <tr>
+  	<td class="td-name">Year:</td>
+  	<td>
+  		<div class="yblock">
+  			<input id="from" type="text"/>
+  			<span class="eg" style="font-size:0.8em; vertical-align:top; color:#000; padding:0 0.5em;">From: eg.1971</span>
+  		</div>
+  		<span style="font-size:0.8em;vertical-align:top;color:#000;padding:0 0.5em;">and</span>
+  		<div class="yblock">
+  			<input id="to" type="text"/>
+  			<span class="eg" style="font-size:0.8em; vertical-align:top; color:#000; padding:0 0.5em;">To: eg.1979</span>
+  		</div>
+  	</td>
+  </tr>
+  	<tr>
+		<td class="td-name">
+		<div id="languageLabel" style="display:none;">
+			Language:
+		</div>
+		</td>
+		<td>
+		<div id="language" style="display:none;">
+			<select id="l-languages" name="l-languages">
+				<option value="">Select a value</option>
+			    <option value="English">English</option>
+			    <option value="French">French</option>
+			    <option value="German">German</option>
+			    <option value="Chinese">Chinese</option>
+			    <option value="Spanish">Spanish</option>
+			    <option value="Russian">Russian</option>
+			    <option value="Japanese">Japanese</option>
+			    <option value="Italian">Italian</option>
+			    <option value="Arabic">Arabic</option>
+			    <option value="Indonesian">Indonesian</option>
+			    <option value="Portuguese">Portuguese</option>
+			    <option value="Korean">Korean</option>
+			    <option value="Dutch">Dutch</option>
+			    <option value="Latin">Latin</option>
+			</select>
+			</div>
+		</td>
+  	</tr>
+  <tr>
+  <td class="td-name">
+  	<div id="location" style="display:block;">Location:</div>
+  </td>
+  	<td>
+  	<div id="states" style="display:block;">
+	  	<ul>
+	  		<li>
+	  			<input type="checkbox" name="location" id="national">
+	  			<label>National</label>
+	  		</li>
+	  		<li>
+	  			<input type="checkbox" name="location" id="act">
+	  			<label>ACT</label>
+	  		</li>
+	  		<li>
+	  			<input type="checkbox" name="location" id="nsw">
+	  			<label>New South Wales</label>
+	  		</li>
+	  		<li>
+	  			<input type="checkbox" name="location" id="nt">
+	  			<label>Northern Territory</label>
+	  		</li>
+	  		<li>
+	  			<input type="checkbox" name="location" id="qld">
+	  			<label>Queensland</label>
+	  		</li>
+	  		<li>
+	  			<input type="checkbox" name="location" id="sa">
+	  			<label>South Australia</label>
+	  		</li>
+	  		<li>
+	  			<input type="checkbox" name="location" id="tas">
+	  			<label>Tasmania</label>
+	  		</li>
+	  		<li>
+	  			<input type="checkbox" name="location" id="vic">
+	  			<label>Victoria</label>
+	  		</li>
+	  		<li>
+	  			<input type="checkbox" name="location" id="wa">
+	  			<label>Western Australia</label>
+	  		</li>
+	  	</ul>
+  	</div>
+  	</td>
+  </tr>
+  <tr><td colspan="2"><hr class="pm-button-sep"></td></tr>
+  <tr>
+   <td></td>
    <td>
-    <select id="z1">
-      <option>newspaper</option>
-      <option>book</option>
-      <option>picture</option>
-      <option>article</option>
-      <option>music</option>
-      <option>map</option>
-      <option>collection</option>
-      <option>list</option>
-    </select>
+    <div class="pm-button-bar">
+     <button id="nq-pb11" onClick="resetQueryPane()">Clear form</button>
+     <button id="nq-pb12" onClick="_doQuery(0)">Execute query</button>
+    </div>
    </td>
   </tr>
  </table>

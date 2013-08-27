@@ -189,6 +189,52 @@ var ZONE_MUSIC = {
     { tag:'troveUrl', title:'URL', isLink:true }
   ]};
 
+//Newspapers Id
+var nationalIDs = [51, 112];
+
+var actIDs = [166, 165, 69, 11, 167];
+
+var nswIDs = [434, 436, 414, 439, 48, 162, 52, 53, 54, 55, 56, 57, 58, 462, 523, 524, 522, 521,
+              114, 427, 104, 64, 65, 449, 420, 432, 532, 450, 440, 507, 480, 67, 508, 381, 421,
+              422, 464, 409, 411, 410, 357, 358, 415, 368, 369, 365, 367, 176, 177, 178, 179, 279,
+              107, 624, 352, 380, 363, 388, 509, 423, 120, 183, 280, 424, 425, 494, 78, 431, 430, 
+              350, 81, 496, 497, 84, 86, 83, 87, 119, 499, 389, 311, 530, 529, 281, 416, 418, 505, 
+              94, 417, 113, 528, 50, 161, 121, 164, 184, 163, 471, 482, 443, 391, 392, 256, 444, 
+              445, 387, 472, 485, 463, 446, 483, 475, 224, 447, 429, 490, 448, 393, 66, 473, 442, 
+              351, 252, 188, 451, 359, 366, 364, 474, 486, 487, 488, 477, 491, 360, 361, 362, 470, 
+              182, 492, 8, 510, 441, 438, 76, 511, 512, 469, 513, 354, 353, 437, 433, 514, 515, 516, 
+              517, 498, 500, 501, 502, 518, 520, 503, 282, 519, 504, 39, 38, 3, 37, 95, 96, 35, 506, 
+              452, 481, 453, 455, 456, 457, 465, 466, 467, 454, 394, 478, 479, 413, 412, 382, 458, 
+              419, 459, 426, 192, 190, 468];
+
+var ntIDs = [47, 63, 118, 80, 25, 36, 9, 111];
+
+var qldIDs = [62, 60, 61, 286, 376, 77, 79, 106, 263, 379, 338, 336, 337, 378, 377, 91, 92, 375, 16, 
+              186, 187, 340, 274, 15, 12, 257, 102, 14, 264, 262, 269, 258, 268, 42, 267, 265, 266, 
+              97, 261, 260, 259, 408, 374, 191];
+
+var saIDs = [174, 277, 45, 276, 371, 59, 291, 395, 396, 398, 399, 400, 401, 461, 372, 402, 370, 349, 
+             348, 347, 403, 172, 290, 288, 40, 41, 287, 289, 373, 171, 278, 314, 34, 44, 397, 75, 89, 
+             90, 7, 404, 406, 405, 407];
+
+var tasIDs = [46, 24, 23, 159, 116, 68, 22, 5, 272, 339, 74, 273, 271, 170, 21, 19, 20, 33, 4, 32, 31, 
+              158, 10, 115, 160, 117, 270];
+
+var vicIDs = [295, 148, 156, 155, 154, 157, 153, 240, 534, 216, 346, 315, 535, 320, 245, 294, 293, 43, 
+              541, 542, 543, 544, 546, 547, 550, 312, 551, 201, 149, 147, 218, 217, 146, 145, 152, 303, 
+              236, 233, 292, 284, 558, 283, 285, 296, 484, 316, 108, 321, 566, 567, 322, 323, 143, 144, 
+              140, 141, 142, 324, 325, 70, 71, 105, 72, 231, 297, 195, 127, 125, 126, 573, 196, 577, 
+              319, 243, 168, 169, 317, 332, 122, 123, 333, 206, 210, 205, 581, 133, 132, 582, 151, 385, 
+              384, 304, 215, 214, 305, 306, 326, 327, 593, 594, 307, 308, 109, 110, 298, 309, 328, 234, 
+              230, 313, 598, 248, 244, 599, 310, 329, 600, 601, 318, 334, 331, 330, 208, 150, 299, 237, 
+              335, 212, 202, 203, 251, 300, 608, 229, 13, 49, 103, 246, 232, 185, 223, 129, 131, 128, 
+              130, 249, 194, 207, 241, 199, 200, 198, 242, 225, 211, 197, 250, 209, 239, 18, 228, 222, 
+              247, 235, 428, 189, 383, 390, 135, 134, 613, 301, 139, 137, 138, 227, 620, 238, 136, 302, 
+              193, 213, 204, 124];
+
+var waIDs = [175, 345, 343, 173, 221, 220, 181, 342, 73, 253, 254, 341, 93, 344, 275, 386, 180, 26, 28, 
+             6, 255, 30, 27, 29, 98, 99, 100, 101];
+
 var MARKER_Z_BASE    =  26;
 var PUBLISHER_MARKER =   0;
 var LOCATION_MARKER  =   1;
@@ -437,7 +483,13 @@ function resetQueryPane ()
     $('select#z1').val('newspaper');
     break;
   case Q_ADVANCED :
-    // FIXME: todo
+	  $('input#term').val('');
+	  $('input#author').val('');
+	  $('input#title').val('');
+	  $('input#from').val('');
+	  $('input#to').val('');
+	  $('select#state').val('0');
+	  $('select#category').val('newspaper');
     break;
   case Q_CUSTOM :
     // FIXME: todo
@@ -920,7 +972,7 @@ function _deleteSelectedQueries ()
  * @param idx
  */
 function _openQuery (idx)
-{
+{ 
   m_currentQuery = m_qStore[idx].query;
   switch (m_qStore[idx].query_type) {
   case 's':
@@ -974,6 +1026,8 @@ function _showStoredQueryForm (id)
     });
 }
 
+
+
 /**
  * Builds the TROVE query string from user input.
  */
@@ -981,20 +1035,90 @@ function _createQueryString ()
 {
   var str = '';
   switch (m_currentQueryFormPane) {
-  case Q_SIMPLE : 
+  case Q_SIMPLE :
     m_currentZone = 'newspaper';
     m_currentTerm = $('input#q1').val();
     str = '&zone=' + m_currentZone + 
           '&q=' + encodeURIComponent(m_currentTerm);
+    
     break;
   case Q_ADVANCED:
-    m_currentZone = $('select#z1').val();
+	m_currentZone =  $('select#category').val();
+    m_currentTerm = $('input#term').val();
+    var titleNP = $('select#titleS').val();
+    var titleBook = $('input#title').val();
+    var author = $('input#author').val();
+    var language = $('select#l-languages').val();
+    var m_yearFrom = $('input#from').val();
+    var m_yearTo = $('input#to').val();
+    
+    //get id category
+    var category = document.getElementById('category');
+	var selectedValue = category.options[category.selectedIndex].value;
+    
+	var listStates = document.getElementById("states").getElementsByTagName("input");
+    
+    //states code
+	var strTitles = "";
+    //for loop to retrieve all inputs and check them if they are checked
+	if(selectedValue == "newspaper"){
+	    for (var i=0; i < listStates.length; i++)
+	    {
+	    	//for each state I retrieve the ids
+	    	if (listStates[i].checked){
+	    		strTitles += _buildNewspapersLocationId(listStates[i].id);
+	    	}
+	    }
+	}
+    //title(newspaper) code
+    var strTitleNP = "";
+    if(selectedValue == "newspaper" && titleNP != ""){
+    	strTitleNP = "&l-title=" + titleNP;
+    }
+    
+    //title(book) code
+    var strTitleBook = "";
+    if(selectedValue == "book" && titleBook != ""){
+    	strTitleBook = " title:(" + titleBook + ")";
+    	strTitlebook = encodeURIComponent(strTitleBook);
+    }
+    
+    //language code
+    var strAuthor = "";
+    if(selectedValue == "book" && author != ""){
+    	strAuthor = "creator%3A" + author;
+    }
+    
+    //language code
+    var strLanguage = "";
+    if(selectedValue == "book" && language != ""){
+    	strLanguage = "&l-language=" + language;
+    }
+    
+    //date code
+    var dateRange = "";
+    if(m_yearFrom != "" && m_yearTo != ""){
+    	dateRange = " date:["+ m_yearFrom + " TO " + m_yearTo +"]";
+    }
+    
+    str = '&zone=' + m_currentZone +
+    '&q=' +  encodeURIComponent(m_currentTerm) + dateRange +
+    strTitleBook + strTitleNP + strTitles + strAuthor + strLanguage;
+    
+    //alert(str);
+    
     break;
   case Q_CUSTOM:
     break;
   }  
   return str;
 }
+
+
+
+
+
+
 
 /**
  * Reset all state vars to initial values for execution of a new query.
@@ -1727,7 +1851,12 @@ function _updateCurrQueryPane ()
       _setCurrentQueryButtonState();
       break;
     case Q_ADVANCED :
-      // FIXME: todo
+    	// FIXME: todo
+    	$('td#q11').html(m_currentTerm);
+        $('td#z11').html(m_currentZone);
+        $('td#n11').html(m_totalRecs);
+        $('td#n12').html(m_resultSet == null ? 0 : m_resultSet.length);
+        _setCurrentQueryButtonState();
       break;
     case Q_CUSTOM :
       // FIXME: todo
@@ -2253,13 +2382,93 @@ function locnDel ()
   }
 }
 
-//store to temp database
-function storeHistory()
-{
-	var today = new Date();
-	jQuery.jStorage.set(today.toString(), jQuery("#q1").val(), {TTL: 86400});
+
+/**
+ * Change the form's view.
+ * Category : newspaper, States will be visible, Languages hide
+ * Category : book, States hide - Languages visible
+ */
+function changeViewForm() {
+	var category = document.getElementById('category');
+	var selectedValue = category.options[category.selectedIndex].value;
+	if(selectedValue == "book"){
+		document.getElementById('states').style.display = "none";
+		document.getElementById('location').style.display = "none";
+		document.getElementById('language').style.display = "block";
+		document.getElementById('languageLabel').style.display = "block";
+		document.getElementById('titleSelect').style.display = "none";
+		document.getElementById('titleInput').style.display = "block";
+		document.getElementById('author').style.display = "block";
+		document.getElementById('authorInput').style.display = "block";
+	}
+	
+	if(selectedValue == "newspaper" || selectedValue == "article"){
+		document.getElementById('states').style.display = "block";
+		document.getElementById('location').style.display = "block";
+		document.getElementById('language').style.display = "none";
+		document.getElementById('languageLabel').style.display = "none";
+		document.getElementById('titleSelect').style.display = "block";
+		document.getElementById('titleInput').style.display = "none";
+		document.getElementById('author').style.display = "none";
+		document.getElementById('authorInput').style.display = "none";
+	}
+	
+}
+
+/**
+ * Build a string query for the newspapers id based on location
+ */
+function _buildNewspapersLocationId(state){
+	
+	var strTitles = "";
+	switch (state) {
+		case "national":
+			for(var i=0; i < nationalIDs.length; i++){
+				strTitles+= "&l-title=" + nationalIDs[i].toString();
+			}
+		break;
+		case "act":
+			for(var i=0; i < actIDs.length; i++){
+				strTitles+= "&l-title=" + actIDs[i].toString();
+			}
+		break;
+		case "nsw":
+			for(var i=0; i < nswIDs.length; i++){
+				strTitles+= "&l-title=" + nswIDs[i].toString();
+			}
+		break;
+		case "nt":
+			for(var i=0; i < ntIDs.length; i++){
+				strTitles+= "&l-title=" + ntIDs[i].toString();
+			}
+		break;
+		case "qld":
+			for(var i=0; i < qldIDs.length; i++){
+				strTitles+= "&l-title=" + qldIDs[i].toString();
+			}
+		break;
+		case "sa":
+			for(var i=0; i < saIDs.length; i++){
+				strTitles+= "&l-title=" + saIDs[i].toString();
+			}
+		break;
+		case "tas":
+			for(var i=0; i < tasIDs.length; i++){
+				strTitles+= "&l-title=" + tasIDs[i].toString();
+			}
+		break;
+		case "vic":
+			for(var i=0; i < vicIDs.length; i++){
+				strTitles+= "&l-title=" + vicIDs[i].toString();
+			}
+		break;
+		case "wa":
+			for(var i=0; i < waIDs.length; i++){
+				strTitles+= "&l-title=" + waIDs[i].toString();
+			}
+		break;
+	}
+	return strTitles;
 }
 
 // EOF
-
-
