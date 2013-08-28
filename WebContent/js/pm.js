@@ -2471,4 +2471,9 @@ function _buildNewspapersLocationId(state){
 	return strTitles;
 }
 
+function storeHistory(){
+	var today = new Date();
+	jQuery.jStorage.set(today.toString(),$("#q1").val(), {TTL: 86400})
+}
+
 // EOF
