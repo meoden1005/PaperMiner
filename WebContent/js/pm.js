@@ -2473,6 +2473,12 @@ function _buildNewspapersLocationId(state){
 
 function storeHistory(){
 	var today = new Date();
+	var pmQuery = new Object();
+	pmQuery.query = m_currentQuery;
+	pmQuery.desc = m_currentTerm;
+	pmQuery.zone = m_currentZone;
+	pmQuery.totalresult = m_totalRecs;
+	
 	jQuery.jStorage.set(today.toString(),$("#q1").val(), {TTL: 86400})
 }
 

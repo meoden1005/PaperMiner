@@ -47,7 +47,7 @@ public class CookieHelper
 
     /**
      * Extracts our cookie string content
-     * @param req The user request
+     * @param req The user request  
      * @param param index into csv values in cookie 0..3
      * @return The string value or null
      */
