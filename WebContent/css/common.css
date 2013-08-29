@@ -331,6 +331,7 @@ th.pm-hdr { border: #817865; height:26px; font-weight:normal; color:white; backg
 td.td-name  { text-align:right; vertical-align:top; width:140px; }
 td.td-val   { text-align:left; vertical-align:top; }
 td.td-num   { text-align:right; padding-right:5px; }
+td.td-value { color:dimgrey; }
 
 td.td-crud-name  { text-align:right; vertical-align:top; width:80px; }
 

@@ -23,7 +23,7 @@
    <td>
     <div class="pm-button-bar">
      <button id="nq-pb11" onClick="resetQueryPane()">Clear form</button>
-     <button id="nq-pb12" onClick="_doQuery(0);storeHistory();">Execute query</button>
+     <button id="nq-pb12" onClick="_validateForm()">Execute query</button>
     </div>
    </td>
   </tr>
@@ -54,12 +54,12 @@
   	<td class="td-name">
 	  	<div id="author" style="display:none;">
 	  		Author:
-	  	<div>
+	  	</div>
   	</td>
   	<td>
   		<div id="authorInput" style="display:none;">
   			<input id="author" type="text"/>
-  		<div>
+  		</div>
   	</td>
   </tr>
   <tr>
@@ -69,10 +69,10 @@
   			<select id="titleS">
 	  			<option value = "">Select a value</option>
 	  			<option value = "35">The Sydney Morning Herald</option>
-	      		<option  value = "13">The Argus</option>
-	      		<option  value = "9">Northern Territory Times and Gazette</option>
-	      		<option  value = "16">Brisbane Courier</option>
-	      		<option  value = "112">The Australian Women's Weekly</option>
+	      		<option value = "13">The Argus</option>
+	      		<option value = "9">Northern Territory Times and Gazette</option>
+	      		<option value = "16">Brisbane Courier</option>
+	      		<option value = "112">The Australian Women's Weekly</option>
     		</select>
   		</div>
   		<div id="titleInput" style="display:none;">
@@ -130,39 +130,39 @@
   	<div id="states" style="display:block;">
 	  	<ul>
 	  		<li>
-	  			<input type="checkbox" name="location" id="national">
+	  			<input type="checkbox" name="location" id="national" value="National">
 	  			<label>National</label>
 	  		</li>
 	  		<li>
-	  			<input type="checkbox" name="location" id="act">
+	  			<input type="checkbox" name="location" id="act" value="ACT">
 	  			<label>ACT</label>
 	  		</li>
 	  		<li>
-	  			<input type="checkbox" name="location" id="nsw">
+	  			<input type="checkbox" name="location" id="nsw" value="New South  Wales">
 	  			<label>New South Wales</label>
 	  		</li>
 	  		<li>
-	  			<input type="checkbox" name="location" id="nt">
+	  			<input type="checkbox" name="location" id="nt" value="Northern Territory">
 	  			<label>Northern Territory</label>
 	  		</li>
 	  		<li>
-	  			<input type="checkbox" name="location" id="qld">
+	  			<input type="checkbox" name="location" id="qld" value="Queensland">
 	  			<label>Queensland</label>
 	  		</li>
 	  		<li>
-	  			<input type="checkbox" name="location" id="sa">
+	  			<input type="checkbox" name="location" id="sa" value="South Australia">
 	  			<label>South Australia</label>
 	  		</li>
 	  		<li>
-	  			<input type="checkbox" name="location" id="tas">
+	  			<input type="checkbox" name="location" id="tas" value="Tasmania">
 	  			<label>Tasmania</label>
 	  		</li>
 	  		<li>
-	  			<input type="checkbox" name="location" id="vic">
+	  			<input type="checkbox" name="location" id="vic" value="Victoria">
 	  			<label>Victoria</label>
 	  		</li>
 	  		<li>
-	  			<input type="checkbox" name="location" id="wa">
+	  			<input type="checkbox" name="location" id="wa" value="Western Australia">
 	  			<label>Western Australia</label>
 	  		</li>
 	  	</ul>
@@ -175,7 +175,7 @@
    <td>
     <div class="pm-button-bar">
      <button id="nq-pb11" onClick="resetQueryPane()">Clear form</button>
-     <button id="nq-pb12" onClick="_doQuery(0)">Execute query</button>
+     <button id="nq-pb12" onClick="_validateForm()">Execute query</button>
     </div>
    </td>
   </tr>
@@ -187,4 +187,3 @@
   <tr><td colspan="2"><em>Custom search not yet implemented</em></td></tr>
  </table>
 </div>
-  
