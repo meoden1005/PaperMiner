@@ -486,10 +486,21 @@ function resetQueryPane ()
 	  $('input#term').val('');
 	  $('input#author').val('');
 	  $('input#title').val('');
+	  $('select#titleS').val('');
+	  $('select#l-languages').val('');
 	  $('input#from').val('');
 	  $('input#to').val('');
 	  $('select#state').val('0');
-	  $('select#category').val('newspaper');
+	  
+	  var listStates = document.getElementById("states").getElementsByTagName("input");
+	  for (var i=0; i < listStates.length; i++)
+	    {
+	    	//for each state I remove the check
+	    	if (listStates[i].checked){
+	    		listStates[i].checked = false;
+	    	}
+	    }
+	  
     break;
   case Q_CUSTOM :
     // FIXME: todo
@@ -1041,6 +1052,10 @@ function _createQueryString ()
     str = '&zone=' + m_currentZone + 
           '&q=' + encodeURIComponent(m_currentTerm);
     
+    if(m_currentTerm == ""){
+    	_popupDialog(INFO, 'Please insert a value in the "Search Term" before executing the query.');
+    }
+    
     break;
   case Q_ADVANCED:
 	m_currentZone =  $('select#category').val();
@@ -1104,8 +1119,8 @@ function _createQueryString ()
     str = '&zone=' + m_currentZone +
     '&q=' +  encodeURIComponent(m_currentTerm) + dateRange +
     strTitleBook + strTitleNP + strTitles + strAuthor + strLanguage;
+     
     
-    //alert(str);
     
     break;
   case Q_CUSTOM:
@@ -1116,6 +1131,39 @@ function _createQueryString ()
 
 
 
+function _validateForm(){
+	
+	switch (m_currentQueryFormPane) {
+		case Q_SIMPLE :
+			var validTerm = $('input#q1').val();
+			if(validTerm == ""){
+				_popupDialog(INFO, 'Please insert a value in the "Search Term" before executing the query.');
+			}
+			else{
+				_changeCurrentQueryViewForm();
+			  	_doQuery(0);
+			}
+		  
+			break;
+	  
+		case Q_ADVANCED:
+			var validTerm = $('input#term').val();
+			var validDateFrom = $('input#from').val();
+			var validDateTo = $('input#to').val();
+			
+			if(validTerm == ""){
+		    	_popupDialog(INFO, 'Please insert a value in the "Search Term" before executing the query.');
+		    }
+			else if(!isNaN(validDateFrom) && !isNaN(validDateTo)){
+				_changeCurrentQueryViewForm();
+				_doQuery(0);
+			}else{
+				_popupDialog(INFO, 'Please insert a valid date range.');
+			}
+			
+			break;
+	}
+}
 
 
 
@@ -1217,12 +1265,12 @@ function _doQuery (pos)
             '&s=' + pos + '&n=' + m_fetchSize +
             '&encoding=json' + 
             '&callback=?';
-
+  
   $.getJSON(uri, function (data, status, jqXHR) {
       try {
         if (status == "success") {
-          _updateTimeDisplay();
-          _processData(data, pos, queryId);
+        	_updateTimeDisplay();
+        	_processData(data, pos, queryId);
         }
         else {
           alert('getJSON Error: ' + JSON.stringify(jqXHR));
@@ -1250,7 +1298,7 @@ function _doQuery (pos)
  * @param pos start location in overall set for this group; or negative to stop the madness
  */
 function _processData (data, pos, id)
-{
+{ 
   if (pos === PAUSE_QUERY) {
     if (m_paused) {
       m_paused = false;
@@ -1294,7 +1342,7 @@ function _processData (data, pos, id)
         m_run = false;
         ++m_queryId;
       }
-       
+      
       _updateLocationRefs(pos);
       _updateMapDisplay(pos);
       _updateCurrQueryPane();
@@ -1853,9 +1901,49 @@ function _updateCurrQueryPane ()
       _setCurrentQueryButtonState();
       break;
     case Q_ADVANCED :
-    	// FIXME: todo
     	$('td#q11').html(m_currentTerm);
         $('td#z11').html(m_currentZone);
+        
+        var titleNP = document.getElementById("titleS");
+        var titleValue = titleNP.options[titleNP.selectedIndex].text;
+        var titleBook = $('input#title').val();
+        var author = $('input#author').val();
+        var language = $('select#l-languages').val();
+        var yearFrom = $('input#from').val();
+        var yearTo = $('input#to').val();
+        var category = document.getElementById('category');
+    	var selectedValue = category.options[category.selectedIndex].value;
+    	var location = "";
+    	
+    	if(titleValue == "Select a value"){
+    		titleValue = "";
+    	}
+    	
+    	var listStates = document.getElementById("states").getElementsByTagName("input");
+  	  	for (var i=0; i < listStates.length; i++)
+  	    {
+  	    	//for each state I retrieve the input
+  	    	if (listStates[i].checked){
+  	    		location+= listStates[i].value + ", ";
+  	    	}
+  	    }
+  	  	//remove last ","
+    	location = location.substring(0, location.length - 2);
+  	  	
+    	if(selectedValue == "book"){
+    		//book
+            $('td#title11').html(titleBook);
+            $('td#author11').html(author);
+            $('td#language11').html(language);
+    	}else if(selectedValue == "newspaper"){
+    		 //newspaper
+            $('td#title11').html(titleValue);
+            $('td#location11').html(location);
+    	}
+    	/*sistemare la data ,authore che va a capo, titolo per newspaper e location
+    	 * mettere in bold search term etc
+    	 * */
+    	$('td#dateRange11').html( yearFrom + " - " + yearTo);
         $('td#n11').html(m_totalRecs);
         $('td#n12').html(m_resultSet == null ? 0 : m_resultSet.length);
         _setCurrentQueryButtonState();
@@ -2413,8 +2501,41 @@ function changeViewForm() {
 		document.getElementById('titleInput').style.display = "none";
 		document.getElementById('author').style.display = "none";
 		document.getElementById('authorInput').style.display = "none";
+	}	
+}
+
+/**
+ * Change the current query's view.
+ * Category : newspaper, States will be visible, Languages hide
+ * Category : book, States hide - Languages visible
+ */
+function _changeCurrentQueryViewForm() {
+	switch (m_currentQueryFormPane) {
+	  case Q_SIMPLE : 
+		  document.getElementById('tr-title').style.display = "none";
+		  document.getElementById('tr-range').style.display = "none";
+		  document.getElementById('tr-location').style.display = "none";
+		  document.getElementById('tr-author').style.display = "none";
+		  document.getElementById('tr-language').style.display = "none";
+	    break;
+	  case Q_ADVANCED :
+		var category = document.getElementById('category');
+		var selectedValue = category.options[category.selectedIndex].value;
+		document.getElementById('tr-title').style.display = "";
+		document.getElementById('tr-range').style.display = "";
+		if(selectedValue == "book"){
+			document.getElementById('tr-location').style.display = "none";
+			document.getElementById('tr-author').style.display = "";
+			document.getElementById('tr-language').style.display = "";
+		}
+		
+		if(selectedValue == "newspaper" || selectedValue == "article"){
+			document.getElementById('tr-location').style.display = "";
+			document.getElementById('tr-author').style.display = "none";
+			document.getElementById('tr-language').style.display = "none";
+		}
+		break;
 	}
-	
 }
 
 /**

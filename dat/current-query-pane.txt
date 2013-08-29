@@ -5,23 +5,43 @@
  <table id="curr-query-form">
   <tr>
    <td class="td-name">Search Term:</td>
-   <td id="q11"></td>
+   <td class="td-value" id="q11"></td>
   </tr>
   <tr>
    <td class="td-name">Search Zone:</td>
-   <td id="z11"></td>
+   <td class="td-value" id="z11"></td>
+  </tr>
+  <tr id="tr-title">
+   <td class="td-name">Title:</td>
+   <td class="td-value" id="title11"></td>
+  </tr>
+  <tr id="tr-author">
+   <td class="td-name">Author:</td>
+   <td class="td-value" id="author11"></td>
+  </tr>
+  <tr id="tr-range">
+   <td class="td-name">Date Range:</td>
+   <td class="td-value" id="dateRange11"></td>
+  </tr>
+  <tr id="tr-location">
+   <td class="td-name">Location:</td>
+   <td class="td-value" id="location11"></td>
+  </tr>
+  <tr id="tr-language">
+   <td class="td-name">Language:</td>
+   <td class="td-value" id="language11"></td>
   </tr>
   <tr>
    <td class="td-name">Result Total:</td>
-   <td id="n11"></td>
+   <td class="td-value" id="n11"></td>
   </tr>
   <tr>
    <td class="td-name">Retrieved:</td>
-   <td id="n12"></td>
+   <td class="td-value" id="n12"></td>
   </tr>
   <tr>
    <td class="td-name">Elapsed Time:</td>
-   <td id="n13"></td>
+   <td class="td-value" id="n13"></td>
   </tr>
   <tr><td colspan="2"><hr class="pm-button-sep"></td></tr>
   <tr>
@@ -37,6 +57,4 @@
  </table>
 </div>
 
-<p>&nbsp;   
- 
- 
+<p>&nbsp;
