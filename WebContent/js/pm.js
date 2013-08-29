@@ -1274,6 +1274,8 @@ function _processData (data, pos, id)
     if (res) {
       if (m_totalRecs === 0) {
         m_totalRecs = data.response.zone[0].records.total;
+     // FIXME: hack here to hijack it
+        storeHistory();        
       }
       
       for (var idx = 0; idx < res.length; idx++) {
@@ -2479,7 +2481,7 @@ function storeHistory(){
 	pmQuery.zone = m_currentZone;
 	pmQuery.totalresult = m_totalRecs;
 	
-	jQuery.jStorage.set(today.toString(),$("#q1").val(), {TTL: 86400})
+	jQuery.jStorage.set(today.toString(), pmQuery, {TTL: 86400})
 }
 
 // EOF

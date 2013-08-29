@@ -21,69 +21,79 @@ import au.org.paperminer.model.PmUsers;
 @Controller
 @RequestMapping("api")
 public class WebController {
-	
-	@Autowired(required=true)
+
+	@Autowired(required = true)
 	private SessionFactory sessionFactory;
-	
-	
-	@RequestMapping(value="simplehistory")
-	public @ResponseBody String add(@RequestParam("keywords")String keywords) {
-		//historyFacade.addSimpleHistory(keywords);
-		
+
+	@RequestMapping(value = "simplehistory")
+	public @ResponseBody
+	String add(@RequestParam("keywords") String keywords) {
+		// historyFacade.addSimpleHistory(keywords);
+
 		return new String();
 	}
-	
-	@RequestMapping(value="test")
-	public @ResponseBody String test() {
+
+	@RequestMapping(value = "test")
+	public @ResponseBody
+	String test() {
 		PmQueriesDAOImpl pmQueriesDAO = new PmQueriesDAOImpl();
 		pmQueriesDAO.setSession(sessionFactory.openSession());
-		return String.valueOf(pmQueriesDAO.countAll());		
+		return String.valueOf(pmQueriesDAO.countAll());
 	}
-	
+
 	@Transactional(readOnly = true)
-	@RequestMapping(value="test1", produces = "application/json")
-	public @ResponseBody List<PmQueries> test1() {
+	@RequestMapping(value = "test1", produces = "application/json")
+	public @ResponseBody
+	List<PmQueries> test1() {
 		PmQueriesDAOImpl pmQueriesDAO = new PmQueriesDAOImpl();
 		pmQueriesDAO.setSession(sessionFactory.openSession());
-		
-		return pmQueriesDAO.findAll();		
+
+		return pmQueriesDAO.findAll();
 	}
-	//http://localhost:8080/PaperMiner/ws/api/test2/213213,123123
+
+	// http://localhost:8080/PaperMiner/ws/api/test2/213213,123123
 	@Transactional(readOnly = true)
-	@RequestMapping(value="test2/{data}", produces = "application/json")
-	public @ResponseBody List<PmQueries> test2(@PathVariable("data") List<String> data) {
+	@RequestMapping(value = "test2/{data}", produces = "application/json")
+	public @ResponseBody
+	List<PmQueries> test2(@PathVariable("data") List<String> data) {
 		PmQueriesDAOImpl pmQueriesDAO = new PmQueriesDAOImpl();
 		pmQueriesDAO.setSession(sessionFactory.openSession());
-		
-		return pmQueriesDAO.findAll();		
+
+		return pmQueriesDAO.findAll();
 	}
-	
-	@RequestMapping(value="saveQuery/{data}/userId/{userId}")
-	public void saveQuery(@ModelAttribute("data") List<String> dataList, @PathVariable("userId") String userId) {
+
+	@Transactional
+	@RequestMapping(value = "saveQuery/userId/{userId}/queryDescr/{queryDescr}/queryType/{queryType}/queryTotal/{queryTotal}/query/{queryTerm}")
+	public @ResponseBody
+	String saveQuery(@PathVariable("userId") String userId,
+			@PathVariable("queryDescr") String queryDescr,
+			@PathVariable("queryType") String queryType,
+			@PathVariable("queryTotal") String queryTotal,
+			@PathVariable("queryTerm") String queryTerm) {
+
 		PmQueriesDAOImpl pmQueriesDAO = new PmQueriesDAOImpl();
 		pmQueriesDAO.setSession(sessionFactory.openSession());
-		
-		for (String data : dataList) {
-			PmQueries query = new PmQueries();
-			
-			PmUsers user = new PmUsers();
-			user.setId(Integer.valueOf(userId));
-			
-			query.setPmUsers(user);
-			query.setDateCreated(new Date());
-			query.setDateLastRun(new Date());
-			query.setDescr(data);
-			
-			//careful for expansion
-			query.setQueryType("s");
-			
-			//fix this one later
-			query.setTotalLastRun((int)Math.random());
-			query.setQuery("&zone" + data);
-			
-			
-		}
-		 
-			
+
+		PmQueries query = new PmQueries();
+
+		PmUsers user = new PmUsers();
+		user.setId(Integer.valueOf(userId));
+
+		query.setPmUsers(user);
+		query.setDateCreated(new Date());
+		query.setDateLastRun(new Date());
+		query.setDescr(queryDescr);
+
+		// careful for expansion
+		query.setQueryType(queryType);
+
+		// fix this one later
+		query.setTotalLastRun(Integer.valueOf(queryTotal));
+		query.setQuery(queryTerm);
+
+		pmQueriesDAO.save(query);
+
+		return "ok";
+
 	}
 }
