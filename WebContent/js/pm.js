@@ -2595,6 +2595,11 @@ function _buildNewspapersLocationId(state){
 }
 
 function storeHistory(){
+	
+	if(checkDuplicateHistory(m_currentTerm)){
+		return;
+	}
+	
 	var today = new Date();
 	var pmQuery = new Object();
 	pmQuery.query = m_currentQuery;
@@ -2603,6 +2608,23 @@ function storeHistory(){
 	pmQuery.totalresult = m_totalRecs;
 	
 	jQuery.jStorage.set(today.toString(), pmQuery, {TTL: 86400})
+}
+
+function checkDuplicateHistory(queryTerm){
+	var array = jQuery.jStorage.index();
+	if(array.length == 0)
+	{
+		return false;
+	}
+	
+	for(var i = 0; i < array.length; i++) {
+		var item = jQuery.jStorage.get(array[i]);
+		if (item.desc == queryTerm) {
+			return true;
+		}
+	}
+	
+	return false;
 }
 
 // EOF

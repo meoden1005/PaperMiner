@@ -56,7 +56,7 @@ function makeUL(array) {
         // item.appendChild(document.createTextNode(array[i] + '-' +
 		// jQuery.jStorage.get(array[i])));
         // retrive object
-        var currentItem = jQuery.jStorage.get(array[i])
+        var currentItem = jQuery.jStorage.get(array[i]);
         
         item.appendChild(document.createTextNode(currentItem.desc));
         
