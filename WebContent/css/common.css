@@ -357,3 +357,25 @@ input#add-locn-cntry { width:160px; }
 
 li.help { padding-left:0px; margin-left:10px; }
 ul.lev2 { padding-left:10px; }
+
+form#formHistory{
+ cell-padding:6px; 
+ width:500px; 
+ border-radius:8px;
+ border:1px solid black;
+ margin-bottom:12px;
+ background-color:#feeedb;   
+ position: absolute;    
+ left: 50%;   
+ margin-left: -250px;
+ margin-top: 50px;
+}
+
+select#optionList{
+ width:400px;
+ height: 100px;
+ position: relative;    
+ left: 50%;   
+ margin-left: -200px;
+ margin-top: 15px;
+}
