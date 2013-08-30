@@ -49,7 +49,8 @@
   <property name="mysql.connector" value="${mysql-connector.lib.dir}/mysql-connector-java-5.1.22-bin.jar" />
 
   
-  <property name="tomcat-lib-dir" value="${env.CATALINA_HOME}/lib" />
+  <!-- <property name="tomcat-lib-dir" value="${env.CATALINA_HOME}/lib" /> -->
+  <property name="tomcat-lib-dir" value="compile" />	
   <property name="deploy.target" value="${catalina-home-dir}/webapps" />
 
   <property name="ppk" value="/Users/Ron/.ssh/id_dsa" />
