@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import au.org.paperminer.dao.PmQueriesDAOImpl;
 import au.org.paperminer.model.PmQueries;
@@ -23,6 +24,7 @@ public class TestHistory {
 	private SessionFactory sessionFactory;
 
 	@Test
+	@Transactional
 	public void testSaveQuery() {
 		// fail("Not yet implemented"); // TODO
 
@@ -39,21 +41,22 @@ public class TestHistory {
 		query.setPmUsers(user);
 		query.setDateCreated(new Date());
 		query.setDateLastRun(new Date());
-		query.setDescr("test");
+		query.setDescr("test" + String.valueOf(Math.random()));
 
 		// careful for expansion
 		query.setQueryType("s");
 
 		// fix this one later
 		query.setTotalLastRun(Integer.valueOf(1));
-		query.setQuery("test");
+		query.setQuery("test" + String.valueOf(Math.random()));
 
 		query = pmQueriesDAO.save(query);
 
 		long newCount = pmQueriesDAO.countAll();
 
 		// reset value
-		pmQueriesDAO.delete(query);
+		//pmQueriesDAO.delete(pmQueriesDAO.findByExample(query).get(0));
+		//pmQueriesDAO.
 
 		assertTrue("Past count " + currentCount
 				+ "+ 1 must be equal to new count " + newCount,

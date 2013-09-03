@@ -8,9 +8,9 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-@Configuration
-@EnableWebMvc
-@ComponentScan(basePackages="au.org.paperminer")
+//@Configuration
+//@EnableWebMvc
+//@ComponentScan(basePackages="au.org.paperminer")
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 	/**

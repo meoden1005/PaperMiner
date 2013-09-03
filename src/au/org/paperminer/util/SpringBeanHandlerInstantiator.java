@@ -15,12 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class SpringBeanHandlerInstantiator extends HandlerInstantiator {
 
 	private ApplicationContext applicationContext;
 
-	@Autowired
+	//@Autowired
 	public SpringBeanHandlerInstantiator(ApplicationContext applicationContext) {
 		this.applicationContext = applicationContext;
 	}

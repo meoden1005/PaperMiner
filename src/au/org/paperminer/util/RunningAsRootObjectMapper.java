@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class RunningAsRootObjectMapper extends ObjectMapper {
 
 	/**
@@ -38,7 +38,7 @@ public class RunningAsRootObjectMapper extends ObjectMapper {
 	}
 
 	@Override
-	@Autowired
+	//@Autowired
 	public Object setHandlerInstantiator(HandlerInstantiator hi) {
 		return super.setHandlerInstantiator(hi);
 	}

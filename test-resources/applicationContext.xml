@@ -15,7 +15,7 @@
         http://www.springframework.org/schema/aop 
         http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<context:annotation-config />
+	<!-- <context:annotation-config /> -->
 
 	<!-- <mvc:annotation-driven /> -->
 

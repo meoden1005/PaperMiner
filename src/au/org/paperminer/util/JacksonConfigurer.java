@@ -11,17 +11,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
  
-@Component
+//@Component
 public class JacksonConfigurer {
     private AnnotationMethodHandlerAdapter annotationMethodHandlerAdapter;
     private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
    
-    @Autowired
+    //@Autowired
     public RequestMappingHandlerAdapter getRequestMappingHandlerAdapter() {
 		return requestMappingHandlerAdapter;
 	}
 
-    @Autowired
+    //@Autowired
 	public void setRequestMappingHandlerAdapter(
 			RequestMappingHandlerAdapter requestMappingHandlerAdapter) {
 		this.requestMappingHandlerAdapter = requestMappingHandlerAdapter;
@@ -29,7 +29,7 @@ public class JacksonConfigurer {
 
 	private RunningAsRootObjectMapper objectMapper;
  
-    @PostConstruct
+    //@PostConstruct
     public void init() {
     	
         //List<HttpMessageConverter<?>> messageConverters = requestMappingHandlerAdapter.getMessageConverters();
@@ -42,12 +42,12 @@ public class JacksonConfigurer {
         }
     }
  
-    @Autowired
+    //@Autowired
     public void setAnnotationMethodHandlerAdapter(AnnotationMethodHandlerAdapter annotationMethodHandlerAdapter) {
         this.annotationMethodHandlerAdapter  = annotationMethodHandlerAdapter;
     }
  
-    @Autowired
+    //@Autowired
     public void setObjectMapper(RunningAsRootObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
