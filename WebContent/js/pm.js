@@ -2490,6 +2490,7 @@ function changeViewForm() {
 		document.getElementById('titleInput').style.display = "block";
 		document.getElementById('author').style.display = "block";
 		document.getElementById('authorInput').style.display = "block";
+		document.getElementById('locationDescription').style.display = "none";	
 	}
 	
 	if(selectedValue == "newspaper" || selectedValue == "article"){
@@ -2501,6 +2502,7 @@ function changeViewForm() {
 		document.getElementById('titleInput').style.display = "none";
 		document.getElementById('author').style.display = "none";
 		document.getElementById('authorInput').style.display = "none";
+		document.getElementById('locationDescription').style.display = "block";		
 	}	
 }
 

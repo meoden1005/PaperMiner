@@ -328,10 +328,11 @@ table#ctl-table { margin-top:-10px; width:666px; }
 
 th.pm-hdr { border: #817865; height:26px; font-weight:normal; color:white; background-color:#817865; }
 
-td.td-name  { text-align:right; vertical-align:top; width:140px; }
+td.td-name  { text-align:right; vertical-align:top; width:155px; }
 td.td-val   { text-align:left; vertical-align:top; }
 td.td-num   { text-align:right; padding-right:5px; }
 td.td-value { color:dimgrey; }
+td#locationDescription { font-size: 0.7em;font-weight:bolder; vertical-align: top; color: rgb(0, 0, 0); padding: 0px 0.5em; }
 
 td.td-crud-name  { text-align:right; vertical-align:top; width:80px; }
 
@@ -340,8 +341,8 @@ td.sel-state  { width:140px; }
 td.sel-cntry  { width:200px; }
 td.sel-accept { width:160px; align:right; }
 
-input#q1 { width:462px; }
-input#term { width:452px; }
+input#q1 { width:420px; }
+input#term { width:360px; }
 input#qd1 { width:462px; }
 input#author, #title, #from, #to, #languageText { width:153px; }
 select#category, #l-languages { width:153px; }

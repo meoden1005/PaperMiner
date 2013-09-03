@@ -33,9 +33,10 @@
 <div id="q-advanced" class="hidden">
  <table id="query-form">
   <tr>
-  	<td>
+  	<td class="td-name">
   		<span class="sub-header">Advanced Query</span>
   	</td>
+  	<td></td>
   </tr>
   <tr>
   	<td class="td-name">Search Term:</td>
@@ -123,8 +124,18 @@
 		</td>
   	</tr>
   <tr>
+  	<td class="td-name"><div id="location" style="display:block;">Location:</div></td>
+  	<td></td>
+  </tr>	
+  <tr>
+  	<td></td>
+  	<td id="locationDescription">
+  		Newspaper Title & Location<br>
+  		To search all newspapers, do not make a selection.<br>
+  	</td>
+  </tr>
+  <tr>
   <td class="td-name">
-  	<div id="location" style="display:block;">Location:</div>
   </td>
   	<td>
   	<div id="states" style="display:block;">
