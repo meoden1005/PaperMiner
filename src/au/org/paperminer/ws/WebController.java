@@ -70,30 +70,34 @@ public class WebController {
 			@PathVariable("queryType") String queryType,
 			@PathVariable("queryTotal") String queryTotal,
 			@PathVariable("queryTerm") String queryTerm) {
+		try {
+			PmQueriesDAOImpl pmQueriesDAO = new PmQueriesDAOImpl();
+			pmQueriesDAO.setSession(sessionFactory.openSession());
 
-		PmQueriesDAOImpl pmQueriesDAO = new PmQueriesDAOImpl();
-		pmQueriesDAO.setSession(sessionFactory.openSession());
+			PmQueries query = new PmQueries();
 
-		PmQueries query = new PmQueries();
+			PmUsers user = new PmUsers();
+			user.setId(Integer.valueOf(userId));
 
-		PmUsers user = new PmUsers();
-		user.setId(Integer.valueOf(userId));
+			query.setPmUsers(user);
+			query.setDateCreated(new Date());
+			query.setDateLastRun(new Date());
+			query.setDescr(queryDescr);
 
-		query.setPmUsers(user);
-		query.setDateCreated(new Date());
-		query.setDateLastRun(new Date());
-		query.setDescr(queryDescr);
+			// careful for expansion
+			query.setQueryType(queryType);
 
-		// careful for expansion
-		query.setQueryType(queryType);
+			// fix this one later
+			query.setTotalLastRun(Integer.valueOf(queryTotal));
+			query.setQuery(queryTerm);
 
-		// fix this one later
-		query.setTotalLastRun(Integer.valueOf(queryTotal));
-		query.setQuery(queryTerm);
+			pmQueriesDAO.save(query);
 
-		pmQueriesDAO.save(query);
-
-		return "ok";
-
+			return "Save successfully";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Save fail";
+		}
+		
 	}
 }

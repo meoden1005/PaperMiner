@@ -51,7 +51,7 @@
   
   <!-- <property name="tomcat-lib-dir" value="${env.CATALINA_HOME}/lib" /> -->
   <property name="tomcat-lib-dir" value="compile" />	
-  <property name="deploy.target" value="${catalina-home-dir}/webapps" />
+  <property name="deploy.target" value="/usr/local/apache-tomcat-7.0.42/lib" />
 
   <property name="ppk" value="/Users/Ron/.ssh/id_dsa" />
   <property name="dev-scp-user" value="chernich" />
