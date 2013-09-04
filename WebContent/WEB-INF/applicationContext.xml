@@ -19,24 +19,17 @@
 
 	<!-- <mvc:annotation-driven /> -->
 
-	<!-- <bean
-		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" 
+		/> <bean id="jacksonMessageChanger" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"> 
+		<property name="supportedMediaTypes" value="application/json" /> </bean> 
+		<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"> 
+		<property name="messageConverters"> <list> <ref bean="jacksonMessageChanger" 
+		/> </list> </property> </bean> -->
 
-	<bean id="jacksonMessageChanger"
-		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-		<property name="supportedMediaTypes" value="application/json" />
-	</bean>
-
-	<bean
-		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<ref bean="jacksonMessageChanger" />
-			</list>
-		</property>
-	</bean> -->
-
-	<context:component-scan base-package="au.org.paperminer" />
+	<context:component-scan base-package="au.org.paperminer">
+		<context:exclude-filter type="regex"
+			expression=".*Test*" />
+	</context:component-scan>
 
 	<import resource="applicationContext-persistence.xml" />
 

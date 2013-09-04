@@ -75,6 +75,8 @@ function saveHistory() {
 		var request = jQuery.ajax({
 			url:PM_URI + '/ws/api/saveQuery/' + 'userId/' + m_user.id + '/queryDescr/' + encodeURIComponent(chosenList[i].desc) + '/queryType/' + 's' + '/queryTotal/' + chosenList[i].totalresult + '/query/' + encodeURIComponent(chosenList[i].query),
 			type: 'GET'
+		}).success(function(data) {
+			jQuery('#textSelected').text(data);
 		});
 	}	
 }
