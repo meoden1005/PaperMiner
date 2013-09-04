@@ -17,6 +17,17 @@
  */
 
 // The webapp base URI is set by ANT build task
+var c=0;
+var nsw;
+var Tas;
+var ACT;
+var qld;
+var vic;
+var wa;
+var sa;
+var hits = new Array();
+var res;
+
 var PM_URI           = '@PM_PREFIX@';
 
 var TROVE_URL        = 'http://api.trove.nla.gov.au/';
@@ -643,14 +654,126 @@ function showMap (show)
 {
   _showPane(_selById(MAP_VIEW));
 }
+function showHistogram(show) {
+	
+	if ($(_selById(HIST_VIEW)).length === 0) {
+		_createPane(HIST_VIEW, null, null);
+		nsw = 0;
+		Tas = 0;
+		ACT = 0;
+		qld = 0;
+		vic = 0
+		wa = 0;
+		sa = 0;
+		res=0;
+				
+	}
+	_showPane(_selById(HIST_VIEW));
+	
+	var chart;
+	$(function () {
+        $('#container').highcharts({
+        	chart:{
+        		
+        		type: 'spline',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+        	events: {
+        	    load: function () {
+        	    	
+        	        // set up the updating of the chart each second
+        	        var series = this.series[0];
+        	        setInterval(function () {
+        	          
+        	           updateHits();
+        	                
+        	            series.setData([hits[0],hits[1],hits[2],hits[3],hits[4],hits[5],hits[6]] );
+        	            
+        	        }, 1000); // update every 1 second
+        	    }
+        	}
+        },
+        	
+            title: {
+                text: 'Histogram',
+                x: -20 // center
+            },
+            subtitle: {
+                text: 'Source: www.trove.com',
+                x: -20
+            },
+            xAxis: {
+                categories: ['NSW', 'Tas', 'ACT','QLD','VIC','SA','WA']
+            },
+            yAxis: {
+                title: {
+                    text: 'Hits'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: [{
+                name: 'States',
+                data: [nsw, Tas, ACT,qld,vic,sa,wa]
+            }]
+        });
+    });
 
-function showHistogram (show)
-{
-  if ($(_selById(HIST_VIEW)).length === 0) {
-    _createPane(HIST_VIEW, null, null);
-  }
-  _showPane(_selById(HIST_VIEW));
-}
+
+
+
+	
+	//end
+
+}//end of method
+function updateHits(){
+	var url = TROVE_QUERY_URL + "sci7u62otkd59r48" + m_currentQuery+ "&encoding=json&callback=?&s=";
+	//var url ="http://api.trove.nla.gov.au/result?key=sci7u62otkd59r48&zone=newspaper&q=fire&encoding=json&callback=?&s=";
+	//for(var j=0;j<5;j++){
+		 
+	    jQuery.getJSON(url+c).done(function(data){res = data;
+
+	    for(var i=0;i<20;i++){
+	    	var state=res.response.zone[0].records.article[i].title.value.toString();
+	    	if(state.contains("NSW")) {nsw++;}
+	    	if(state.contains("Tas.")) {Tas++;}
+	    	if(state.contains("ACT")) {ACT++;}
+	    	if(state.contains("Qld.")) {qld++;}
+	    	if(state.contains("Vic.")) {vic++;}
+	    	if(state.contains("WA")) {wa++;}
+	    	if(state.contains("SA")) {sa++;}
+	    	
+	    	
+	    }
+	    hits[0]=nsw;//for 20
+	    hits[1]=Tas;
+	    hits[2]=ACT;
+	    hits[3]=qld;
+	    hits[4]=vic;
+	    hits[5]=wa;
+	    hits[6]=sa;
+	    c+=20;
+	   
+	    });
+	   
+	   
+return hits;
+	   
+
+  //}//for 50
+}//updateHits func
 
 function showCloud (show)
 {
@@ -2490,7 +2613,6 @@ function changeViewForm() {
 		document.getElementById('titleInput').style.display = "block";
 		document.getElementById('author').style.display = "block";
 		document.getElementById('authorInput').style.display = "block";
-		document.getElementById('locationDescription').style.display = "none";	
 	}
 	
 	if(selectedValue == "newspaper" || selectedValue == "article"){
@@ -2502,7 +2624,6 @@ function changeViewForm() {
 		document.getElementById('titleInput').style.display = "none";
 		document.getElementById('author').style.display = "none";
 		document.getElementById('authorInput').style.display = "none";
-		document.getElementById('locationDescription').style.display = "block";		
 	}	
 }
 
@@ -2629,4 +2750,3 @@ function checkDuplicateHistory(queryTerm){
 	return false;
 }
 
-// EOF
