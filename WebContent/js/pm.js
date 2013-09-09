@@ -305,6 +305,7 @@ function init ()
   _initSlider();
   _getUserPrefs();
   getMenu();
+  getHistogram();
   
   // pre-load some panes but don't display
   newQuery(false);
@@ -654,8 +655,8 @@ function showMap (show)
 {
   _showPane(_selById(MAP_VIEW));
 }
-function showHistogram(show) {
-	
+
+function getHistogram(){
 	if ($(_selById(HIST_VIEW)).length === 0) {
 		_createPane(HIST_VIEW, null, null);
 		nsw = 0;
@@ -668,11 +669,18 @@ function showHistogram(show) {
 		res=0;
 				
 	}
+	//end
+}
+
+function showHistogram(show) 
+{	
+	//getHistogram();
 	_showPane(_selById(HIST_VIEW));
+	
 	
 	var chart;
 	$(function () {
-        $('#container').highcharts({
+        $('#histogram').highcharts({
         	chart:{
         		
         		type: 'bar',
@@ -730,14 +738,8 @@ function showHistogram(show) {
             }]
         });
     });
-
-
-
-
-	
-	//end
-
 }//end of method
+
 function updateHits(){
 	var url = TROVE_QUERY_URL + "sci7u62otkd59r48" + m_currentQuery+ "&encoding=json&callback=?&s=";
 	//var url ="http://api.trove.nla.gov.au/result?key=sci7u62otkd59r48&zone=newspaper&q=fire&encoding=json&callback=?&s=";

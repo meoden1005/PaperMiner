@@ -1,3 +1,5 @@
 <h3>Histogram</h3>
+ 
+ <div id="histogram"/>
 
 

@@ -80,6 +80,12 @@ a.timeline-hotspot {
  position:absolute;
 }
 
+div#histogram{
+	min-width: 840px; 
+	height: 400px; 
+	margin: 0 auto
+}
+
 div#raw-list-container {
  width:120px;
  height:500px;
