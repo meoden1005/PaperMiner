@@ -26,6 +26,8 @@ var vic;
 var wa;
 var sa;
 var hits = new Array();
+var strTags;
+var tagPause;
 var res;
 
 var PM_URI           = '@PM_PREFIX@';
@@ -783,6 +785,74 @@ function showCloud (show)
     _createPane(CLOUD_VIEW, null, null);
   }
   _showPane(_selById(CLOUD_VIEW));
+  
+  updateTags();
+}
+
+/**
+ * Get a list of the tags related to the term search
+ */
+function getTags(){
+	var url = TROVE_QUERY_URL + "sci7u62otkd59r48" + m_currentQuery + "&include=tags" + "&encoding=json&callback=?&s=";
+	strTags = "";
+	jQuery.getJSON(url+c).done(
+		function(data){
+			res = data;
+			var articles = res.response.zone[0].records.article;
+		    for(var i=0; i< articles.length; i++){
+		    	if(articles[i].tag != undefined){
+		    		var tags = articles[i].tag;
+		    		for(var j=0; j < tags.length; j++){
+		    			strTags+= tags[j].value + "/";	
+		    		}
+		    	}   	
+			}
+		}
+	);
+}
+
+
+function updateTags(){
+	var word_list = getArrayTags();
+    $(document).ready(function() {
+    	if(word_list.length != 1){
+    		$("#wordcloud").empty();
+    		$("#wordcloud").jQCloud(word_list);
+    	}
+    });
+	getTags();
+	if(tagPause != true){
+		setTimeout ( updateTags, 5000 );//call update every 5 seconds
+	}
+}
+
+
+/**
+ * Gets an array divided by term and weight based on a specific string.
+ * @param tags to split and count
+ */
+function getArrayTags(){
+	var words = [], count = [], prev;
+	
+	var tags = strTags.split("/");
+	tags.sort();
+	
+	for(var i=0; i< tags.length; i++){
+		if ( tags[i] !== prev ) {
+            words.push(tags[i]);
+            count.push(1);
+        } else {
+            count[count.length-1]++;
+        }
+        prev = tags[i];
+	}
+	
+	var word_list = [{text: "", weight: 1}];
+	
+	for(var i=0; i< words.length; i++){
+		word_list.push({text: words[i], weight: count[i]});
+	}
+	return word_list;
 }
 
 /**
@@ -1243,14 +1313,14 @@ function _createQueryString ()
     
     str = '&zone=' + m_currentZone +
     '&q=' +  encodeURIComponent(m_currentTerm) + dateRange +
-    strTitleBook + strTitleNP + strTitles + strAuthor + strLanguage;
+    strTitleBook + strTitleNP + strTitles + strAuthor + strLanguage + "&include=tags";
      
     
     
     break;
   case Q_CUSTOM:
     break;
-  }  
+  } 
   return str;
 }
 
@@ -1331,6 +1401,7 @@ function _resetState ()
   m_queryId++;
   m_run = true;
   m_paused = false;
+  //tagPause = true;
   m_totalRecs = 0;
   m_fetchSize = 4;
   m_fetchStart = 0;
@@ -1344,6 +1415,7 @@ function _resetState ()
   m_rawDateIndex = new Array();
   m_locationsCache = new Array();
   m_currentQuery = _createQueryString();
+  getTags();
   $('div#raw-list-container').html('');
   $('div#raw-record-container').html('');
   $('#ctl-table button').button('disable');   
@@ -1380,7 +1452,7 @@ function _doQuery (pos)
   if (pos === 0) {
     _resetState();
     $('#cc-pb11').button('enable');   
-
+    
   }
   var queryId = m_queryId;
   if (m_fetchSize < MAX_FETCH_SIZE) {
@@ -1427,6 +1499,7 @@ function _processData (data, pos, id)
   if (pos === PAUSE_QUERY) {
     if (m_paused) {
       m_paused = false;
+      tagPause = false;
       m_run = true;
       $('#busy-box').activity(true);
       $('#cc-pb11').button('option', 'label', 'Pause Query');
@@ -1435,6 +1508,7 @@ function _processData (data, pos, id)
     else {
       m_run = false;
       m_paused = true;
+      tagPause = true;
       $('#busy-box').activity(false);
       $('#cc-pb11').button('option', 'label', 'Resume Query');
     }
@@ -1465,6 +1539,7 @@ function _processData (data, pos, id)
         $('#busy-box').activity(false);
         $('#cc-pb11').button('disable');   
         m_run = false;
+        //tagPause = true;
         ++m_queryId;
       }
       

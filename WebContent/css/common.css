@@ -86,6 +86,14 @@ div#histogram{
 	margin: 0 auto
 }
 
+div#wordcloud{
+	width: 550px; 
+	height: 350px; 
+	position: relative;    
+    left: 50%;   
+    margin-left: -275px;
+}
+
 div#raw-list-container {
  width:120px;
  height:500px;
