@@ -696,7 +696,7 @@ function showHistogram(show)
         	        setInterval(function () {
         	          
         	           updateHits();
-        	                
+        	               
         	            series.setData([hits[0],hits[1],hits[2],hits[3],hits[4],hits[5],hits[6]] );
         	            
         	        }, 1000); // update every 1 second
@@ -743,13 +743,16 @@ function showHistogram(show)
 }//end of method
 
 function updateHits(){
-	var url = TROVE_QUERY_URL + "sci7u62otkd59r48" + m_currentQuery+ "&encoding=json&callback=?&s=";
+	
+	var url = TROVE_QUERY_URL + m_user.key + m_currentQuery+ "&encoding=json&callback=?&s=";
+	//var url = TROVE_QUERY_URL + "sci7u62otkd59r48" + m_currentQuery+ "&encoding=json&callback=?&s=";
 	//var url ="http://api.trove.nla.gov.au/result?key=sci7u62otkd59r48&zone=newspaper&q=fire&encoding=json&callback=?&s=";
 	//for(var j=0;j<5;j++){
 		 
 	    jQuery.getJSON(url+c).done(function(data){res = data;
 
 	    for(var i=0;i<20;i++){
+	    	if(m_paused) return 0;
 	    	var state=res.response.zone[0].records.article[i].title.value.toString();
 	    	if(state.contains("NSW")) {nsw++;}
 	    	if(state.contains("Tas.")) {Tas++;}
@@ -1335,6 +1338,14 @@ function _validateForm(){
 				_popupDialog(INFO, 'Please insert a value in the "Search Term" before executing the query.');
 			}
 			else{
+				nsw = 0;
+				Tas = 0;
+				ACT = 0;
+				qld = 0;
+				vic = 0
+				wa = 0;
+				sa = 0;
+				
 				_changeCurrentQueryViewForm();
 			  	_doQuery(0);
 			}
