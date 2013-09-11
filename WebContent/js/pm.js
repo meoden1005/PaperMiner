@@ -1311,7 +1311,7 @@ function _createQueryString ()
     
   //date "To" available but not "From"
     if(m_yearFrom == "" && m_yearTo != ""){
-    	dateRange = " date:["+ "0" + " TO " + m_yearTo +"]";
+    	dateRange = " date:["+ "1800" + " TO " + m_yearTo +"]";
     }
     
     str = '&zone=' + m_currentZone +
