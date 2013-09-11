@@ -19,7 +19,7 @@ import au.org.paperminer.model.PmUsers;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:test-resources/applicationContext.xml")
-public class TestHistory {
+public class HistoryTest {
 
 	@Autowired(required = true)
 	private SessionFactory sessionFactory;
