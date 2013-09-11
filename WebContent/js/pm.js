@@ -1357,8 +1357,10 @@ function _validateForm(){
 			var validTerm = $('input#term').val();
 			var validDateFrom = $('input#from').val();
 			var validDateTo = $('input#to').val();
+			var category = document.getElementById('category');
+			var selectedValue = category.options[category.selectedIndex].value;
 			
-			if(validTerm == ""){
+			if(validTerm == "" && selectedValue == "newspaper"){
 		    	_popupDialog(INFO, 'Please insert a value in the "Search Term" before executing the query.');
 		    }
 			else if(!isNaN(validDateFrom) && !isNaN(validDateTo)){
@@ -2692,6 +2694,7 @@ function changeViewForm() {
 	var selectedValue = category.options[category.selectedIndex].value;
 	if(selectedValue == "book"){
 		document.getElementById('states').style.display = "none";
+		document.getElementById('locationDescription').style.display = "none";
 		document.getElementById('location').style.display = "none";
 		document.getElementById('language').style.display = "block";
 		document.getElementById('languageLabel').style.display = "block";
@@ -2703,6 +2706,7 @@ function changeViewForm() {
 	
 	if(selectedValue == "newspaper" || selectedValue == "article"){
 		document.getElementById('states').style.display = "block";
+		document.getElementById('locationDescription').style.display = "block";
 		document.getElementById('location').style.display = "block";
 		document.getElementById('language').style.display = "none";
 		document.getElementById('languageLabel').style.display = "none";
