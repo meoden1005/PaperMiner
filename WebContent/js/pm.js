@@ -17,7 +17,7 @@
  */
 
 // The webapp base URI is set by ANT build task
-var c=0;
+var c;
 var nsw;
 var Tas;
 var ACT;
@@ -669,6 +669,7 @@ function getHistogram(){
 		wa = 0;
 		sa = 0;
 		res=0;
+		c=0;
 				
 	}
 	//end
@@ -1345,6 +1346,7 @@ function _validateForm(){
 				vic = 0
 				wa = 0;
 				sa = 0;
+				c=0;
 				
 				_changeCurrentQueryViewForm();
 			  	_doQuery(0);
