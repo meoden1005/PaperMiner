@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import au.org.paperminer.dao.PmQueriesDAOImpl;
+import au.org.paperminer.dao.PmUserDAOImpl;
 import au.org.paperminer.model.PmQueries;
 import au.org.paperminer.model.PmUsers;
 
@@ -282,6 +283,55 @@ public class TestHistory {
 		if(query.getTotalLastRun() == new Integer(0))
 		{
 			assertTrue("No new query without query type", true);
+			return;
+		}
+		
+		query = pmQueriesDAO.save(query);
+
+		long newCount = pmQueriesDAO.countAll();
+
+		// reset value
+		//pmQueriesDAO.delete(pmQueriesDAO.findByExample(query).get(0));
+		//pmQueriesDAO.
+
+		assertTrue("Past count " + currentCount
+				+ "+ 1 must be equal to new count " + newCount,
+				(currentCount + 1) == newCount);
+	}
+	
+	@SuppressWarnings("unused")
+	@Test
+	@Transactional
+	public void testSaveQueryWithoutCorrectUser() {
+		// fail("Not yet implemented"); // TODO
+
+		PmQueriesDAOImpl pmQueriesDAO = new PmQueriesDAOImpl();
+		pmQueriesDAO.setSession(sessionFactory.openSession());
+		PmUserDAOImpl pmUserDAO = new PmUserDAOImpl();
+		pmUserDAO.setSession(sessionFactory.openSession());;
+		
+		long currentCount = pmQueriesDAO.countAll();
+
+		PmQueries query = new PmQueries();
+
+		PmUsers user = new PmUsers();
+		user.setId(-1);
+
+		query.setPmUsers(user);
+		query.setDateCreated(new Date());
+		query.setDateLastRun(new Date());
+		//query.setDescr("test" + String.valueOf(Math.random()));
+
+		// careful for expansion
+		//query.setQueryType("s");
+
+		// fix this one later
+		query.setTotalLastRun(new Integer(0));
+		//query.setQuery("test" + String.valueOf(Math.random()));
+
+		if(pmUserDAO.findByExample(user).size() != 0)
+		{
+			assertTrue("No new query when you use non exist user", true);
 			return;
 		}
 		

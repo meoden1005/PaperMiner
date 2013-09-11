@@ -27,7 +27,6 @@ var wa;
 var sa;
 var hits = new Array();
 var strTags;
-var tagPause;
 var res;
 
 var PM_URI           = '@PM_PREFIX@';
@@ -746,9 +745,6 @@ function showHistogram(show)
 function updateHits(){
 	
 	var url = TROVE_QUERY_URL + m_user.key + m_currentQuery+ "&encoding=json&callback=?&s=";
-	//var url = TROVE_QUERY_URL + "sci7u62otkd59r48" + m_currentQuery+ "&encoding=json&callback=?&s=";
-	//var url ="http://api.trove.nla.gov.au/result?key=sci7u62otkd59r48&zone=newspaper&q=fire&encoding=json&callback=?&s=";
-	//for(var j=0;j<5;j++){
 		 
 	    jQuery.getJSON(url+c).done(function(data){res = data;
 
@@ -778,9 +774,7 @@ function updateHits(){
 	   
 	   
 return hits;
-	   
-
-  //}//for 50
+	  
 }//updateHits func
 
 function showCloud (show)
@@ -789,15 +783,13 @@ function showCloud (show)
     _createPane(CLOUD_VIEW, null, null);
   }
   _showPane(_selById(CLOUD_VIEW));
-  
-  updateTags();
 }
 
 /**
  * Get a list of the tags related to the term search
  */
 function getTags(){
-	var url = TROVE_QUERY_URL + "sci7u62otkd59r48" + m_currentQuery + "&include=tags" + "&encoding=json&callback=?&s=";
+	var url = TROVE_QUERY_URL + m_user.key + m_currentQuery + "&include=tags" + "&encoding=json&callback=?&s=";
 	strTags = "";
 	jQuery.getJSON(url+c).done(
 		function(data){
@@ -807,7 +799,8 @@ function getTags(){
 		    	if(articles[i].tag != undefined){
 		    		var tags = articles[i].tag;
 		    		for(var j=0; j < tags.length; j++){
-		    			strTags+= tags[j].value + "/";	
+		    			var strCap = tags[j].value.charAt(0).toUpperCase() + tags[j].value.slice(1);	
+		    			strTags+= strCap + "/";
 		    		}
 		    	}   	
 			}
@@ -818,16 +811,13 @@ function getTags(){
 
 function updateTags(){
 	var word_list = getArrayTags();
-    $(document).ready(function() {
-    	if(word_list.length != 1){
-    		$("#wordcloud").empty();
-    		$("#wordcloud").jQCloud(word_list);
-    	}
-    });
-	getTags();
-	if(tagPause != true){
-		setTimeout ( updateTags, 5000 );//call update every 5 seconds
+	if(word_list.length > 1){
+		 $(document).ready(function() {
+		    	$("#wordcloud").empty();
+		    	$("#wordcloud").jQCloud(word_list);
+		 });
 	}
+	getTags();//update the string Tag
 }
 
 
@@ -1314,6 +1304,15 @@ function _createQueryString ()
     if(m_yearFrom != "" && m_yearTo != ""){
     	dateRange = " date:["+ m_yearFrom + " TO " + m_yearTo +"]";
     }
+    //date "From" available but not "To"
+    if(m_yearFrom != "" && m_yearTo == ""){
+    	dateRange = " date:["+ m_yearFrom + " TO " + "3000" +"]";
+    }
+    
+  //date "To" available but not "From"
+    if(m_yearFrom == "" && m_yearTo != ""){
+    	dateRange = " date:["+ "0" + " TO " + m_yearTo +"]";
+    }
     
     str = '&zone=' + m_currentZone +
     '&q=' +  encodeURIComponent(m_currentTerm) + dateRange +
@@ -1414,7 +1413,6 @@ function _resetState ()
   m_queryId++;
   m_run = true;
   m_paused = false;
-  //tagPause = true;
   m_totalRecs = 0;
   m_fetchSize = 4;
   m_fetchStart = 0;
@@ -1442,7 +1440,7 @@ function _resetState ()
 }
 
 function _updateTimeDisplay ()
-{
+{ 
   var currMillis = new Date().getTime();
   var qTime = currMillis - m_fetchStart;
   m_totalTime += qTime;
@@ -1480,6 +1478,7 @@ function _doQuery (pos)
       try {
         if (status == "success") {
         	_updateTimeDisplay();
+        	updateTags();
         	_processData(data, pos, queryId);
         }
         else {
@@ -1512,7 +1511,6 @@ function _processData (data, pos, id)
   if (pos === PAUSE_QUERY) {
     if (m_paused) {
       m_paused = false;
-      tagPause = false;
       m_run = true;
       $('#busy-box').activity(true);
       $('#cc-pb11').button('option', 'label', 'Pause Query');
@@ -1521,7 +1519,6 @@ function _processData (data, pos, id)
     else {
       m_run = false;
       m_paused = true;
-      tagPause = true;
       $('#busy-box').activity(false);
       $('#cc-pb11').button('option', 'label', 'Resume Query');
     }
@@ -1552,7 +1549,6 @@ function _processData (data, pos, id)
         $('#busy-box').activity(false);
         $('#cc-pb11').button('disable');   
         m_run = false;
-        //tagPause = true;
         ++m_queryId;
       }
       
