@@ -130,7 +130,7 @@
 			<fileset dir="${test.output.tests.dir}">
 				<include name="TEST-*.xml" />
 			</fileset>
-			<!-- <report format="noframes" todir="${test.output.report.dir}" /> -->
+			<report format="frames" todir="${test.output.report.dir}" />
 		</junitreport>
 	</target>
 
