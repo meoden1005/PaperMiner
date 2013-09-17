@@ -27,6 +27,7 @@ var wa;
 var sa;
 var hits = new Array();
 var strTags;
+var clearState;
 var res;
 
 var PM_URI           = '@PM_PREFIX@';
@@ -366,6 +367,7 @@ function getMenu ()
 function doLogout ()
 {
   $.get(PM_URI + '/pm/cls', function () {
+	clearState = false;
     getMenu();
     m_user = null;
     m_qStore = null;
@@ -395,6 +397,7 @@ function doLogin (cmd)
     $('span#vfy-opt').css({visibility:'visible'});
   }
   else if (cmd == 'ok') {
+	clearState = true;
     //var vfy = $('#usr-info input[name=usr-cb]:checked').val();
     var vfy =   $('#usr-info input[id=cb-vfy]:checked').val();
     var agree = $('#usr-info input[id=cb-agree]:checked').val();
@@ -535,9 +538,8 @@ function newQuery (show)
     };    
     _createPane(NEW_QUERY_PANE, callback, null);
   }
-  
   if (show) {
-    if (m_run) {
+    if (m_run) { 
       _popupDialog(INFO, 'Please stop the current query before starting another.');
     }
     else {
@@ -1241,7 +1243,7 @@ function _createQueryString ()
     str = '&zone=' + m_currentZone + 
           '&q=' + encodeURIComponent(m_currentTerm);
     
-    if(m_currentTerm == ""){
+    if(m_currentTerm == "" && clearState){
     	_popupDialog(INFO, 'Please insert a value in the "Search Term" before executing the query.');
     }
     
@@ -1334,7 +1336,7 @@ function _validateForm(){
 	switch (m_currentQueryFormPane) {
 		case Q_SIMPLE :
 			var validTerm = $('input#q1').val();
-			if(validTerm == ""){
+			if(validTerm == "" && clearState){
 				_popupDialog(INFO, 'Please insert a value in the "Search Term" before executing the query.');
 			}
 			else{
@@ -1360,7 +1362,7 @@ function _validateForm(){
 			var category = document.getElementById('category');
 			var selectedValue = category.options[category.selectedIndex].value;
 			
-			if(validTerm == "" && selectedValue == "newspaper"){
+			if(validTerm == "" && selectedValue == "newspaper" && clearState){
 		    	_popupDialog(INFO, 'Please insert a value in the "Search Term" before executing the query.');
 		    }
 			else if(!isNaN(validDateFrom) && !isNaN(validDateTo)){
@@ -1413,8 +1415,15 @@ function _resetState ()
   }
   
   m_queryId++;
-  m_run = true;
   m_paused = false;
+  
+  if(clearState){
+	  m_run = true;
+  }
+  else{
+	  m_run = false;
+  }
+
   m_totalRecs = 0;
   m_fetchSize = 4;
   m_fetchStart = 0;
