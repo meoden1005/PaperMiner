@@ -17,6 +17,7 @@
  */
 
 // The webapp base URI is set by ANT build task
+var date1;
 var c;
 var nsw;
 var Tas;
@@ -678,10 +679,10 @@ function getHistogram(){
 
 function showHistogram(show) 
 {	
-	//getHistogram();
+	getHistogram();
 	_showPane(_selById(HIST_VIEW));
-	
-	
+
+   	
 	var chart;
 	$(function () {
         $('#histogram').highcharts({
@@ -699,7 +700,9 @@ function showHistogram(show)
         	          
         	           updateHits();
         	               
-        	            series.setData([hits[0],hits[1],hits[2],hits[3],hits[4],hits[5],hits[6]] );
+        	            series.setData([hits[180],hits[181],hits[182],hits[183],hits[184],hits[185],hits[186],
+        	                            hits[187],hits[188],hits[189],hits[190],hits[191],hits[192],hits[193],
+        	            hits[194],hits[195],hits[196],hits[197],hits[198],hits[199],hits[200]]);
         	            
         	        }, 1000); // update every 1 second
         	    }
@@ -715,7 +718,8 @@ function showHistogram(show)
                 x: -20
             },
             xAxis: {
-                categories: ['NSW', 'Tas', 'ACT','QLD','VIC','SA','WA']
+                categories: ['1800', '1810', '1820','1830','1840','1850','1860','1870', '1880', '1890','1900',
+                             '1910','1920','1930','1940','1950','1960','1970', '1980', '1990','2000']
             },
             yAxis: {
                 title: {
@@ -737,12 +741,14 @@ function showHistogram(show)
                 borderWidth: 0
             },
             series: [{
-                name: 'States',
+                name: 'Hits',
                 data: [nsw, Tas, ACT,qld,vic,sa,wa]
             }]
         });
-    });
+    }); 
+	
 }//end of method
+
 
 function updateHits(){
 	
@@ -751,31 +757,26 @@ function updateHits(){
 	    jQuery.getJSON(url+c).done(function(data){res = data;
 
 	    for(var i=0;i<20;i++){
-	    	if(m_paused) return 0;
-	    	var state=res.response.zone[0].records.article[i].title.value.toString();
-	    	if(state.contains("NSW")) {nsw++;}
-	    	if(state.contains("Tas.")) {Tas++;}
-	    	if(state.contains("ACT")) {ACT++;}
-	    	if(state.contains("Qld.")) {qld++;}
-	    	if(state.contains("Vic.")) {vic++;}
-	    	if(state.contains("WA")) {wa++;}
-	    	if(state.contains("SA")) {sa++;}
+	    	if(m_paused) {
 	    	
+	    		return 1;
+	    	
+	    	}
+	    	var state=res.response.zone[0].records.article[i].date.toString();
+	    
+	    	state=state.substring(0,3);
+	    	var year=parseInt(state);
+	    	hits[year]+=1;
 	    	
 	    }
-	    hits[0]=nsw;//for 20
-	    hits[1]=Tas;
-	    hits[2]=ACT;
-	    hits[3]=qld;
-	    hits[4]=vic;
-	    hits[5]=wa;
-	    hits[6]=sa;
+
 	    c+=20;
+	   
 	   
 	    });
 	   
 	   
-return hits;
+
 	  
 }//updateHits func
 
@@ -1382,9 +1383,17 @@ function _validateForm(){
 /**
  * Reset all state vars to initial values for execution of a new query.
  */
+function  resetHistogram()
+{
+	  for(var k=180;k<=200;k++){
+			hits[k]=0;
+		}
+	  c=0;
+	}
 function _resetState ()
 {
   _resetMap();
+  resetHistogram();
 
   if (m_resultSet !== null) {
     for (var i = 0; i < m_resultSet.length; i++) {
