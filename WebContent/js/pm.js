@@ -685,12 +685,16 @@ function showHistogram(show)
    	
 	var chart;
 	$(function () {
+		
         $('#histogram').highcharts({
+        	
         	chart:{
         		
         		type: 'bar',
                 animation: Highcharts.svg, // don't animate in old IE
                 marginRight: 10,
+                backgroundColor: '#FFFFFF',
+                shadow: true,
         	events: {
         	    load: function () {
         	    	
@@ -707,6 +711,9 @@ function showHistogram(show)
         	        }, 1000); // update every 1 second
         	    }
         	}
+        },
+        credits: {
+            enabled: false
         },
         	
             title: {
@@ -739,6 +746,7 @@ function showHistogram(show)
                 align: 'right',
                 verticalAlign: 'middle',
                 borderWidth: 0
+                
             },
             series: [{
                 name: 'Hits',
