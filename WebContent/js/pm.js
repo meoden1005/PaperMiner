@@ -685,7 +685,9 @@ function showHistogram(show)
    	
 	var chart;
 	$(function () {
-		
+		Highcharts.setOptions({
+		     colors: ['#071A8B']
+		    });
         $('#histogram').highcharts({
         	
         	chart:{
@@ -693,8 +695,9 @@ function showHistogram(show)
         		type: 'bar',
                 animation: Highcharts.svg, // don't animate in old IE
                 marginRight: 10,
-                backgroundColor: '#FFFFFF',
-                shadow: true,
+                backgroundColor: '#E4E4E5',
+                shadow:true,
+                
         	events: {
         	    load: function () {
         	    	
