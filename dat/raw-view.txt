@@ -13,9 +13,10 @@
       <tr>
        <td>
         <div class="pm-button-bar">
-         <button id="rdv-pb3" onClick="locnEdit(true)">Edit Locations</button>
-         <button id="rdv-pb1" onClick="fixRecord()">Fix in TROVE</button>
-         <button id="rdv-pb2" onClick="refreshRecord()">Refresh Record</button>
+         <button id="rdv-pb4" onclick="postXML(eval(m_resultSet));">Download raw result</button>
+         <button id="rdv-pb3" onclick="locnEdit(true)">Edit Locations</button>
+         <button id="rdv-pb1" onclick="fixRecord()">Fix in TROVE</button>
+         <button id="rdv-pb2" onclick="refreshRecord()">Refresh Record</button>
         </div>
        </td>
       </tr>
