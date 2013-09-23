@@ -1,10 +1,14 @@
 package au.org.paperminer.ws;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.SessionFactory;
@@ -33,6 +37,9 @@ public class WebController {
 
 	@Autowired(required = true)
 	private SessionFactory sessionFactory;
+	
+	@Autowired
+	ServletContext context;
 
 	@RequestMapping(value = "simplehistory")
 	public @ResponseBody
@@ -113,13 +120,26 @@ public class WebController {
 	@RequestMapping(value = "/filedownload", method = RequestMethod.POST, consumes = "text/plain")
 	@ResponseBody
 	@ResponseStatus(value=HttpStatus.OK)
-	public void fileDownload(@RequestBody String requestBody, HttpServletResponse response) throws IOException {
+	public String fileDownload(@RequestBody String requestBody, HttpServletResponse response) throws IOException {
 		System.out.println("Take in body message");
 		byte[] output = requestBody.getBytes();
 		
-		response.setContentType("application/download");
-		response.setHeader("Content-Disposition", "attachment; filename=\"rawdata.json\"");
-		response.getOutputStream().write(output);
-		response.flushBuffer();
+		//response.setContentType("application/download");
+		//response.setHeader("Content-Disposition", "attachment; filename=\"rawdata.json\"");
+		//response.getOutputStream().write(output);
+		//response.flushBuffer();
+		
+		String name = "rawdata"+Math.random();
+		String path = context.getRealPath(name + ".json");
+		
+		FileWriter fw = new FileWriter(path);
+		fw.write(requestBody);
+		fw.close();
+		
+		return context.getContextPath()+"/"+name+".json";
+		/*File temp = File.createTempFile(name, ".json");
+		FileOutputStream fileOut = new FileOutputStream(temp);
+		fileOut.write(output);
+		fileOut.close();*/
 	}
 }

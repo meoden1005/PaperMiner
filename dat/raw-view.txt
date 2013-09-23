@@ -26,8 +26,8 @@
  </table> 
     
  <a id="fix-url" class="hidden" href="#" target="_blank" />
- <form target="_self" method="post">   
- 	<button id="rdv-pb4" class="ui-button" onclick="postData(json2string(m_resultSet));">Download raw result</button>
+ <form target="_top" method="post">   
+ 	<button id="rdv-pb4" class="ui-button" onclick="postData(json2string(m_resultSet));return false;">Download raw result</button>
  </form>
  <p>&nbsp;
  <div id="raw-rb-pane" align="center">
