@@ -27,7 +27,8 @@
     
  <a id="fix-url" class="hidden" href="#" target="_blank" />
  <form target="_top" method="post">   
- 	<button id="rdv-pb4" class="ui-button" onclick="postData(json2string(m_resultSet));return false;">Download raw result</button>
+ 	<button id="rdv-pb4" class="ui-button" onclick="postData(json2string(m_resultSet));return false;">Generate raw result file</button>
+ 	<div id="downloadPlace" />
  </form>
  <p>&nbsp;
  <div id="raw-rb-pane" align="center">

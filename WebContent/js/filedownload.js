@@ -5,7 +5,11 @@ function postData(obj) {
 		data: obj.toString(),
 		dataType: 'text',
         contentType:'text/plain',
-		processData: false
+		processData: false,
+		success:function(data){
+			jQuery('#downloadPlace').append('<a href="' + data.toString() + '">Click here to download</a>')
+			//window.location.href = PM_URI + '/' + data;
+		}
 	})
 }
 

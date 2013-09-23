@@ -136,7 +136,7 @@ public class WebController {
 		fw.write(requestBody);
 		fw.close();
 		
-		return context.getContextPath()+"/"+name+".json";
+		return name+".json";
 		/*File temp = File.createTempFile(name, ".json");
 		FileOutputStream fileOut = new FileOutputStream(temp);
 		fileOut.write(output);
