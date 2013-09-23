@@ -13,7 +13,6 @@
       <tr>
        <td>
         <div class="pm-button-bar">
-         <button id="rdv-pb4" onclick="postXML(eval(m_resultSet));">Download raw result</button>
          <button id="rdv-pb3" onclick="locnEdit(true)">Edit Locations</button>
          <button id="rdv-pb1" onclick="fixRecord()">Fix in TROVE</button>
          <button id="rdv-pb2" onclick="refreshRecord()">Refresh Record</button>
@@ -26,8 +25,10 @@
   </tr>
  </table> 
     
- <a id="fix-url" class="hidden" href="#" target="_blank" />   
- 
+ <a id="fix-url" class="hidden" href="#" target="_blank" />
+ <form target="_self" method="post">   
+ 	<button id="rdv-pb4" class="ui-button" onclick="postData(json2string(m_resultSet));">Download raw result</button>
+ </form>
  <p>&nbsp;
  <div id="raw-rb-pane" align="center">
   <input type="checkbox" id="raw-select-cb" onChange="_sortRaw(0)"> Restrict records to Map View Timeline marker range </input>

@@ -1,11 +1,15 @@
 package au.org.paperminer.ws;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import au.org.paperminer.bean.HistoryFacade;
 import au.org.paperminer.dao.PmQueriesDAOImpl;
@@ -105,8 +110,16 @@ public class WebController {
 		
 	}
 	
-	@RequestMapping(value = "/filedownload", method = RequestMethod.POST, consumes = "application/json")
-	public void fileDownload(@RequestBody Map<String, Object> requestBody) {
-		System.out.println("Take in xml message");
+	@RequestMapping(value = "/filedownload", method = RequestMethod.POST, consumes = "text/plain")
+	@ResponseBody
+	@ResponseStatus(value=HttpStatus.OK)
+	public void fileDownload(@RequestBody String requestBody, HttpServletResponse response) throws IOException {
+		System.out.println("Take in body message");
+		byte[] output = requestBody.getBytes();
+		
+		response.setContentType("application/download");
+		response.setHeader("Content-Disposition", "attachment; filename=\"rawdata.json\"");
+		response.getOutputStream().write(output);
+		response.flushBuffer();
 	}
 }
