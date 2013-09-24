@@ -29,7 +29,7 @@ var wa;
 var sa;
 var hits = new Array();
 var strTags;
-var clearState;
+var clearState = true;
 var res;
 
 var PM_URI           = '@PM_PREFIX@';
@@ -757,7 +757,7 @@ function showHistogram(show)
                 data: [nsw, Tas, ACT,qld,vic,sa,wa]
             }]
         });
-    }); 
+    });
 	
 }//end of method
 
@@ -958,6 +958,17 @@ function preventDefaultAction (evt)
     evt.cancelBubble = true;
   }
 };
+
+/* 
+ * Save a document in pdf format
+ */
+function savePdfDocument(){
+	var url = "http://trove.nla.gov.au/ndp/del/printIssue/";
+	//retrieve the id document
+	var id = 1047153;
+	url+=id;
+	window.open(url);
+}
 
 /**
  * Convenience and reminder button opens TROVE on record in Raw display panel for editing in a new Tab.
@@ -1444,7 +1455,7 @@ function _resetState ()
   else{
 	  m_run = false;
   }
-
+ 
   m_totalRecs = 0;
   m_fetchSize = 4;
   m_fetchStart = 0;
@@ -1511,6 +1522,7 @@ function _doQuery (pos)
         if (status == "success") {
         	_updateTimeDisplay();
         	updateTags();
+        	
         	_processData(data, pos, queryId);
         }
         else {
@@ -1543,13 +1555,13 @@ function _processData (data, pos, id)
   if (pos === PAUSE_QUERY) {
     if (m_paused) {
       m_paused = false;
-      m_run = true;
+      m_run = true; 
       $('#busy-box').activity(true);
       $('#cc-pb11').button('option', 'label', 'Pause Query');
       _doQuery(m_resultSet.length);
     }
     else {
-      m_run = false;
+      m_run = false; 
       m_paused = true;
       $('#busy-box').activity(false);
       $('#cc-pb11').button('option', 'label', 'Resume Query');
@@ -1564,7 +1576,7 @@ function _processData (data, pos, id)
       if (m_totalRecs === 0) {
         m_totalRecs = data.response.zone[0].records.total;
      // FIXME: hack here to hijack it
-        storeHistory();        
+        storeHistory();
       }
       
       for (var idx = 0; idx < res.length; idx++) {
@@ -2131,7 +2143,7 @@ function _setCurrentQueryButtonState ()
  * Populate details about the current query progress
  */
 function _updateCurrQueryPane ()
-{
+{ 
   if ($(_selById(CURR_QUERY_PANE)).length > 0) {
     switch (m_currentQueryFormPane) {
     case Q_SIMPLE : 
@@ -2181,9 +2193,7 @@ function _updateCurrQueryPane ()
             $('td#title11').html(titleValue);
             $('td#location11').html(location);
     	}
-    	/*sistemare la data ,authore che va a capo, titolo per newspaper e location
-    	 * mettere in bold search term etc
-    	 * */
+    	
     	$('td#dateRange11').html( yearFrom + " - " + yearTo);
         $('td#n11').html(m_totalRecs);
         $('td#n12').html(m_resultSet == null ? 0 : m_resultSet.length);
@@ -2560,6 +2570,7 @@ function _findLocation (src)
     });
   }
 }
+
 
 /**
  * Formates the list of locations "found" since the add location dialog was opened
