@@ -1,4 +1,12 @@
 <h3>Histogram</h3>
+
+ <div align="center">
+  Histogram type:
+  <input type="radio" name="histogram-rb1" value="yearView" checked="true" onChange="" > Year View </input>
+  &nbsp; &nbsp;
+  <input type="radio" name="histogram-rb1" value="monthView" onChange="" > Month View </input>
+  <p>&nbsp;   
+ </div>
  
  <div id="histogram"/>
 

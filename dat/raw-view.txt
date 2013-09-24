@@ -13,6 +13,7 @@
       <tr>
        <td>
         <div class="pm-button-bar">
+         <button id="savePdf" onclick="">Save Document</button>
          <button id="rdv-pb3" onclick="locnEdit(true)">Edit Locations</button>
          <button id="rdv-pb1" onclick="fixRecord()">Fix in TROVE</button>
          <button id="rdv-pb2" onclick="refreshRecord()">Refresh Record</button>

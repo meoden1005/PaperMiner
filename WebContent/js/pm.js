@@ -19,6 +19,7 @@
 // The webapp base URI is set by ANT build task
 var date1;
 var c;
+var tagC;
 var nsw;
 var Tas;
 var ACT;
@@ -805,7 +806,7 @@ function showCloud (show)
 function getTags(){
 	var url = TROVE_QUERY_URL + m_user.key + m_currentQuery + "&include=tags" + "&encoding=json&callback=?&s=";
 	strTags = "";
-	jQuery.getJSON(url+c).done(
+	jQuery.getJSON(url+tagC).done(
 		function(data){
 			res = data;
 			var articles = res.response.zone[0].records.article;
@@ -2277,6 +2278,7 @@ function _displayRawDataItem (id)
   m_rawRecordId = id;
   if (m_currentZone === 'newspaper') {
     $('button#rdv-pb1').button('enable');
+    $('button#savePdf').button('enable');
   }
   $('button#rdv-pb3').button('enable');
 }
