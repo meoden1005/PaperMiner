@@ -1,4 +1,9 @@
 function postData(obj) {
+	if(m_resultSet<1){
+		alert("No result to generate");
+		return;
+	}
+	
 	jQuery.ajax({
 		type:'POST',
 		url: PM_URI + '/ws/api/filedownload',
