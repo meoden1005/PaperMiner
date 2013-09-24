@@ -1,4 +1,14 @@
 <h3>Raw Data View</h3>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		if(m_resultSet>0){
+			jQuery('#rdv-pb4').show();
+		}
+		else{
+			jQuery('#rdv-pb4').hide();
+		}
+	})
+</script>
 
 <div class="pane-container">
  <table>
