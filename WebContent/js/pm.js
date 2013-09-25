@@ -758,10 +758,81 @@ function showHistogram(show)
             }]
         });
     });
+	//***************
+	$(function () {
+		Highcharts.setOptions({
+		     colors: ['#071A8B']
+		    });
+        $('#histogram2').highcharts({
+        	
+        	chart:{
+        		
+        		type: 'bar',
+                animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                backgroundColor: '#E4E4E5',
+                shadow:true,
+                
+        	events: {
+        	    load: function () {
+        	    	
+        	        // set up the updating of the chart each second
+        	        var series = this.series[0];
+        	        setInterval(function () {
+        	          
+        	           //updateHits();
+        	               
+        	            series.setData([hits[1],hits[2],hits[3],hits[4],hits[5],hits[6],hits[7],
+        	                            hits[8],hits[9],hits[10],hits[11],hits[12]]);
+        	            
+        	        }, 1000); // update every 1 second
+        	    }
+        	}
+        },
+        credits: {
+            enabled: false
+        },
+        	
+            title: {
+                text: 'Histogram',
+                x: -20 // center
+            },
+            subtitle: {
+                text: 'Source: www.trove.com',
+                x: -20
+            },
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug', 
+                             'Sep', 'Oct','Nov','Dec']
+            },
+            yAxis: {
+                title: {
+                    text: 'Hits'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+                
+            },
+            series: [{
+                name: 'Hits',
+                data: [nsw, Tas, ACT,qld,vic,sa,wa]
+            }]
+        });
+    });
 	
 }//end of method
-
-
 function updateHits(){
 	
 	var url = TROVE_QUERY_URL + m_user.key + m_currentQuery+ "&encoding=json&callback=?&s=";
@@ -776,9 +847,12 @@ function updateHits(){
 	    	}
 	    	var state=res.response.zone[0].records.article[i].date.toString();
 	    
-	    	state=state.substring(0,3);
-	    	var year=parseInt(state);
+	    	var year=state.substring(0,3);
+	    	var month=state.substring(5,7);
+	    	year=parseInt(year);
+	    	month=parseInt(month);
 	    	hits[year]+=1;
+	    	hits[month]+=1;
 	    	
 	    }
 
@@ -791,7 +865,6 @@ function updateHits(){
 
 	  
 }//updateHits func
-
 function showCloud (show)
 {
   if ($(_selById(CLOUD_VIEW)).length === 0) {
@@ -1409,6 +1482,9 @@ function _validateForm(){
 function  resetHistogram()
 {
 	  for(var k=180;k<=200;k++){
+			hits[k]=0;
+		}
+	  for(var k=1;k<=12;k++){
 			hits[k]=0;
 		}
 	  c=0;

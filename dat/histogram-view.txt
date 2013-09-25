@@ -9,5 +9,6 @@
  </div>
  
  <div id="histogram"/>
+ <div id="histogram2"/>
 
 
