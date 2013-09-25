@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.regex.*;
 import java.io.File;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,25 +14,26 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
+import org.dom4j.Node;
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.DomSerializer;
 import org.htmlcleaner.HtmlCleaner;
 import org.htmlcleaner.TagNode;
-import org.w3c.dom.Document;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 
 public class NetClientGet {
 
 	public static void main(String[] args) throws Exception {
 
-		try {
-
-			URL url = new URL(
+			/*URL url = new URL(
 					"http://trove.nla.gov.au/ndp/del/article/124673222?searchTerm=kingkong+china");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Accept", "application/json");
+			conn.setRequestProperty("Accept", "application/html");
 
 			if (conn.getResponseCode() != 200) {
 				throw new RuntimeException("Failed : HTTP error code : "
@@ -43,11 +45,11 @@ public class NetClientGet {
 
 			String output;
 			System.out.println("Output from Server .... \n");
-			/*while ((output = br.readLine()) != null) {
+			while ((output = br.readLine()) != null) {
 				System.out.println(output);
 			}*/
 
-			TagNode tagNode = new HtmlCleaner().clean(conn.getInputStream());
+			/*TagNode tagNode = new HtmlCleaner().clean(conn.getInputStream());
 			Document document = new DomSerializer(new CleanerProperties())
 					.createDOM(tagNode);
 
@@ -62,25 +64,42 @@ public class NetClientGet {
 				result = readPath(node) + " " + result;
 				node = node.getParentNode();
 			}
-			System.out.println(result);
+			System.out.println(result);*/
 			// returns html body div#myDiv.foo.bar p#tID
 
-			conn.disconnect();
-
-		} catch (MalformedURLException e) {
-
-			e.printStackTrace();
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		}
-
+			//conn.disconnect();
+		
+			Document doc = Jsoup.connect("http://trove.nla.gov.au/ndp/del/article/124673222?searchTerm=kingkong+china").get();
+			Element element = doc.getElementById("initiateCite");
+			
+			System.out.println(element.html());
+			
+			System.out.println(element.attr("href"));
+			
+			Document doc1 = Jsoup.connect("http://trove.nla.gov.au"+element.attr("href")).get();
+			
+			System.out.println(doc1.html());
+			
+			Elements links = doc1.getElementsByTag("a");
+			
+			Pattern pattern = Pattern.compile("http://nla.gov.au/nla.news-page");
+			
+			
+			for(Element link : links){
+				String result = link.attr("href");
+				//System.out.println(result);
+				Matcher matcher = pattern.matcher(result);
+				if(matcher.find()){
+					System.out.println(result);
+					System.out.println(matcher.replaceAll(new String()));
+				}
+			}
+			
+			
 	}
 
 	// Gets id and class attributes of this node
-	private static String readPath(Node node) {
+/*	private static String readPath(Node node) {
 		NamedNodeMap attributes = node.getAttributes();
 		String id = readAttribute(attributes.getNamedItem("id"), "#");
 		String clazz = readAttribute(attributes.getNamedItem("class"), ".");
@@ -94,5 +113,5 @@ public class NetClientGet {
 			result = token + node.getTextContent().replace(" ", token);
 		}
 		return result;
-	}
+	}*/
 }

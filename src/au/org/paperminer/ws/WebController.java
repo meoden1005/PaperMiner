@@ -7,11 +7,17 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.SessionFactory;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -141,5 +147,36 @@ public class WebController {
 		FileOutputStream fileOut = new FileOutputStream(temp);
 		fileOut.write(output);
 		fileOut.close();*/
+	}
+	
+	// http://localhost:8080/PaperMiner/ws/api/getpage
+	@RequestMapping(value = "/getpage", method = RequestMethod.POST, consumes = "text/plain")
+	@ResponseBody
+	@ResponseStatus(value=HttpStatus.OK)
+	public String getPage(@RequestBody String requestBody) throws Exception {
+		//"http://trove.nla.gov.au/ndp/del/article/124673222?searchTerm=kingkong+china"
+		Document doc = Jsoup.connect(requestBody).get();
+		Element element = doc.getElementById("initiateCite");
+		
+		Document doc1 = Jsoup.connect("http://trove.nla.gov.au"+element.attr("href")).get();
+		
+		Elements links = doc1.getElementsByTag("a");
+		
+		Pattern pattern = Pattern.compile("http://nla.gov.au/nla.news-page");
+		
+		String pageNumber = new String();
+		
+		for(Element link : links){
+			String result = link.attr("href");
+			Matcher matcher = pattern.matcher(result);
+			if(matcher.find()){
+				System.out.println(result);
+				System.out.println(matcher.replaceAll(new String()));
+				pageNumber = matcher.replaceAll(new String());
+				break;
+			}
+		}
+		
+		return pageNumber;
 	}
 }
