@@ -19,7 +19,7 @@
 // The webapp base URI is set by ANT build task
 var date1;
 var c;
-var tagC;
+var tagC = 0;
 var nsw;
 var Tas;
 var ACT;
@@ -758,81 +758,10 @@ function showHistogram(show)
             }]
         });
     });
-	//***************
-	$(function () {
-		Highcharts.setOptions({
-		     colors: ['#071A8B']
-		    });
-        $('#histogram2').highcharts({
-        	
-        	chart:{
-        		
-        		type: 'bar',
-                animation: Highcharts.svg, // don't animate in old IE
-                marginRight: 10,
-                backgroundColor: '#E4E4E5',
-                shadow:true,
-                
-        	events: {
-        	    load: function () {
-        	    	
-        	        // set up the updating of the chart each second
-        	        var series = this.series[0];
-        	        setInterval(function () {
-        	          
-        	           //updateHits();
-        	               
-        	            series.setData([hits[1],hits[2],hits[3],hits[4],hits[5],hits[6],hits[7],
-        	                            hits[8],hits[9],hits[10],hits[11],hits[12]]);
-        	            
-        	        }, 1000); // update every 1 second
-        	    }
-        	}
-        },
-        credits: {
-            enabled: false
-        },
-        	
-            title: {
-                text: 'Histogram',
-                x: -20 // center
-            },
-            subtitle: {
-                text: 'Source: www.trove.com',
-                x: -20
-            },
-            xAxis: {
-                categories: ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug', 
-                             'Sep', 'Oct','Nov','Dec']
-            },
-            yAxis: {
-                title: {
-                    text: 'Hits'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                valueSuffix: ''
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 0
-                
-            },
-            series: [{
-                name: 'Hits',
-                data: [nsw, Tas, ACT,qld,vic,sa,wa]
-            }]
-        });
-    });
 	
 }//end of method
+
+
 function updateHits(){
 	
 	var url = TROVE_QUERY_URL + m_user.key + m_currentQuery+ "&encoding=json&callback=?&s=";
@@ -847,12 +776,9 @@ function updateHits(){
 	    	}
 	    	var state=res.response.zone[0].records.article[i].date.toString();
 	    
-	    	var year=state.substring(0,3);
-	    	var month=state.substring(5,7);
-	    	year=parseInt(year);
-	    	month=parseInt(month);
+	    	state=state.substring(0,3);
+	    	var year=parseInt(state);
 	    	hits[year]+=1;
-	    	hits[month]+=1;
 	    	
 	    }
 
@@ -865,6 +791,7 @@ function updateHits(){
 
 	  
 }//updateHits func
+
 function showCloud (show)
 {
   if ($(_selById(CLOUD_VIEW)).length === 0) {
@@ -879,7 +806,7 @@ function showCloud (show)
 function getTags(){
 	var url = TROVE_QUERY_URL + m_user.key + m_currentQuery + "&include=tags" + "&encoding=json&callback=?&s=";
 	strTags = "";
-	jQuery.getJSON(url+tagC).done(
+	jQuery.getJSON(url+c).done(//change with tagC
 		function(data){
 			res = data;
 			var articles = res.response.zone[0].records.article;
@@ -905,6 +832,7 @@ function updateTags(){
 		    	$("#wordcloud").jQCloud(word_list);
 		 });
 	}
+	tagC+=20;
 	getTags();//update the string Tag
 }
 
@@ -1036,11 +964,18 @@ function preventDefaultAction (evt)
  * Save a document in pdf format
  */
 function savePdfDocument(){
-	var url = "http://trove.nla.gov.au/ndp/del/printIssue/";
+	//var url = "http://trove.nla.gov.au/ndp/del/printIssue/";
+	var url = "http://trove.nla.gov.au/ndp/del/printArticlePdf/";
 	//retrieve the id document
-	var id = 1047153;
-	url+=id;
-	window.open(url);
+	if (m_rawRecordId >= 0) {
+		var link = " ";
+		link+= document.getElementById('raw-trove-link');
+		var id = link.substring(41);
+		id = id.replace(/\?.*/,'');
+		url+=id+"/4?print=n";
+		window.open(url);
+	}
+	
 }
 
 /**
@@ -1445,6 +1380,7 @@ function _validateForm(){
 				wa = 0;
 				sa = 0;
 				c=0;
+				tagC = 0;
 				
 				_changeCurrentQueryViewForm();
 			  	_doQuery(0);
@@ -1484,16 +1420,14 @@ function  resetHistogram()
 	  for(var k=180;k<=200;k++){
 			hits[k]=0;
 		}
-	  for(var k=1;k<=12;k++){
-			hits[k]=0;
-		}
 	  c=0;
 	}
 function _resetState ()
 {
   _resetMap();
   resetHistogram();
-
+  tagC = 0;
+  
   if (m_resultSet !== null) {
     for (var i = 0; i < m_resultSet.length; i++) {
       if (m_resultSet[i].marker !== null) {
@@ -1671,7 +1605,7 @@ function _processData (data, pos, id)
         m_run = false;
         ++m_queryId;
       }
-      
+      tagC+=20;
       _updateLocationRefs(pos);
       _updateMapDisplay(pos);
       _updateCurrQueryPane();
