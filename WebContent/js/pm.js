@@ -762,7 +762,7 @@ function showHistogram(show)
 	 //***************
 	  $(function () {
 	    Highcharts.setOptions({
-	         colors: ['#071A8B']
+	         colors: ['#9E1141']
 	        });
 	        $('#histogram2').highcharts({
 	          
