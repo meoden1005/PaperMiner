@@ -94,6 +94,12 @@ div#histogram {
 	margin: 0 auto
 }
 
+div#histogram2 {
+	min-width: 840px;
+	height: 400px;
+	margin: 0 auto
+}
+
 div#wordcloud {
 	width: 550px;
 	height: 350px;
