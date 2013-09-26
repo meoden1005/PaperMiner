@@ -712,7 +712,7 @@ function showHistogram(show)
         	                            hits[187],hits[188],hits[189],hits[190],hits[191],hits[192],hits[193],
         	            hits[194],hits[195],hits[196],hits[197],hits[198],hits[199],hits[200]]);
         	            
-        	        }, 1000); // update every 1 second
+        	        }, 500); // update every 1 second
         	    }
         	}
         },
