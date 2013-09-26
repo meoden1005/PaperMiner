@@ -44,7 +44,7 @@ public class WebController {
 	@Autowired(required = true)
 	private SessionFactory sessionFactory;
 	
-	@Autowired
+	@Autowired(required=false)
 	ServletContext context;
 
 	@RequestMapping(value = "simplehistory")
