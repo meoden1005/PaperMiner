@@ -31,6 +31,7 @@ var hits = new Array();
 var strTags;
 var clearState = true;
 var res;
+var pdfId = 0;
 
 var PM_URI           = '@PM_PREFIX@';
 
@@ -713,7 +714,6 @@ function showHistogram(show)
         	            hits[194],hits[195],hits[196],hits[197],hits[198],hits[199],hits[200]]);
         	            
         	        }, 1000); // update every 1 second
-        	        
         	    }
         	}
         },
@@ -730,9 +730,6 @@ function showHistogram(show)
                 x: -20
             },
             xAxis: {
-            	title: {
-                    text: 'Decade'
-                },
                 categories: ['1800', '1810', '1820','1830','1840','1850','1860','1870', '1880', '1890','1900',
                              '1910','1920','1930','1940','1950','1960','1970', '1980', '1990','2000']
             },
@@ -766,7 +763,7 @@ function showHistogram(show)
 	 //***************
 	  $(function () {
 	    Highcharts.setOptions({
-	         colors: ['#7E2626']
+	         colors: ['#071A8B']
 	        });
 	        $('#histogram2').highcharts({
 	          
@@ -807,9 +804,6 @@ function showHistogram(show)
 	                x: -20
 	            },
 	            xAxis: {
-	            	title: {
-	                    text: 'Month'
-	                },
 	                categories: ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug', 
 	                             'Sep', 'Oct','Nov','Dec']
 	            },
@@ -1047,19 +1041,33 @@ function preventDefaultAction (evt)
  * Save a document in pdf format
  */
 function savePdfDocument(){
-	//var url = "http://trove.nla.gov.au/ndp/del/printIssue/";
-	var url = "http://trove.nla.gov.au/ndp/del/printArticlePdf/";
-	//retrieve the id document
+	var urlPdf = "http://trove.nla.gov.au/ndp/del/printIssue/";
+	var urlPage = "http://trove.nla.gov.au/ndp/del/article/";
+	pdfId = 0;
+	var idD = 0;
 	if (m_rawRecordId >= 0) {
-		var link = " ";
-		link+= document.getElementById('raw-trove-link');
-		var id = link.substring(41);
-		id = id.replace(/\?.*/,'');
-		url+=id+"/4?print=n";
-		window.open(url);
+		var linkDoc = " ";
+		linkDoc+= document.getElementById('raw-trove-link');
+		idD = linkDoc.substring(41);
+		idD = idD.replace(/\?.*/,'');
+		urlPage+=idD;
 	}
-	
+	jQuery.ajax({
+	    type: 'POST',
+	    url: 'http://localhost:8080/PaperMiner/ws/api/getpage',
+	    data: urlPage,
+	    contentType: 'text/plain',
+	    dataType: 'text',
+	    success: function(data){
+	      pdfId = data;
+	      urlPdf += pdfId; 
+	      window.open(urlPdf);
+	      //alert("url: " + urlPage);
+	      //alert("PdfID : " + pdfId);
+	    }
+	})
 }
+
 
 /**
  * Convenience and reminder button opens TROVE on record in Raw display panel for editing in a new Tab.
@@ -2990,4 +2998,3 @@ function showHistogramType(histogramType){
 	
 	
 }
-
