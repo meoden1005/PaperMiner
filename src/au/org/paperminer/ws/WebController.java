@@ -155,7 +155,7 @@ public class WebController {
 	@ResponseStatus(value=HttpStatus.OK)
 	public String getPage(@RequestBody String requestBody) throws Exception {
 		//"http://trove.nla.gov.au/ndp/del/article/124673222?searchTerm=kingkong+china"
-		Document doc = Jsoup.connect("http://trove.nla.gov.au/ndp/del/article/124673222?searchTerm=kingkong+china").get();
+		Document doc = Jsoup.connect(requestBody).get();
 		Element element = doc.getElementById("initiateCite");
 		
 		Document doc1 = Jsoup.connect("http://trove.nla.gov.au"+element.attr("href")).get();

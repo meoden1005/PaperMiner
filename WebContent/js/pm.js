@@ -1062,8 +1062,6 @@ function savePdfDocument(){
 	      pdfId = data;
 	      urlPdf += pdfId; 
 	      window.open(urlPdf);
-	      //alert("url: " + urlPage);
-	      //alert("PdfID : " + pdfId);
 	    }
 	})
 }
