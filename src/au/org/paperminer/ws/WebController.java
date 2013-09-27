@@ -155,7 +155,7 @@ public class WebController {
 	@ResponseStatus(value=HttpStatus.OK)
 	public String getPage(@RequestBody String requestBody) throws Exception {
 		//"http://trove.nla.gov.au/ndp/del/article/124673222?searchTerm=kingkong+china"
-		Document doc = Jsoup.connect(requestBody).get();
+		Document doc = Jsoup.connect("http://trove.nla.gov.au/ndp/del/article/124673222?searchTerm=kingkong+china").get();
 		Element element = doc.getElementById("initiateCite");
 		
 		Document doc1 = Jsoup.connect("http://trove.nla.gov.au"+element.attr("href")).get();
@@ -177,6 +177,13 @@ public class WebController {
 			}
 		}
 		
-		return pageNumber;
+		Document doc2 = Jsoup.connect("http://trove.nla.gov.au/ndp/del/page/" + pageNumber + "?zoomLevel=1").get();
+		Elements elements1 = doc2.getElementsByAttributeValue("title", "Download a PDF containing all pages from this issue");	
+		Element lookingElement = elements1.get(0);
+		System.out.println(lookingElement.attr("href"));
+		
+		String printNumber = lookingElement.attr("href");
+		return printNumber.replaceAll("/ndp/del/printIssue/", new String());
+		
 	}
 }
