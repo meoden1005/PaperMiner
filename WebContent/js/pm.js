@@ -35,6 +35,8 @@ var pdfId = 0;
 
 var PM_URI           = '@PM_PREFIX@';
 
+var currentIndexValue;
+
 var TROVE_URL        = 'http://api.trove.nla.gov.au/';
 var TROVE_QUERY_URL  = TROVE_URL + 'result?key=';
 var GOOGLE_MAPS_URL  = 'http://maps.googleapis.com/maps/api/geocode/json?address=';
@@ -338,6 +340,8 @@ function toggleMapMarkers ()
           m_locationsCache[locnId].marker.setVisible(false);
         }
       }
+      $('#legend-key li').removeClass("off");
+      currentIndexValue = -1;
     }
     else if (mtype === LOCATION_MARKER) {
       for (var i = 0; i < m_resultSet.length; i++) {
@@ -350,6 +354,7 @@ function toggleMapMarkers ()
           m_locationsCache[locnId].marker.setVisible(_isRangeOverlap(m_locationsCache[locnId].yMin, m_locationsCache[locnId].yMax));
         }
       }
+      ToggleBasedOnCheckedKeyIndex ();
     }
   }
 }
