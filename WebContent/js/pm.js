@@ -730,6 +730,9 @@ function showHistogram(show)
                 x: -20
             },
             xAxis: {
+            	title: {
+                    text: 'Decade'
+                },
                 categories: ['1800', '1810', '1820','1830','1840','1850','1860','1870', '1880', '1890','1900',
                              '1910','1920','1930','1940','1950','1960','1970', '1980', '1990','2000']
             },
@@ -760,10 +763,10 @@ function showHistogram(show)
         });
     });
 	
-	 //***************
+	 //******month view histgram****
 	  $(function () {
 	    Highcharts.setOptions({
-	         colors: ['#071A8B']
+	         colors: ['#8C0D27']
 	        });
 	        $('#histogram2').highcharts({
 	          
@@ -804,6 +807,9 @@ function showHistogram(show)
 	                x: -20
 	            },
 	            xAxis: {
+	            	 title: {
+		                    text: 'Month'
+		                },
 	                categories: ['Jan', 'Feb', 'Mar','Apr','May','Jun','Jul','Aug', 
 	                             'Sep', 'Oct','Nov','Dec']
 	            },
