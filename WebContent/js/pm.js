@@ -713,7 +713,7 @@ function showHistogram(show)
         	            hits[194],hits[195],hits[196],hits[197],hits[198],hits[199],hits[200]]);
         	            
         	        }, 1000); // update every 1 second
-        	        //}, 500); // update every 1 second
+        	        
         	    }
         	}
         },
@@ -790,7 +790,7 @@ function showHistogram(show)
 	                      series.setData([hits[1],hits[2],hits[3],hits[4],hits[5],hits[6],hits[7],
 	                                      hits[8],hits[9],hits[10],hits[11],hits[12]]);
 	                      
-	                  }, 500); // update every 1 second
+	                  }, 1000); // update every 1 second
 	              }
 	          }
 	        },
