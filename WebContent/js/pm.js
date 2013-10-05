@@ -1609,6 +1609,12 @@ function  resetHistogram()
 	  for(var k=1;k<=26;k++){
 		        hits[k]=0;
 	  } 
+	    document.getElementById('rb1').checked=true;
+	    document.getElementById('rb2').checked=false;
+	    document.getElementById('rb3').checked=false;
+	    document.getElementById('stateView').style.display = "block";	
+		document.getElementById('histogram').style.display = "none";	
+		document.getElementById('histogram2').style.display = "none";
 		nsw = 0;
 		Tas = 0;
 		ACT = 0;
@@ -3096,16 +3102,22 @@ function showHistogramType(histogramType){
 		document.getElementById('stateView').style.display = "block";	
 		document.getElementById('histogram').style.display = "none";	
 		document.getElementById('histogram2').style.display = "none";
+		document.getElementById('rb2').checked=false;
+		document.getElementById('rb3').checked=false;
 	}
 	 if(histogramType == "year"){
 		document.getElementById('stateView').style.display = "none";
 		document.getElementById('histogram').style.display = "block";	
 		document.getElementById('histogram2').style.display = "none";
+		document.getElementById('rb1').checked=false;
+		document.getElementById('rb3').checked=false;
 	}
 	else if (histogramType == "month"){
 		document.getElementById('stateView').style.display = "none";
 		document.getElementById('histogram').style.display = "none";
 		document.getElementById('histogram2').style.display = "block";
+		document.getElementById('rb2').checked=false;
+		document.getElementById('rb1').checked=false;
 	}
 	
 	
