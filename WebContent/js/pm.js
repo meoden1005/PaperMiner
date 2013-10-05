@@ -689,7 +689,77 @@ function showHistogram(show)
 	getHistogram();
 	_showPane(_selById(HIST_VIEW));
 
-   	
+		$(function () {
+			Highcharts.setOptions({
+			     colors: ['#3B909C']
+			    });
+		        $('#stateView').highcharts({
+		        	chart:{
+		        		
+		        		type: 'bar',
+		                animation: Highcharts.svg, // don't animate in old IE
+		                backgroundColor: '#E4E4E5',
+		                marginRight: 10,
+		        	events: {
+		        	    load: function () {
+		        	    	
+		        	        // set up the updating of the chart each second
+		        	        var series = this.series[0];
+		        	        setInterval(function () {
+		        	          
+		        	           //updateHits();
+		        	                
+		        	            series.setData([hits[20],hits[21],hits[22],hits[23],hits[24],hits[25]] );
+		        	            
+		        	        }, 1000); // update every 1 second
+		        	    }
+		        	}
+		        },
+		        credits: {
+		            enabled: false
+		        },
+		        	
+		            title: {
+		                text: 'Histogram',
+		                x: -20 // center
+		            },
+		            subtitle: {
+		                text: 'Source: www.trove.com',
+		                x: -20
+		            },
+		            xAxis: {
+		            	 title: {
+			                    text: 'State'
+			                },
+		            	
+		                categories: ['NSW', 'TAS', 'ACT','QLD','VIC','SA','WA']
+		            },
+		            yAxis: {
+		                title: {
+		                    text: 'Hits'
+		                },
+		                plotLines: [{
+		                    value: 0,
+		                    width: 1,
+		                    color: '#808080'
+		                }]
+		            },
+		            tooltip: {
+		                valueSuffix: ''
+		            },
+		            legend: {
+		                layout: 'vertical',
+		                align: 'right',
+		                verticalAlign: 'middle',
+		                borderWidth: 0
+		            },
+		            series: [{
+		                name: 'States',
+		                data: [nsw, Tas, ACT,qld,vic,sa,wa]
+		            }]
+		        });
+		   });
+		
 	var chart;
 	$(function () {
 		Highcharts.setOptions({
@@ -860,15 +930,31 @@ function updateHits(){
 	    		return 1;
 	    	
 	    	}
-	    	var state=res.response.zone[0].records.article[i].date.toString();
+	    	var decade=res.response.zone[0].records.article[i].date.toString();
+	    	var state=res.response.zone[0].records.article[i].title.value.toString();
 	    
-	    	var year=state.substring(0,3);
-	    	var month=state.substring(5,7);
+	    	var year=decade.substring(0,3);
+	    	var month=decade.substring(5,7);
 	    	year=parseInt(year);
 	    	month=parseInt(month);
 	    	hits[year]+=1;
 	    	hits[month]+=1;
+	    	
+	    	if(state.contains("NSW")) {nsw++;}
+	    		    	if(state.contains("Tas.")) {Tas++;}
+	    	   	if(state.contains("ACT")) {ACT++;}
+	    	    	if(state.contains("Qld.")) {qld++;}
+	    	 	if(state.contains("Vic.")) {vic++;}
+	    	    	if(state.contains("WA")) {wa++;}
+	    		    	if(state.contains("SA")) {sa++;}
 	    }
+	        hits[0]=nsw;//for 20
+	  	    hits[20]=Tas;
+	        hits[21]=ACT;
+	        hits[22]=qld;
+	    	hits[23]=vic;
+	        hits[24]=wa;
+	        hits[25]=sa;
 
 	    c+=20;
 	   
@@ -1520,10 +1606,18 @@ function  resetHistogram()
 	  for(var k=180;k<=200;k++){
 			hits[k]=0;
 		}
-	  for(var k=1;k<=12;k++){
+	  for(var k=1;k<=26;k++){
 		        hits[k]=0;
 	  } 
-	  c=0;
+		nsw = 0;
+		Tas = 0;
+		ACT = 0;
+		qld = 0;
+		vic = 0
+		wa = 0;
+		sa = 0;
+		res=0;
+	    c=0;
 	}
 function _resetState ()
 {
@@ -2996,11 +3090,20 @@ function checkDuplicateHistory(queryTerm){
 }
 
 function showHistogramType(histogramType){
-	if(histogramType == "year"){
+	
+
+	if(histogramType == "state"){
+		document.getElementById('stateView').style.display = "block";	
+		document.getElementById('histogram').style.display = "none";	
+		document.getElementById('histogram2').style.display = "none";
+	}
+	 if(histogramType == "year"){
+		document.getElementById('stateView').style.display = "none";
 		document.getElementById('histogram').style.display = "block";	
 		document.getElementById('histogram2').style.display = "none";
 	}
 	else if (histogramType == "month"){
+		document.getElementById('stateView').style.display = "none";
 		document.getElementById('histogram').style.display = "none";
 		document.getElementById('histogram2').style.display = "block";
 	}

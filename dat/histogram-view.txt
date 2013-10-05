@@ -2,13 +2,16 @@
 
  <div align="center">
   Histogram type:
-  <input type="radio" name="histogram-rb1" value="yearView" checked="true" onChange="showHistogramType('year')" > Decade View </input>
+  <input type="radio" name="histogram-rb1" value="stateView" checked="true" onChange="showHistogramType('state')" > State View </input>
+  &nbsp; &nbsp;
+  <input type="radio" name="histogram-rb1" value="yearView"  onChange="showHistogramType('year')" > Decade View </input>
   &nbsp; &nbsp;
   <input type="radio" name="histogram-rb1" value="monthView" onChange="showHistogramType('month')" > Month View </input>
   <p>&nbsp;   
  </div>
  
- <div id="histogram" style="display:block;"/>
+ <div id="stateView" style="display:block;"/>
+ <div id="histogram" style="display:none;"/>
  <div id="histogram2" style="display:none;"/>
 
 

@@ -95,7 +95,11 @@ a.timeline-hotspot {
 	height: 20px;
 	position: absolute;
 }
-
+div#stateView {
+	min-width: 840px;
+	height: 400px;
+	margin: 0 auto
+}
 div#histogram {
 	min-width: 840px;
 	height: 400px;
