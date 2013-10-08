@@ -35,49 +35,90 @@
 			</div>
 
 			<div id="main-view">
-                
-                <div id="map-view">
-                    <h3>Map View</h3>
-                    <div id="map-canvas">google-map-canvas</div>
-                    <div id="map-sidebar">
-                       <h4>Hits %age</h4>
-                        <ul class="map-legend" id="legend-key">
-                           <li id="pin_14">45-100</li>
-                           <li id="pin_13">30-45</li>
-                           <li id="pin_12">20-30</li>
-                           <li id="pin_11">16-20</li>
-                           <li id="pin_10">13-16</li>
-                           <li id="pin_9">11-13</li>
-                           <li id="pin_8">9.0-11</li>
-                           <li id="pin_7">7.0-9.0</li>
-                           <li id="pin_6">5.0-7.0</li>
-                           <li id="pin_5">3.0-5.0</li>
-                           <li id="pin_4">2.0-3.0</li>
-                           <li id="pin_3">1.5-2.0</li>
-                           <li id="pin_2">1.0-1.5</li>
-                           <li id="pin_1">0.5-1.0</li>
-                           <li id="pin_0">0.0-0.5</li>
-                        </ul>
-                    </div>
-                    
-                    <div id="y2k-section">
-                        <div id="y2k-timespan">
-                            <input id="y2k-slider" value="1803;1954" />
-                        </div>
-                        <div id="y2k-timeline"></div>
-                    </div>
-                    <div id="map-options">
-                        <button id="map-zero" onclick="_resetMap()">Refocus map</button>
-                        Show locations of: <img src="images/int16.png"
-                            alt="publisher icon" height="20" /> Publisher <input
-                            type="radio" id="pub-rb" name="radio-map" value="0"
-                            onclick="toggleMapMarkers()" /> <img src="images/int8.png"
-                            alt="location icon" height="20" /> Place names <input
-                            type="radio" id="loc-rb" name="radio-map" value="1"
-                            onclick="toggleMapMarkers()" checked="checked" />
-                    </div>
-                </div>
-                
+
+				<div id="map-view">
+					<h3>Map View</h3>
+					<table>
+						<tr>
+							<td>
+								<div id="map-canvas">google-map-canvas</div>
+							</td>
+							<td>
+								<div id="map-sidebar">
+									<table class="map-legend">
+										<tr>
+											<td colspan="2">Hits %age</td>
+										</tr>
+										<tr>
+											<td rowspan="15" valign="top"><img
+												src="images/density_legend.png" alt="distrubution legend" /></td>
+											<td class="td-legend">45-100</td>
+										</tr>
+										<tr>
+											<td class="td-legend">30-45</td>
+										</tr>
+										<tr>
+											<td class="td-legend">20-30</td>
+										</tr>
+										<tr>
+											<td class="td-legend">16-20</td>
+										</tr>
+										<tr>
+											<td class="td-legend">13-16</td>
+										</tr>
+										<tr>
+											<td class="td-legend">11-13</td>
+										</tr>
+										<tr>
+											<td class="td-legend">9.0-11</td>
+										</tr>
+										<tr>
+											<td class="td-legend">7.0-9.0</td>
+										</tr>
+										<tr>
+											<td class="td-legend">5.0-7.0</td>
+										</tr>
+										<tr>
+											<td class="td-legend">3.0-5.0</td>
+										</tr>
+										<tr>
+											<td class="td-legend">2.0-3.0</td>
+										</tr>
+										<tr>
+											<td class="td-legend">1.5-2.0</td>
+										</tr>
+										<tr>
+											<td class="td-legend">1.0-1.5</td>
+										</tr>
+										<tr>
+											<td class="td-legend">0.5-1.0</td>
+										</tr>
+										<tr>
+											<td class="td-legend">0.0-0.5</td>
+										</tr>
+									</table>
+								</div>
+							</td>
+						</tr>
+					</table>
+					<div id="y2k-section">
+						<div id="y2k-timespan">
+							<input id="y2k-slider" value="1803;1954" />
+						</div>
+						<div id="y2k-timeline"></div>
+					</div>
+					<div id="map-options">
+						<button id="map-zero" onclick="_resetMap()">Refocus map</button>
+						Show locations of: <img src="images/int16.png"
+							alt="publisher icon" height="20" /> Publisher <input
+							type="radio" id="pub-rb" name="radio-map" value="0"
+							onclick="toggleMapMarkers()" /> <img src="images/int8.png"
+							alt="location icon" height="20" /> Place names <input
+							type="radio" id="loc-rb" name="radio-map" value="1"
+							onclick="toggleMapMarkers()" checked="checked" />
+					</div>
+				</div>
+				
 				<div id="footer-bar">
 					<hr/>
 					<p id="footer-status-bar" />
