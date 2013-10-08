@@ -69,33 +69,35 @@ public class NetClientGet {
 
 			//conn.disconnect();
 		
-			Document doc = Jsoup.connect("http://trove.nla.gov.au/ndp/del/article/124673222?searchTerm=kingkong+china").get();
-			Element element = doc.getElementById("initiateCite");
-			
-			System.out.println(element.html());
-			
-			System.out.println(element.attr("href"));
-			
-			Document doc1 = Jsoup.connect("http://trove.nla.gov.au"+element.attr("href")).get();
-			
-			System.out.println(doc1.html());
-			
-			Elements links = doc1.getElementsByTag("a");
-			
-			Pattern pattern = Pattern.compile("http://nla.gov.au/nla.news-page");
-			
-			
-			for(Element link : links){
-				String result = link.attr("href");
-				//System.out.println(result);
-				Matcher matcher = pattern.matcher(result);
-				if(matcher.find()){
-					System.out.println(result);
-					System.out.println(matcher.replaceAll(new String()));
-				}
+		Document doc = Jsoup.connect("http://trove.nla.gov.au/ndp/del/article/124673222?searchTerm=kingkong+china").get();
+		Element element = doc.getElementById("initiateCite");
+		
+		Document doc1 = Jsoup.connect("http://trove.nla.gov.au"+element.attr("href")).get();
+		
+		Elements links = doc1.getElementsByTag("a");
+		
+		Pattern pattern = Pattern.compile("http://nla.gov.au/nla.news-page");
+		
+		String pageNumber = new String();
+		
+		for(Element link : links){
+			String result = link.attr("href");
+			Matcher matcher = pattern.matcher(result);
+			if(matcher.find()){
+				System.out.println(result);
+				System.out.println(matcher.replaceAll(new String()));
+				pageNumber = matcher.replaceAll(new String());
+				break;
 			}
-			
-			
+		}
+		
+		Document doc2 = Jsoup.connect("http://trove.nla.gov.au/ndp/del/page/" + pageNumber + "?zoomLevel=1").get();
+		Elements elements1 = doc2.getElementsByAttributeValue("title", "Download a PDF containing all pages from this issue");	
+		Element lookingElement = elements1.get(0);
+		System.out.println(lookingElement.attr("href"));
+		
+		String printNumber = lookingElement.attr("href");
+		System.out.println(printNumber.replaceAll("/ndp/del/printIssue/", new String()));
 	}
 
 	// Gets id and class attributes of this node
