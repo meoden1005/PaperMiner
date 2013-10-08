@@ -44,7 +44,7 @@ public class WebController {
 	@Autowired(required = true)
 	private SessionFactory sessionFactory;
 	
-	@Autowired(required=false)
+	@Autowired
 	ServletContext context;
 
 	@RequestMapping(value = "simplehistory")
@@ -177,13 +177,6 @@ public class WebController {
 			}
 		}
 		
-		Document doc2 = Jsoup.connect("http://trove.nla.gov.au/ndp/del/page/" + pageNumber + "?zoomLevel=1").get();
-		Elements elements1 = doc2.getElementsByAttributeValue("title", "Download a PDF containing all pages from this issue");	
-		Element lookingElement = elements1.get(0);
-		System.out.println(lookingElement.attr("href"));
-		
-		String printNumber = lookingElement.attr("href");
-		return printNumber.replaceAll("/ndp/del/printIssue/", new String());
-		
+		return pageNumber;
 	}
 }
