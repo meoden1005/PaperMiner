@@ -1,5 +1,5 @@
  <h3>Stored Queries</h3>
-<iframe src="http://localhost:8080/PaperMiner/history.xhtml" width="640" height="480" seamless="seamless"/>
+<iframe src="http://localhost:8080/PaperMiner/history.xhtml" width="640" height="300" frameborder="0" seamless="seamless"/>
 <div id="stored-queries">
  <table id="qstore-table"></table>
 </div>
