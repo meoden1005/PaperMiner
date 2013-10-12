@@ -297,6 +297,22 @@ var m_locations    = null;
 /**
  * Invoked by index page onload trigger, does any required configuration.
  */
+
+function ranking(){
+	
+	jQuery.ajax({
+	    type: 'POST',
+	    url: 'http://localhost:8080/PaperMiner/ws/api/getrank',
+	    data: json2string(m_resultSet),
+	    contentType: 'text/plain',
+	    dataType: 'text',
+	    success: function(data){
+	      alert(data);
+	    }
+	})
+}
+
+
 function init ()
 {
   var script = document.createElement("script");
@@ -688,7 +704,7 @@ function showHistogram(show)
 {	
 	getHistogram();
 	_showPane(_selById(HIST_VIEW));
-
+ranking();
 		$(function () {
 			Highcharts.setOptions({
 			     colors: ['#3B909C']
