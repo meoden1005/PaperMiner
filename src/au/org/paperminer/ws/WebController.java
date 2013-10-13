@@ -3,6 +3,7 @@ package au.org.paperminer.ws;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -218,7 +219,8 @@ public class WebController {
 		public String getRank(@RequestBody String requestBody) throws Exception {
 			// call your method to rank result in here, after that return the result
 			// back to interface
-
+String query="flame";
+			String result=null;
 			String json = requestBody;
 			System.out.println("Please wait, fish dictionary is being indexed...");
 			JSON json1 = new JSON();
@@ -226,69 +228,77 @@ public class WebController {
 			//jsonArt.toString();
 			JSONArray testArray = (JSONArray)jsonArt;
 			//testArray.size();
-			
-			for(int i=0;i<testArray.size();i++)
-			testArray.getJSONObject(i).getJSONObject("data").getString("snippet");
-			//JSONObject testObj = (JSONObject)jsonArt;
-			System.out.println(true);
-			//Map<Integer, String> snippet=jsonParser(json);
-		
-			/*for(int k=0;k<19;k++) {
-				Directory index = new RAMDirectory();
-				// System.out.println(line);
-				StringTokenizer tokenizer = new StringTokenizer(snippet.get(k));
-				while (tokenizer.hasMoreTokens()) {
+			String line=null;
+			for(int i=0;i<testArray.size();i++){
+			 line=testArray.getJSONObject(i).getJSONObject("data").getString("snippet");
+			 
+			 while ((line) != null) {
+					Directory index = new RAMDirectory();
+					 //System.out.println(line);
+					StringTokenizer tokenizer = new StringTokenizer(line);
+					while (tokenizer.hasMoreTokens()) {
 
-					indexToken(tokenizer.nextToken(), index);
+						indexToken(tokenizer.nextToken(), index);
 
+					}
+
+					double x=searchIndex(query, index);
+					//System.out.println(line);
+					//System.out.println(x);
+					result+="["+x+"]"+line+"\r\n";
+					
+					
 				}
+				//System.out.println(result);
 			
-		
-				searchIndex("fire", index);
-			}*/
-
-			return requestBody;
-		}
-		
-		/*private static Map<Integer, String> jsonParser(String jsonInput) throws  JSONException, FileNotFoundException, IOException, ParseException {
-			
-			JSONParser parser=new JSONParser();
-			Map<Integer,String> parseJson = new HashMap<Integer,String>();
-			
-			
-			Object obj = parser.parse(jsonInput);
-			
-			//convert java object to JSON object
-			Gson gson = new Gson();
-			String json = gson.toJson(obj);
-			JSONObject jsonObject = new JSONObject(json);
-			
-			//parsing JSONbject for finding snippet
-			JSONObject response=(JSONObject) jsonObject.get("response");
-			
-			JSONArray responseArray= (JSONArray) response.getJSONArray("zone");
-			JSONObject obresponseObj=(JSONObject)responseArray.getJSONObject(0);
-			JSONObject records2=(JSONObject) obresponseObj.get("records");
-			JSONArray recordsArray=(JSONArray) records2.getJSONArray("article");
-			
-			//System.out.println(response.toString());
-			
-			for(int i=0;i<20;i++){
-			JSONObject article=(JSONObject)recordsArray.getJSONObject(i);
-			
-	        parseJson.put(i, (String) article.get("snippet"));
-	        
-				//System.out.println(article.get("snippet"));
 			}
-		
-			
-		return parseJson;
-		
-			
+
+			return result;
 		}
 		
-		
-		private static void indexToken(String token, Directory index)
+		public static double searchIndex(String searchString, Directory index)
+				throws IOException, ParseException,
+				org.apache.lucene.queryparser.classic.ParseException {
+			double snippetScore = 0;
+			// System.out.println("Searching for '" + searchString + "'...");
+			wordNet wn=new wordNet();
+			List<String> syn= wn.getWordNet(searchString);
+			
+			IndexReader indexReader = DirectoryReader.open(index);
+			IndexSearcher Searcher = new IndexSearcher(indexReader);
+
+			Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_42);
+			for(int k=0;k<syn.size();k++){
+				//System.out.println(syn.get(k));
+			Query q = new QueryParser(Version.LUCENE_42, "Term", analyzer)
+					.parse(syn.get(k)+"*");
+
+			int hitsPerPage = 10;
+			TopScoreDocCollector collector = TopScoreDocCollector.create(
+					hitsPerPage, true);
+
+			Searcher.search(q, collector);
+			ScoreDoc[] hits = collector.topDocs().scoreDocs;
+			/*if (hits.length > 0)
+				System.out.println("Found " + hits.length + "hits for "
+						+ syn.get(k));*/
+			
+			
+			
+			for (int i = 0; i < hits.length; ++i) {
+				/*System.out.println(i + 1 + "_ " + hits[i].toString() + " "
+						+ indexReader.document(hits[i].doc).get("Term"));*/
+				snippetScore += hits[i].score;
+
+			}
+			//if(snippetScore>0)System.out.println(snippetScore);}
+			
+			}
+			return snippetScore;
+
+		}
+
+		public static void indexToken(String token, Directory index)
 				throws IOException {
 
 			StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_42);
@@ -304,38 +314,6 @@ public class WebController {
 
 		}
 		
-		private static void searchIndex(String searchString, Directory index)
-				throws IOException, ParseException,
-				org.apache.lucene.queryparser.classic.ParseException {
 
-			// System.out.println("Searching for '" + searchString + "'...");
-
-			IndexReader indexReader = DirectoryReader.open(index);
-			IndexSearcher Searcher = new IndexSearcher(indexReader);
-
-			Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_42);
-
-			Query q = new QueryParser(Version.LUCENE_42, "Term", analyzer)
-					.parse(searchString + "*");
-
-			int hitsPerPage = 10;
-			TopScoreDocCollector collector = TopScoreDocCollector.create(
-					hitsPerPage, true);
-
-			Searcher.search(q, collector);
-			ScoreDoc[] hits = collector.topDocs().scoreDocs;
-			if (hits.length > 0)
-				System.out.println("Found " + hits.length + "hits for "
-						+ searchString);
-			double snippetScore = 0;
-			for (int i = 0; i < hits.length; ++i) {
-				System.out.println(i + 1 + "_ " + hits[i].toString() + " "
-						+ indexReader.document(hits[i].doc).get("Term"));
-				snippetScore += hits[i].score;
-
-			}
-			System.out.println(snippetScore);
-
-		}*/
 		
 }
