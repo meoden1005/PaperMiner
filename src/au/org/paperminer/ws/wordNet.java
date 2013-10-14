@@ -22,10 +22,11 @@ public class wordNet {
 		String word = br.readLine();*/
 
 		// -Dwordnet.database.dir=\\users\amirhosseinkamel\Desktop\WordNet-3.0\dict\
-		System.setProperty("wordnet.database.dir", "//users/amirhosseinkamel/Desktop/WordNet-3.0/dict/");
+		//System.setProperty("wordnet.database.dir", "/users/amirhosseinkamel/Desktop/WordNet-3.0/dict/");
 		 List<String> syn = new ArrayList<String>();
 		NounSynset nounSynset;
 		NounSynset[] hyponyms;
+		System.setProperty("wordnet.database.dir", "/src/dict");
 
 		WordNetDatabase database = WordNetDatabase.getFileInstance();
 
