@@ -7,13 +7,14 @@ import org.junit.Test;
 
 import au.org.paperminer.ws.WebController;
 
-public class GeneratePageIdTest {
-private static WebController webController = new WebController();
+public class RankingTest {
+	
+	private static WebController webController = new WebController();
 	
 	@Test
-	public void testNullUrl() {
+	public void testNullString() {
 		try {
-			String result = webController.getPage(null);
+			String result = webController.fileDownload(null, null);
 			
 			assertFalse("Expect to return null object", true);
 		} catch (Exception e) {
@@ -23,9 +24,9 @@ private static WebController webController = new WebController();
 	}
 	
 	@Test
-	public void testWithCorrectUrl() {
+	public void testStringWithSpecialChars() {
 		try {
-			String result = webController.getPage(new String("http://localhost:8080"));
+			String result = webController.fileDownload(new String(), null);
 			
 			assertFalse("Expect to return null object", true);
 		} catch (Exception e) {
@@ -35,9 +36,9 @@ private static WebController webController = new WebController();
 	}
 	
 	@Test
-	public void testWithIncorrectUrl() {
+	public void testStringNotInDict() {
 		try {
-			String result = webController.getPage(new String("http1://localhost:8080"));
+			String result = webController.fileDownload(new String("http://www.google.com"), null);
 			
 			assertFalse("Expect to return null object", true);
 		} catch (Exception e) {
@@ -47,9 +48,9 @@ private static WebController webController = new WebController();
 	}
 	
 	@Test
-	public void testWithTimeoutServer() {
+	public void testStringCannotCast() {
 		try {
-			String result = webController.getPage(new String("http1://localhost:8080"));
+			String result = webController.fileDownload(new String("http://www.google.com"), null);
 			
 			assertFalse("Expect to return null object", true);
 		} catch (Exception e) {
@@ -59,9 +60,9 @@ private static WebController webController = new WebController();
 	}
 	
 	@Test
-	public void testWithProxyServer() {
+	public void testWithoutServletRunning() {
 		try {
-			String result = webController.getPage(new String("http1://localhost:8080"));
+			String result = webController.fileDownload(new String("http://www.google.com"), null);
 			
 			assertFalse("Expect to return null object", true);
 		} catch (Exception e) {
@@ -71,9 +72,9 @@ private static WebController webController = new WebController();
 	}
 	
 	@Test
-	public void testWithNetworkConnection() {
+	public void testWithNoResult() {
 		try {
-			String result = webController.getPage(new String("http1://localhost:8080"));
+			String result = webController.fileDownload(new String("https://www.google.com"), null);
 			
 			assertFalse("Expect to return null object", true);
 		} catch (Exception e) {
@@ -83,9 +84,9 @@ private static WebController webController = new WebController();
 	}
 	
 	@Test
-	public void testWithBigData() {
+	public void testJsonParse() {
 		try {
-			String result = webController.getPage(new String("http1://localhost:8080"));
+			String result = webController.fileDownload(new String("http://www.google.com"), null);
 			
 			assertFalse("Expect to return null object", true);
 		} catch (Exception e) {
@@ -95,9 +96,9 @@ private static WebController webController = new WebController();
 	}
 	
 	@Test
-	public void testWithValidJson() {
+	public void testStringToJsont() {
 		try {
-			String result = webController.getPage(new String("http1://localhost:8080"));
+			String result = webController.fileDownload(new String("http://www.google.com"), null);
 			
 			assertFalse("Expect to return null object", true);
 		} catch (Exception e) {
@@ -107,9 +108,9 @@ private static WebController webController = new WebController();
 	}
 	
 	@Test
-	public void testWithInvalidJson() {
+	public void testInvalidJson() {
 		try {
-			String result = webController.getPage(new String("http1://localhost:8080"));
+			String result = webController.fileDownload(new String("http://www.google.com"), null);
 			
 			assertFalse("Expect to return null object", true);
 		} catch (Exception e) {
@@ -119,9 +120,9 @@ private static WebController webController = new WebController();
 	}
 	
 	@Test
-	public void testJsonCastStringn() {
+	public void testSameRelevanceScore() {
 		try {
-			String result = webController.getPage(new String("http1://localhost:8080"));
+			String result = webController.fileDownload(new String("https://www.google.com"), null);
 			
 			assertFalse("Expect to return null object", true);
 		} catch (Exception e) {

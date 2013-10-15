@@ -16,6 +16,7 @@ import au.org.paperminer.dao.PmQueriesDAOImpl;
 import au.org.paperminer.dao.PmUserDAOImpl;
 import au.org.paperminer.model.PmQueries;
 import au.org.paperminer.model.PmUsers;
+import au.org.paperminer.ws.WebController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:test-resources/applicationContext.xml")
@@ -387,5 +388,43 @@ public class HistoryTest {
 		assertTrue("Past count " + currentCount
 				+ "+ 1 must be equal to new count " + newCount,
 				(currentCount + 1) == newCount);
+	}
+	
+	private static WebController webController = new WebController();
+	
+	@Test
+	public void testEmptyHistory() {
+		try {
+			String result = webController.getPage(new String("http1://localhost:8080"));
+			
+			assertFalse("Expect to return null object", true);
+		} catch (Exception e) {
+			assertTrue("Correct object return", true);
+		}
+		
+	}
+	
+	@Test
+	public void testInvalidJsony() {
+		try {
+			String result = webController.getPage(new String("http1://localhost:8080"));
+			
+			assertFalse("Expect to return null object", true);
+		} catch (Exception e) {
+			assertTrue("Correct object return", true);
+		}
+		
+	}
+	
+	@Test
+	public void testWrongDataType() {
+		try {
+			String result = webController.getPage(new String("http1://localhost:8080"));
+			
+			assertFalse("Expect to return null object", true);
+		} catch (Exception e) {
+			assertTrue("Correct object return", true);
+		}
+		
 	}
 }
