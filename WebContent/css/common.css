@@ -700,7 +700,7 @@ li#pin_2 { background:url(../images/2_sq.gif) left top repeat-y; }
 li#pin_1 { background:url(../images/1_sq.gif) left top repeat-y; }
 li#pin_0 { background:url(../images/0_sq.gif) left top repeat-y; }
 #legend-key li:hover { background-color:#ECEAEA; cursor:pointer; border:1px solid #CCC; margin-left:0px; border-left:5px solid #CCC; height:16px; line-height:16px; }
-#legend-key li.off { background-color:#ECEAEA; cursor:pointer; border:1px solid #CCC; margin-left:5px; border-left:1px solid #CCC; height:16px; line-height:16px; color:#666; }
+#legend-key li.off { background-color:#ECEAEA; cursor:pointer; border:1px solid #CCC; margin-left:5px; border-left:1px solid #CCC; height:16px; line-height:16px; color: red; }
 #legend-key li.off:hover { background-color:#DCD9D9; cursor:pointer; border:1px solid #CCC; margin-left:5px; border-left:1px solid #CCC; height:16px; line-height:16px; }
 #legend-key li { padding-left:25px; color:#000; }
 #legend-key li:hover { cursor:pointer !important; }
