@@ -297,13 +297,17 @@ var m_locations    = null;
 /**
  * Invoked by index page onload trigger, does any required configuration.
  */
-
+var city;
+var region;
 function ranking(){
+
+
 	
 	jQuery.ajax({
 	    type: 'POST',
 	    url: 'http://localhost:8080/PaperMiner/ws/api/getrank',
-	    data: json2string(m_resultSet),
+	    data: city+"_"+region+"*"+m_currentTerm+"#"+json2string(m_resultSet.slice(0,40)),
+	    //data: (city+"_"+region),
 	    contentType: 'text/plain',
 	    dataType: 'text',
 	    success: function(data){
@@ -315,6 +319,12 @@ function ranking(){
 
 function init ()
 {
+	
+	$.get("http://ipinfo.io", function (response) {
+	   	     city=response.city ;
+	   	     region=response.region;
+	  
+	}, "jsonp");
   var script = document.createElement("script");
   script.type = "text/javascript";
   script.src = 'https://maps.googleapis.com/maps/api/js?sensor=false&reigon=AU&callback=_resetMap';
@@ -704,7 +714,7 @@ function showHistogram(show)
 {	
 	getHistogram();
 	_showPane(_selById(HIST_VIEW));
-ranking();
+
 		$(function () {
 			Highcharts.setOptions({
 			     colors: ['#3B909C']

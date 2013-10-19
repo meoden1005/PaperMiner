@@ -26,7 +26,7 @@ public class wordNet {
 		 List<String> syn = new ArrayList<String>();
 		NounSynset nounSynset;
 		NounSynset[] hyponyms;
-		System.setProperty("wordnet.database.dir", "/src/dict");
+		//System.setProperty("wordnet.database.dir", "/src/dict");
 
 		WordNetDatabase database = WordNetDatabase.getFileInstance();
 

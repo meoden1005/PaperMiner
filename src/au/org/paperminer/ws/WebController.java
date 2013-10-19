@@ -65,8 +65,11 @@ public class WebController {
 
 	@Autowired(required = true)
 	private SessionFactory sessionFactory;
-	
-	@Autowired(required=false)
+
+	@Autowired(required = false)
+	private final static RAMDirectory ramDirectory = new RAMDirectory();
+
+	@Autowired(required = false)
 	ServletContext context;
 
 	@RequestMapping(value = "simplehistory")
@@ -142,178 +145,293 @@ public class WebController {
 			e.printStackTrace();
 			return "Save fail";
 		}
-		
+
 	}
-	
+
 	@RequestMapping(value = "/filedownload", method = RequestMethod.POST, consumes = "text/plain")
 	@ResponseBody
-	@ResponseStatus(value=HttpStatus.OK)
-	public String fileDownload(@RequestBody String requestBody, HttpServletResponse response) throws IOException {
+	@ResponseStatus(value = HttpStatus.OK)
+	public String fileDownload(@RequestBody String requestBody,
+			HttpServletResponse response) throws IOException {
 		System.out.println("Take in body message");
 		byte[] output = requestBody.getBytes();
-		
-		//response.setContentType("application/download");
-		//response.setHeader("Content-Disposition", "attachment; filename=\"rawdata.json\"");
-		//response.getOutputStream().write(output);
-		//response.flushBuffer();
-		
-		String name = "rawdata"+Math.random();
+
+		// response.setContentType("application/download");
+		// response.setHeader("Content-Disposition",
+		// "attachment; filename=\"rawdata.json\"");
+		// response.getOutputStream().write(output);
+		// response.flushBuffer();
+
+		String name = "rawdata" + Math.random();
 		String path = context.getRealPath(name + ".json");
-		
+
 		FileWriter fw = new FileWriter(path);
 		fw.write(requestBody);
 		fw.close();
-		
-		return name+".json";
-		/*File temp = File.createTempFile(name, ".json");
-		FileOutputStream fileOut = new FileOutputStream(temp);
-		fileOut.write(output);
-		fileOut.close();*/
+
+		return name + ".json";
+		/*
+		 * File temp = File.createTempFile(name, ".json"); FileOutputStream
+		 * fileOut = new FileOutputStream(temp); fileOut.write(output);
+		 * fileOut.close();
+		 */
 	}
 
-	
 	// http://localhost:8080/PaperMiner/ws/api/getpage
 	@RequestMapping(value = "/getpage", method = RequestMethod.POST, consumes = "text/plain")
 	@ResponseBody
-	@ResponseStatus(value=HttpStatus.OK)
+	@ResponseStatus(value = HttpStatus.OK)
 	public String getPage(@RequestBody String requestBody) throws Exception {
-		//"http://trove.nla.gov.au/ndp/del/article/124673222?searchTerm=kingkong+china"
+		// "http://trove.nla.gov.au/ndp/del/article/124673222?searchTerm=kingkong+china"
 		Document doc = Jsoup.connect(requestBody).get();
 		Element element = doc.getElementById("initiateCite");
-		
-		Document doc1 = Jsoup.connect("http://trove.nla.gov.au"+element.attr("href")).get();
-		
+
+		Document doc1 = Jsoup.connect(
+				"http://trove.nla.gov.au" + element.attr("href")).get();
+
 		Elements links = doc1.getElementsByTag("a");
-		
+
 		Pattern pattern = Pattern.compile("http://nla.gov.au/nla.news-page");
-		
+
 		String pageNumber = new String();
-		
-		for(Element link : links){
+
+		for (Element link : links) {
 			String result = link.attr("href");
 			Matcher matcher = pattern.matcher(result);
-			if(matcher.find()){
+			if (matcher.find()) {
 				System.out.println(result);
 				System.out.println(matcher.replaceAll(new String()));
 				pageNumber = matcher.replaceAll(new String());
 				break;
 			}
 		}
-		
-		Document doc2 = Jsoup.connect("http://trove.nla.gov.au/ndp/del/page/" + pageNumber + "?zoomLevel=1").get();
-		Elements elements1 = doc2.getElementsByAttributeValue("title", "Download a PDF containing all pages from this issue");	
+
+		Document doc2 = Jsoup.connect(
+				"http://trove.nla.gov.au/ndp/del/page/" + pageNumber
+						+ "?zoomLevel=1").get();
+		Elements elements1 = doc2.getElementsByAttributeValue("title",
+				"Download a PDF containing all pages from this issue");
 		Element lookingElement = elements1.get(0);
 		System.out.println(lookingElement.attr("href"));
-		
+
 		String printNumber = lookingElement.attr("href");
 		return printNumber.replaceAll("/ndp/del/printIssue/", new String());
-		
+
 	}
-	
-	//****** ranking******
-	
+
+	// ****** ranking******
+	static String soundexIndex = "";
+
 	// http://localhost:8080/PaperMiner/ws/api/getrank
-		@RequestMapping(value = "/getrank", method = RequestMethod.POST, consumes = "text/plain")
-		@ResponseBody
-		@ResponseStatus(value = HttpStatus.OK)
-		public String getRank(@RequestBody String requestBody) throws Exception {
-			// call your method to rank result in here, after that return the result
-			// back to interface
-String query="flame";
-			String result=null;
-			String json = requestBody;
-			System.out.println("Please wait, fish dictionary is being indexed...");
-			JSON json1 = new JSON();
-			JSONArtifact jsonArt = json1.parse(requestBody);
-			//jsonArt.toString();
-			JSONArray testArray = (JSONArray)jsonArt;
-			//testArray.size();
-			String line=null;
-			for(int i=0;i<testArray.size();i++){
-			 line=testArray.getJSONObject(i).getJSONObject("data").getString("snippet");
-			 
-			 while ((line) != null) {
-					Directory index = new RAMDirectory();
-					 //System.out.println(line);
-					StringTokenizer tokenizer = new StringTokenizer(line);
-					while (tokenizer.hasMoreTokens()) {
+	@RequestMapping(value = "/getrank", method = RequestMethod.POST, consumes = "text/plain")
+	@ResponseBody
+	@ResponseStatus(value = HttpStatus.OK)
+	public String getRank(@RequestBody String requestBody) throws Exception {
+		// call your method to rank result in here, after that return the result
+		// back to interface
+		// String query = "fire";
+		double x = 0;
 
-						indexToken(tokenizer.nextToken(), index);
+		Directory index = ramDirectory;
 
-					}
+		String city = (String) requestBody.subSequence(0,
+				requestBody.indexOf('_'));
+		String region = (String) requestBody.subSequence(
+				requestBody.indexOf('_'), requestBody.indexOf('*'));
+		String query = (String) requestBody.subSequence(
+				requestBody.indexOf('*') + 1, requestBody.indexOf('#'));
+		requestBody = (String) requestBody.subSequence(
+				requestBody.indexOf('#') + 1, requestBody.length());
 
-					double x=searchIndex(query, index);
-					//System.out.println(line);
-					//System.out.println(x);
-					result+="["+x+"]"+line+"\r\n";
-					
-					
-				}
-				//System.out.println(result);
-			
+		String result = null;
+		// System.out.println("Please wait, fish dictionary is being indexed...");
+
+		JSONArtifact jsonArt = JSON.parse(requestBody);
+		// jsonArt.toString();
+		JSONArray testArray = (JSONArray) jsonArt;
+		// testArray.size();
+		String line = null;
+
+		for (int k = 0; k < testArray.size(); k++) {
+			line = testArray.getJSONObject(k).getJSONObject("data")
+					.getString("snippet");
+			Directory index2 = new RAMDirectory();
+			StringTokenizer tokenizer = new StringTokenizer(line);
+
+			// System.out.println(line);
+
+			while (tokenizer.hasMoreTokens()) {
+				String nextToken = tokenizer.nextToken();
+				// indexing each token and its soundex
+				indexToken(nextToken, Soundex.soundex(nextToken), index);
+				indexToken2(nextToken, index2);
+
 			}
 
-			return result;
+			x = searchIndex(query, city, region, index, index2);
+
+			result += "[" + x + "]" + line + "Query suggestion: "
+					+ soundexIndex + "\r\n";
+			soundexIndex = "";
+
 		}
-		
-		public static double searchIndex(String searchString, Directory index)
-				throws IOException, ParseException,
-				org.apache.lucene.queryparser.classic.ParseException {
-			double snippetScore = 0;
-			// System.out.println("Searching for '" + searchString + "'...");
-			wordNet wn=new wordNet();
-			List<String> syn= wn.getWordNet(searchString);
-			
-			IndexReader indexReader = DirectoryReader.open(index);
-			IndexSearcher Searcher = new IndexSearcher(indexReader);
 
-			Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_42);
-			for(int k=0;k<syn.size();k++){
-				//System.out.println(syn.get(k));
-			Query q = new QueryParser(Version.LUCENE_42, "Term", analyzer)
-					.parse(syn.get(k)+"*");
+		return result;
+	}
 
-			int hitsPerPage = 10;
-			TopScoreDocCollector collector = TopScoreDocCollector.create(
+	public static double searchIndex(String searchString, String city,
+			String region, Directory index, Directory index2)
+			throws IOException, ParseException,
+			org.apache.lucene.queryparser.classic.ParseException {
+		String stateBrief = null;
+
+		if (region.equalsIgnoreCase("Queensland")) {
+			stateBrief = "QLD";
+		}
+		if (region.equalsIgnoreCase("New South Wales")) {
+			stateBrief = "NSW";
+		}
+		if (region.equalsIgnoreCase("South Australia")) {
+			stateBrief = "SA";
+		}
+		if (region.equalsIgnoreCase("Victoria")) {
+			stateBrief = "VIC";
+		}
+		if (region.equalsIgnoreCase("Australian Capital Territory")) {
+			stateBrief = "ACT";
+		}
+		if (region.equalsIgnoreCase("Tasmania")) {
+			stateBrief = "TAS";
+		}
+
+		// String line="";
+		double snippetScore = 0;
+
+		IndexReader indexReader = DirectoryReader.open(index);
+		IndexSearcher Searcher = new IndexSearcher(indexReader);
+		IndexReader indexReader2 = DirectoryReader.open(index2);
+		IndexSearcher Searcher2 = new IndexSearcher(indexReader2);
+
+		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_42);
+
+		String sd = Soundex.soundex(searchString);
+		Query q = new QueryParser(Version.LUCENE_42, "Soundex", analyzer)
+				.parse(sd + "*");
+
+		int hitsPerPage = 10;
+		TopScoreDocCollector collector = TopScoreDocCollector.create(
+				hitsPerPage, true);
+
+		Searcher.search(q, collector);
+		ScoreDoc[] hits = collector.topDocs().scoreDocs;
+
+		if (sd.length() > 3) {
+			snippetScore += hits.length;
+			for (int i = 0; i < hits.length; ++i) {
+
+				// snippetScore += hits[i].score;
+				soundexIndex += indexReader.document(hits[i].doc).get("Term")
+						+ " - ";
+
+			}
+		}
+
+		Query q2 = new QueryParser(Version.LUCENE_42, "Term", analyzer)
+				.parse(searchString + "*");
+
+		TopScoreDocCollector collector2 = TopScoreDocCollector.create(
+				hitsPerPage, true);
+
+		Searcher2.search(q2, collector2);
+		ScoreDoc[] hits2 = collector2.topDocs().scoreDocs;
+
+		for (int i = 0; i < hits2.length; ++i) {
+
+			snippetScore += hits2[i].score;
+			// org.apache.lucene.document.Document d =
+			// indexReader.document(hits2[i].doc);
+
+		}
+
+		wordNet wn = new wordNet();
+		List<String> syn = wn.getWordNet(searchString);
+
+		for (int j = 0; j < syn.size(); j++) {
+			Query q3 = new QueryParser(Version.LUCENE_42, "Term", analyzer)
+					.parse(syn.get(j) + "*");
+
+			TopScoreDocCollector collector3 = TopScoreDocCollector.create(
 					hitsPerPage, true);
 
-			Searcher.search(q, collector);
-			ScoreDoc[] hits = collector.topDocs().scoreDocs;
-			/*if (hits.length > 0)
-				System.out.println("Found " + hits.length + "hits for "
-						+ syn.get(k));*/
-			
-			
-			
-			for (int i = 0; i < hits.length; ++i) {
-				/*System.out.println(i + 1 + "_ " + hits[i].toString() + " "
-						+ indexReader.document(hits[i].doc).get("Term"));*/
-				snippetScore += hits[i].score;
+			Searcher2.search(q3, collector3);
+			ScoreDoc[] hits3 = collector2.topDocs().scoreDocs;
 
-			}
-			//if(snippetScore>0)System.out.println(snippetScore);}
-			
-			}
-			return snippetScore;
+			/*
+			 * for (int i = 0; i < hits3.length; ++i) {
+			 * 
+			 * snippetScore += hits3[i].score;
+			 * 
+			 * }
+			 */
+			snippetScore += hits3.length;
 
 		}
+		Query q4 = new QueryParser(Version.LUCENE_42, "Term", analyzer)
+				.parse(stateBrief + "*");
 
-		public static void indexToken(String token, Directory index)
-				throws IOException {
+		TopScoreDocCollector collector4 = TopScoreDocCollector.create(
+				hitsPerPage, true);
 
-			StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_42);
-			// Directory index = new RAMDirectory();//need index for search
-			IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_42,
-					analyzer);
-			IndexWriter indexWriter = new IndexWriter(index, config);
-			org.apache.lucene.document.Document document = new org.apache.lucene.document.Document();
+		Searcher2.search(q4, collector4);
+		ScoreDoc[] hits4 = collector4.topDocs().scoreDocs;
 
-			document.add(new TextField("Term", token, Field.Store.YES));
-			indexWriter.addDocument(document);
-			indexWriter.close();
+		for (int i = 0; i < hits4.length; ++i) {
 
+			snippetScore += hits4[i].score;
 		}
-		
 
-		
+		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_42,
+				analyzer);
+		IndexWriter indexWriter = new IndexWriter(index2, config);
+		indexWriter.deleteAll();
+
+		return snippetScore;
+
+	}
+
+	public static void indexToken(String token, String soundex, Directory index)
+			throws IOException {
+
+		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_42);
+
+		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_42,
+				analyzer);
+		IndexWriter indexWriter = new IndexWriter(index, config);
+		org.apache.lucene.document.Document document = new org.apache.lucene.document.Document();
+
+		document.add(new TextField("Term", token, Field.Store.YES));
+		document.add(new TextField("Soundex", soundex, Field.Store.YES));
+
+		indexWriter.addDocument(document);
+		indexWriter.close();
+
+	}
+
+	public static void indexToken2(String token, Directory index)
+			throws IOException {
+
+		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_42);
+
+		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_42,
+				analyzer);
+		IndexWriter indexWriter = new IndexWriter(index, config);
+		org.apache.lucene.document.Document document = new org.apache.lucene.document.Document();
+
+		document.add(new TextField("Term", token, Field.Store.YES));
+
+		indexWriter.addDocument(document);
+		indexWriter.close();
+
+	}
+
 }

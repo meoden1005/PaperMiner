@@ -70,6 +70,7 @@ public class MenuFilter implements Filter
            "<li class=\"%s\">%sHistogram%s</li>" +
            "<li class=\"%s\">%sTerm Cloud%s</li>" +
            "<li class=\"%s\">%sRaw Results%s</li>" +
+           "<li class=\"%s\">%sRanking%s</li>" +
           "</ul>" +
          "</li>";
 
@@ -165,6 +166,7 @@ public class MenuFilter implements Filter
         formatter.format(VIEW_SUBMENU,  "greyed", "", "", 
 						        	    "greyed", "", "", 
 						        	    "greyed", "", "",
+						        	    "greyed", "", "",
 						        	    "greyed", "", "");
         formatter.format(USER_SUBMENU,  "active", "<a onClick=\"doLogin('open')\">", "</a>", 
 						        	    "greyed", "", "", 
@@ -190,7 +192,8 @@ public class MenuFilter implements Filter
         formatter.format(VIEW_SUBMENU,  "active", "<a onCLick=\"showMap(true)\">", "</a>",
 						        		"active", "<a onClick=\"showHistogram()\">", "</a>",
         								"active", "<a onClick=\"showCloud(true)\">", "</a>",
-						        		"active", "<a onClick=\"showRawResults(true)\">", "</a>");
+						        		"active", "<a onClick=\"showRawResults(true)\">", "</a>",
+						        		"active", "<a onClick=\"ranking()\">", "</a>");
         formatter.format(USER_SUBMENU,  "greyed", "", "",
 						        		"active", "<a onClick=\"doEditDetails()\">", "</a>",
 						        		"active", "<a onClick=\"doLogout()\">", "</a>");
@@ -215,7 +218,8 @@ public class MenuFilter implements Filter
         formatter.format(VIEW_SUBMENU,  "active", "<a onCLick=\"showMap(true)\">", "</a>",
 						                "active", "<a onClick=\"showHistogram(true)\">", "</a>",
 						                "active", "<a onClick=\"showCloud(true)\">", "</a>",
-        		                        "active", "<a onClick=\"showRawResults(true)\">", "</a>");
+        		                        "active", "<a onClick=\"showRawResults(true)\">", "</a>",
+        		                        "active", "<a onClick=\"alert('hi')\">", "</a>");
         formatter.format(USER_SUBMENU,  "greyed", "", "", 
         		                        "active", "<a onClick=\"doEditDetails()\">", "</a>",
         		                        "active", "<a onClick=\"doLogout()\">", "</a>");
