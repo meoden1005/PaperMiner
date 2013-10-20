@@ -57,8 +57,6 @@ import au.org.paperminer.dao.PmQueriesDAOImpl;
 import au.org.paperminer.model.PmQueries;
 import au.org.paperminer.model.PmUsers;
 
-import com.google.gson.Gson;
-
 @Controller
 @RequestMapping("api")
 public class WebController {
@@ -304,7 +302,6 @@ public class WebController {
 			stateBrief = "TAS";
 		}
 
-		// String line="";
 		double snippetScore = 0;
 
 		IndexReader indexReader = DirectoryReader.open(index);
@@ -326,12 +323,15 @@ public class WebController {
 		ScoreDoc[] hits = collector.topDocs().scoreDocs;
 
 		if (sd.length() > 3) {
-			snippetScore += hits.length;
+			// snippetScore += hits.length;
 			for (int i = 0; i < hits.length; ++i) {
 
-				// snippetScore += hits[i].score;
+				
+				 if(!soundexIndex.contains(indexReader.document(hits[i].doc).get("Term"))){
 				soundexIndex += indexReader.document(hits[i].doc).get("Term")
 						+ " - ";
+				 snippetScore += hits[i].score;
+				 }
 
 			}
 		}
@@ -348,8 +348,6 @@ public class WebController {
 		for (int i = 0; i < hits2.length; ++i) {
 
 			snippetScore += hits2[i].score;
-			// org.apache.lucene.document.Document d =
-			// indexReader.document(hits2[i].doc);
 
 		}
 
@@ -365,19 +363,20 @@ public class WebController {
 
 			Searcher2.search(q3, collector3);
 			ScoreDoc[] hits3 = collector2.topDocs().scoreDocs;
+			long termFreq = 0;
 
-			/*
-			 * for (int i = 0; i < hits3.length; ++i) {
-			 * 
-			 * snippetScore += hits3[i].score;
-			 * 
-			 * }
-			 */
-			snippetScore += hits3.length;
+			for (int i = 0; i < hits3.length; ++i) {
+
+				termFreq += indexReader2.getTermVector(hits3[i].doc, "Term").getSumTotalTermFreq();
+
+			}
+
+			if(termFreq>0)
+			snippetScore += (hits3.length / termFreq);
 
 		}
 		Query q4 = new QueryParser(Version.LUCENE_42, "Term", analyzer)
-				.parse(stateBrief + "*");
+				.parse(city+" "+stateBrief +" "+region + "*");
 
 		TopScoreDocCollector collector4 = TopScoreDocCollector.create(
 				hitsPerPage, true);
@@ -386,7 +385,6 @@ public class WebController {
 		ScoreDoc[] hits4 = collector4.topDocs().scoreDocs;
 
 		for (int i = 0; i < hits4.length; ++i) {
-
 			snippetScore += hits4[i].score;
 		}
 
