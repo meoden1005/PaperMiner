@@ -59,6 +59,7 @@ var PMC_USER_STATUS  = 'stat';
 var MAIN_VIEW        = 'main-view';
 var MAP_VIEW         = 'map-view';
 var RAW_VIEW         = 'raw-view';
+var RANKING_VIEW     = 'ranking';
 var CLOUD_VIEW       = 'cloud-view';
 var HIST_VIEW        = 'histogram-view';
 var MAP_CANVAS       = 'map-canvas';
@@ -1083,6 +1084,18 @@ function showRawResults (show)
     _sortRaw(4);
     _showPane(_selById(RAW_VIEW));
   }
+}
+
+/**
+ * Ranking results pane loaded on demand.
+ * @param show
+ */
+function showRanking (show)
+{
+	if ($(_selById(RANKING_VIEW)).length === 0) {
+	    _createPane(RANKING_VIEW, null, null);
+	}
+	_showPane(_selById(RANKING_VIEW));
 }
 
 /**

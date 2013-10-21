@@ -193,7 +193,7 @@ public class MenuFilter implements Filter
 						        		"active", "<a onClick=\"showHistogram()\">", "</a>",
         								"active", "<a onClick=\"showCloud(true)\">", "</a>",
 						        		"active", "<a onClick=\"showRawResults(true)\">", "</a>",
-						        		"active", "<a onClick=\"ranking()\">", "</a>");
+						        		"active", "<a onClick=\"showRanking(true)\">", "</a>");
         formatter.format(USER_SUBMENU,  "greyed", "", "",
 						        		"active", "<a onClick=\"doEditDetails()\">", "</a>",
 						        		"active", "<a onClick=\"doLogout()\">", "</a>");
@@ -219,7 +219,7 @@ public class MenuFilter implements Filter
 						                "active", "<a onClick=\"showHistogram(true)\">", "</a>",
 						                "active", "<a onClick=\"showCloud(true)\">", "</a>",
         		                        "active", "<a onClick=\"showRawResults(true)\">", "</a>",
-        		                        "active", "<a onClick=\"alert('hi')\">", "</a>");
+        		                        "active", "<a onClick=\"showRanking(true)\">", "</a>");
         formatter.format(USER_SUBMENU,  "greyed", "", "", 
         		                        "active", "<a onClick=\"doEditDetails()\">", "</a>",
         		                        "active", "<a onClick=\"doLogout()\">", "</a>");
