@@ -315,6 +315,7 @@ function ranking(){
 	    dataType: 'text',
 	    success: function(data){
 	      RANKING = data;
+	      jQuery('#result').append('<div id="rank_data"><p id="rank">'+RANKING+'</p></div>');
 	    }
 	})
 }
