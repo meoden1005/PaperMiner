@@ -1,1 +1,15 @@
 <h3>add your ranking here</h3>
+
+<div id="result"></div>
+
+<input type="submit" id="GetRank" onclick="ranking();test();" value="Get rank"/>
+<input type="submit" id="Clear" value="Clear" onclick="jQuery('#abc').remove();RANKING='';"/>
+
+<script>
+
+	function test() {
+		jQuery('#result').append('<div id="abc"><p id="rank">'+RANKING+'</p></div>');
+	
+}
+
+</script>

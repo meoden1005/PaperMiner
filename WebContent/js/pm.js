@@ -50,6 +50,8 @@ var MAX_FETCH_SIZE   = 100;
 var YEAR_OFFSET      = 44;
 var YEAR_PX          = 4;
 
+var RANKING = '';
+
 // names of user preference keys
 var PMC_USER_ID      = 'id';
 var PMC_TROVE_KEY    = 'key';
@@ -302,7 +304,7 @@ var city;
 var region;
 function ranking(){
 
-
+	//RANKING='';
 	
 	jQuery.ajax({
 	    type: 'POST',
@@ -312,7 +314,7 @@ function ranking(){
 	    contentType: 'text/plain',
 	    dataType: 'text',
 	    success: function(data){
-	      alert(data);
+	      RANKING = data;
 	    }
 	})
 }

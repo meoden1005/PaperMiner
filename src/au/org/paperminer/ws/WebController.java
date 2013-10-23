@@ -4,11 +4,15 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -228,8 +232,16 @@ public class WebController {
 		// call your method to rank result in here, after that return the result
 		// back to interface
 		// String query = "fire";
-		double x = 0;
-
+		double snippetScore = 0;
+		
+		SortedMap<Double, String> treeMap = 
+			    new TreeMap<Double,String>(new Comparator<Double>()
+			    {
+			        public int compare(Double o1, Double o2)
+			        {
+			            return o1.compareTo(o2);
+			        } 
+			});
 		Directory index = ramDirectory;
 
 		String city = (String) requestBody.subSequence(0,
@@ -253,7 +265,7 @@ public class WebController {
 		for (int k = 0; k < testArray.size(); k++) {
 			line = testArray.getJSONObject(k).getJSONObject("data")
 					.getString("snippet");
-			Directory index2 = new RAMDirectory();
+			Directory rankingINDEX = new RAMDirectory();
 			StringTokenizer tokenizer = new StringTokenizer(line);
 
 			// System.out.println(line);
@@ -261,18 +273,28 @@ public class WebController {
 			while (tokenizer.hasMoreTokens()) {
 				String nextToken = tokenizer.nextToken();
 				// indexing each token and its soundex
-				indexToken(nextToken, Soundex.soundex(nextToken), index);
-				indexToken2(nextToken, index2);
+				indexTokenAndSoundex(nextToken, Soundex.soundex(nextToken), index);
+				indexToken(nextToken, rankingINDEX);
 
 			}
 
-			x = searchIndex(query, city, region, index, index2);
-
-			result += "[" + x + "]" + line + "Query suggestion: "
-					+ soundexIndex + "\r\n";
-			soundexIndex = "";
-
-		}
+			snippetScore = searchIndex(query, city, region, index, rankingINDEX);
+            treeMap.put(snippetScore, line);
+            
+          
+			result += "[" + snippetScore + "]" + line + "<br/>Query suggestion:"
+					+ soundexIndex + "\r\n"+"<br/>"+"\r\n";
+			soundexIndex=""; 
+			
+            }
+		/* 
+		  Iterator ittwo = treeMap.entrySet().iterator();
+          while (ittwo.hasNext()) {
+          Map.Entry pairs = (Map.Entry)ittwo.next();
+          result +=(pairs.getKey() + " = " + pairs.getValue()) + "Query suggestion: "
+					+ soundexIndex + "\r\n";*/
+           
+          
 
 		return result;
 	}
@@ -305,44 +327,43 @@ public class WebController {
 		double snippetScore = 0;
 
 		IndexReader indexReader = DirectoryReader.open(index);
-		IndexSearcher Searcher = new IndexSearcher(indexReader);
+		IndexSearcher SearcherInIndexSoundex = new IndexSearcher(indexReader);
 		IndexReader indexReader2 = DirectoryReader.open(index2);
-		IndexSearcher Searcher2 = new IndexSearcher(indexReader2);
+		IndexSearcher SearcherInIndexToken = new IndexSearcher(indexReader2);
 
 		Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_42);
 
-		String sd = Soundex.soundex(searchString);
-		Query q = new QueryParser(Version.LUCENE_42, "Soundex", analyzer)
-				.parse(sd + "*");
+		String soundexTerm = Soundex.soundex(searchString);
+		Query querySoundex = new QueryParser(Version.LUCENE_42, "Soundex", analyzer)
+				.parse(soundexTerm + "*");
 
 		int hitsPerPage = 10;
 		TopScoreDocCollector collector = TopScoreDocCollector.create(
 				hitsPerPage, true);
 
-		Searcher.search(q, collector);
+		SearcherInIndexSoundex.search(querySoundex, collector);
 		ScoreDoc[] hits = collector.topDocs().scoreDocs;
 
-		if (sd.length() > 3) {
+		if (soundexTerm.length() > 3) {
 			// snippetScore += hits.length;
 			for (int i = 0; i < hits.length; ++i) {
 
 				
-				 if(!soundexIndex.contains(indexReader.document(hits[i].doc).get("Term"))){
 				soundexIndex += indexReader.document(hits[i].doc).get("Term")
 						+ " - ";
 				 snippetScore += hits[i].score;
-				 }
+				 
 
 			}
 		}
 
-		Query q2 = new QueryParser(Version.LUCENE_42, "Term", analyzer)
+		Query queryTerm = new QueryParser(Version.LUCENE_42, "Term", analyzer)
 				.parse(searchString + "*");
 
 		TopScoreDocCollector collector2 = TopScoreDocCollector.create(
 				hitsPerPage, true);
 
-		Searcher2.search(q2, collector2);
+		SearcherInIndexToken.search(queryTerm, collector2);
 		ScoreDoc[] hits2 = collector2.topDocs().scoreDocs;
 
 		for (int i = 0; i < hits2.length; ++i) {
@@ -355,13 +376,13 @@ public class WebController {
 		List<String> syn = wn.getWordNet(searchString);
 
 		for (int j = 0; j < syn.size(); j++) {
-			Query q3 = new QueryParser(Version.LUCENE_42, "Term", analyzer)
+			Query queryRelevence = new QueryParser(Version.LUCENE_42, "Term", analyzer)
 					.parse(syn.get(j) + "*");
 
 			TopScoreDocCollector collector3 = TopScoreDocCollector.create(
 					hitsPerPage, true);
 
-			Searcher2.search(q3, collector3);
+			SearcherInIndexToken.search(queryRelevence, collector3);
 			ScoreDoc[] hits3 = collector2.topDocs().scoreDocs;
 			long termFreq = 0;
 
@@ -375,17 +396,17 @@ public class WebController {
 			snippetScore += (hits3.length / termFreq);
 
 		}
-		Query q4 = new QueryParser(Version.LUCENE_42, "Term", analyzer)
+		Query userLocation = new QueryParser(Version.LUCENE_42, "Term", analyzer)
 				.parse(city+" "+stateBrief +" "+region + "*");
 
 		TopScoreDocCollector collector4 = TopScoreDocCollector.create(
 				hitsPerPage, true);
 
-		Searcher2.search(q4, collector4);
+		SearcherInIndexToken.search(userLocation, collector4);
 		ScoreDoc[] hits4 = collector4.topDocs().scoreDocs;
 
 		for (int i = 0; i < hits4.length; ++i) {
-			snippetScore += hits4[i].score;
+			snippetScore += 2*hits4[i].score;
 		}
 
 		IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_42,
@@ -397,7 +418,7 @@ public class WebController {
 
 	}
 
-	public static void indexToken(String token, String soundex, Directory index)
+	public static void indexTokenAndSoundex(String token, String soundex, Directory index)
 			throws IOException {
 
 		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_42);
@@ -415,7 +436,7 @@ public class WebController {
 
 	}
 
-	public static void indexToken2(String token, Directory index)
+	public static void indexToken(String token, Directory index)
 			throws IOException {
 
 		StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_42);
